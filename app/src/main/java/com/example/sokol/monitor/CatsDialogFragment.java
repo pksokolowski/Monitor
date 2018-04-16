@@ -1,0 +1,149 @@
+package com.example.sokol.monitor;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
+
+import com.example.sokol.monitor.DataBase.DbHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.support.v7.widget.helper.ItemTouchHelper.DOWN;
+import static android.support.v7.widget.helper.ItemTouchHelper.LEFT;
+import static android.support.v7.widget.helper.ItemTouchHelper.RIGHT;
+import static android.support.v7.widget.helper.ItemTouchHelper.UP;
+
+/**
+ * Created by Sokol on 23.03.2018.
+ */
+
+public class CatsDialogFragment  extends DialogFragment {
+
+    CatsDialogFragment.OnNeedUserInterfaceUpdate mCallback;
+
+    public interface OnNeedUserInterfaceUpdate {
+        void onNeedUserInterfaceUpdate();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (CatsDialogFragment.OnNeedUserInterfaceUpdate) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnNeedUserInterfaceUpdate");
+        }
+    }
+
+    private View mView;
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        mView = inflater.inflate(R.layout.cats_dialog, null);
+
+        List<CatData> cats = null;
+        // load categories from the database
+        DbHelper db = DbHelper.getInstance(getActivity());
+        cats = db.getCategories(CatData.CATEGORY_STATUS_INACTIVE);
+
+        if (cats == null) cats = new ArrayList<>();
+
+        final RecyclerView recyclerView = mView.findViewById(R.id.plans_recycler_view);
+        //recyclerView.setHasFixedSize(true);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        final CatsAdapter adapter = new CatsAdapter(cats);
+        recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(UP | DOWN, LEFT | RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                final int fromPos = viewHolder.getAdapterPosition();
+                final int toPos = target.getAdapterPosition();
+                // move item in `fromPos` to `toPos` in adapter.
+
+                adapter.move(fromPos, toPos);
+
+                return true;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                CatsAdapter adapter = (CatsAdapter) recyclerView.getAdapter();
+                int pos = viewHolder.getAdapterPosition();
+
+                if (direction == LEFT || direction == RIGHT) {
+                    // remove
+                    adapter.remove(pos);
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder//.setMessage("Edit event")
+                .setNeutralButton("save changes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // unless nothing is changed:
+                        if (!adapter.isDataChanged()) return;
+
+                        // save cats to db
+                        DbHelper db = DbHelper.getInstance(getActivity());
+                        db.pushCategories(adapter.getAllCats());
+
+                        // update the notification:
+                        NotificationProvider.showNotificationIfEnabled(getActivity());
+
+                        // let mainactivity know cats have changed
+                        mCallback.onNeedUserInterfaceUpdate();
+                    }
+                })
+                .setNegativeButton("cancel", null)
+                .setView(mView);
+
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        ImageButton addButton = mView.findViewById(R.id.add_imagebutton);
+        final EditText titleEditText = mView.findViewById(R.id.cat_name);
+        final EditText initialEditText = mView.findViewById(R.id.cat_initial);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String title = String.valueOf(titleEditText.getText());
+                if (title.length() == 0) return;
+                String initial = String.valueOf(initialEditText.getText());
+                if(initial.length() == 0) return;
+
+                adapter.addACat(new CatData(title, initial, CatData.CATEGORY_STATUS_ACTIVE));
+                titleEditText.setText("");
+                initialEditText.setText("");
+
+                titleEditText.requestFocus();
+            }
+        });
+
+        // Create the AlertDialog object and return it
+        return builder.create();
+    }
+}

@@ -1,0 +1,10 @@
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/button"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:text="TextView"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:layout_weight="1"
+    style="?android:buttonBarButtonStyle"
+    android:soundEffectsEnabled="false"
+    android:background="@drawable/bar_button_bg_pressed"/>
