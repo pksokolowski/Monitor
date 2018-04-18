@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -29,7 +31,7 @@ import static android.support.v7.widget.helper.ItemTouchHelper.UP;
  * Created by Sokol on 23.03.2018.
  */
 
-public class CatsDialogFragment  extends DialogFragment {
+public class CatsDialogFragment extends DialogFragment {
 
     CatsDialogFragment.OnNeedUserInterfaceUpdate mCallback;
 
@@ -60,12 +62,28 @@ public class CatsDialogFragment  extends DialogFragment {
 
         mView = inflater.inflate(R.layout.cats_dialog, null);
 
-        List<CatData> cats = null;
+        List<CatData> cats = new ArrayList<>();
+        List<CatData> Allcats = null;
+        final List<String> deletedCats = new ArrayList<>();
         // load categories from the database
         DbHelper db = DbHelper.getInstance(getActivity());
-        cats = db.getCategories(CatData.CATEGORY_STATUS_INACTIVE);
+        Allcats = db.getCategories(CatData.CATEGORY_STATUS_DELETED);
+        if (Allcats == null) Allcats = new ArrayList<>();
 
-        if (cats == null) cats = new ArrayList<>();
+        // extract only Inactive+
+        for (int i = 0; i < Allcats.size(); i++) {
+            CatData cat = Allcats.get(i);
+            if (cat.getStatus() >= CatData.CATEGORY_STATUS_INACTIVE) {
+                cats.add(cat);
+            } else {
+                deletedCats.add(cat.getTitle());
+            }
+        }
+
+        final ArrayAdapter<String> suggestionsAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, deletedCats);
+
+        //if (cats == null) cats = new ArrayList<>();
 
         final RecyclerView recyclerView = mView.findViewById(R.id.plans_recycler_view);
         //recyclerView.setHasFixedSize(true);
@@ -93,6 +111,9 @@ public class CatsDialogFragment  extends DialogFragment {
                 int pos = viewHolder.getAdapterPosition();
 
                 if (direction == LEFT || direction == RIGHT) {
+                    // add to suggested cats:
+                    suggestionsAdapter.add(adapter.getCatAt(pos).getTitle());
+
                     // remove
                     adapter.remove(pos);
                 }
@@ -125,7 +146,7 @@ public class CatsDialogFragment  extends DialogFragment {
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         ImageButton addButton = mView.findViewById(R.id.add_imagebutton);
-        final EditText titleEditText = mView.findViewById(R.id.cat_name);
+        final AutoCompleteTextView titleEditText = mView.findViewById(R.id.cat_name);
         final EditText initialEditText = mView.findViewById(R.id.cat_initial);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +154,13 @@ public class CatsDialogFragment  extends DialogFragment {
                 String title = String.valueOf(titleEditText.getText());
                 if (title.length() == 0) return;
                 String initial = String.valueOf(initialEditText.getText());
-                if(initial.length() == 0) return;
+                if (initial.length() == 0) return;
+
+                // jeżeli dodano cat z sugerowanych, to więcej go nie sugeruje
+                int indexWithinDeletedOnes = deletedCats.indexOf(title);
+                if (indexWithinDeletedOnes != -1) {
+                    suggestionsAdapter.remove(title);
+                }
 
                 adapter.addACat(new CatData(title, initial, CatData.CATEGORY_STATUS_ACTIVE));
                 titleEditText.setText("");
@@ -142,6 +169,9 @@ public class CatsDialogFragment  extends DialogFragment {
                 titleEditText.requestFocus();
             }
         });
+
+
+        titleEditText.setAdapter(suggestionsAdapter);
 
         // Create the AlertDialog object and return it
         return builder.create();
