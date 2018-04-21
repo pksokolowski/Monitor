@@ -1,6 +1,7 @@
 package com.example.sokol.monitor.Graphs;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.example.sokol.monitor.R;
 
 
 /**
@@ -33,17 +35,19 @@ public class SimpleGraphView extends View
 
     public SimpleGraphView(Context context) {
         super(context);
-        preparePaints();
+        preparePaints(context);
     }
 
     public SimpleGraphView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        preparePaints();
+        preparePaints(context);
     }
 
-    private void preparePaints(){
+    private void preparePaints(Context context){
 
-        mMainColor = Color.LTGRAY;
+        // set mMainColor, so it can be used both here and in the children
+        TypedArray ta = context.obtainStyledAttributes(new int[]{R.attr.chartsMainColor});
+        mMainColor = ta.getInt(0, Color.LTGRAY);
 
         int text_size_in_sp_units = 15; //5dp
 
