@@ -57,6 +57,9 @@ public class SettingsFragment extends PreferenceFragment {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor ed = sp.edit();
 
+                // remove notification
+                NotificationProvider.removeNotification(getActivity());
+
                 ed.putBoolean(KEY_DARK_THEME, (boolean) o);
                 ed.apply();
                 Intent i = getActivity().getApplicationContext().getPackageManager()
