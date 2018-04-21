@@ -32,7 +32,7 @@ public class NotificationProvider extends BroadcastReceiver {
         mNotificationManager.cancel(NOTIFICATION_ID_REMOTE_CONTROL);
     }
 
-    public static void showNotification(Context context) {
+    public static void showNotification(Context context, boolean withSound) {
 
         // load categories from the database
         DbHelper db = DbHelper.getInstance(context);
@@ -48,7 +48,7 @@ public class NotificationProvider extends BroadcastReceiver {
 
             // make the button look the right way:
             int button_layout = R.layout.button_view;
-            if(WorkInProgressManager.isWorkGoingOn(context, cat.getID())){
+            if (WorkInProgressManager.isWorkGoingOn(context, cat.getID())) {
                 button_layout = R.layout.button_view_pressed;
             }
 
@@ -74,8 +74,12 @@ public class NotificationProvider extends BroadcastReceiver {
                 .setSmallIcon(R.drawable.ic_wb_incandescent_white_24dp)
                 .setOngoing(true)
                 .setCustomContentView(rv)
-                .setSound(startSoundUri)
                 .setPriority(Notification.PRIORITY_MAX);
+
+        if (withSound) {
+            B.setSound(startSoundUri);
+        }
+
 
         Notification notif = B.build();
 
@@ -86,10 +90,10 @@ public class NotificationProvider extends BroadcastReceiver {
         NotificationManager.notify(NOTIFICATION_ID_REMOTE_CONTROL, notif);
     }
 
-    public static void showNotificationIfEnabled(Context context) {
+    public static void showNotificationIfEnabled(Context context, boolean withSound) {
         if (!SettingsFragment.getShowNotification(context)) return;
 
-        showNotification(context);
+        showNotification(context, withSound);
     }
 
     @Override
@@ -112,12 +116,12 @@ public class NotificationProvider extends BroadcastReceiver {
                     long endTime = Calendar.getInstance().getTimeInMillis();
                     DbHelper db = DbHelper.getInstance(context);
                     db.pushLog(catID, starTime, endTime);
-                    showNotificationIfEnabled(context);
+                    showNotificationIfEnabled(context, true);
                     context.sendBroadcast(new Intent(MainActivity.ACTION_SAVED_NEW_DATA));
                 } else {
                     // no work going on here, start it:
                     WorkInProgressManager.startNow(context, catID);
-                    showNotificationIfEnabled(context);
+                    showNotificationIfEnabled(context, true);
                 }
                 break;
         }

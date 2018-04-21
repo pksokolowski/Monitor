@@ -16,7 +16,7 @@ public class BootFinishedBroadcastReceiver extends BroadcastReceiver
     {
         if(intent.getAction().equals(ACTION_ANDROID_BOOT_COMPLETED)){
             // after reboot: show notification:
-           NotificationProvider.showNotificationIfEnabled(context);
+           NotificationProvider.showNotificationIfEnabled(context, false);
         }
     }
 }

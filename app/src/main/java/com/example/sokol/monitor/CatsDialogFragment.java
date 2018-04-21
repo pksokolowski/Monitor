@@ -133,7 +133,7 @@ public class CatsDialogFragment extends DialogFragment {
                         db.pushCategories(adapter.getAllCats());
 
                         // update the notification:
-                        NotificationProvider.showNotificationIfEnabled(getActivity());
+                        NotificationProvider.showNotificationIfEnabled(getActivity(), true);
 
                         // let mainactivity know cats have changed
                         mCallback.onNeedUserInterfaceUpdate();

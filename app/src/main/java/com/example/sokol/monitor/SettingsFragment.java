@@ -39,7 +39,7 @@ public class SettingsFragment extends PreferenceFragment {
                     // show notification, using the enforce = true, because the method would
                     // otherwise read the setting, which is not yet changed, and refuse to show the
                     // notification.
-                    NotificationProvider.showNotification(getActivity());
+                    NotificationProvider.showNotification(getActivity(), true);
                 }
                 else{
                     // remove notification
