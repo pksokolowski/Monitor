@@ -3,6 +3,7 @@
     <string name="main_button_edytuj_cats_title">Cats</string>
     <string name="main_button_edytuj_selections_title">Selections</string>
     <string name="settings_show_notification_title">Show notification</string>
+    <string name="settings_dark_theme_title">Dark Theme</string>
     <string name="graph_title_recent_days">in recent days</string>
     <string name="graph_title_24h_distribution">24 hours distribution</string>
     <string name="graph_title_weekly_distribution">days of week distribution</string>

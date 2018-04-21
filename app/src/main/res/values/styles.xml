@@ -12,8 +12,50 @@
 
     </style>
 
+    <style name="DarkMaterial" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:textColorSecondary">#4b4b4b</item>
+        <item name="colorPrimary">#232323</item>
+        <item name="colorPrimaryDark">#151515</item>
+
+        <item name="android:textColorPrimaryInverse">#2b2b2b</item>
+        <item name="importantTextViewColor">#ffffff</item>
+        <item name="chartsMainColor">#a1a1a1</item>
+
+        <item name="android:buttonStyle">@style/DarkButton</item>
+    </style>
+
+    <style name="Dark" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorSecondary">#4b4b4b</item>
+        <item name="colorPrimary">#232323</item>
+        <item name="colorPrimaryDark">#151515</item>
+        <item name="android:dialogTheme">@style/DialogStyle</item>
+        <item name="android:alertDialogTheme">@style/DialogStyle</item>
+        <item name="android:scrollViewStyle">@style/MyScrollViewStyle</item>
+        <item name="android:textColorPrimaryInverse">#ffffff</item>
+        <item name="importantTextViewColor">#ffffff</item>
+        <item name="chartsMainColor">#a1a1a1</item>
+    </style>
+
+    <style name="DialogStyle" parent="android:Theme.Material.Dialog.Alert">
+        <item name="android:colorAccent">@color/colorAccent</item>
+
+    </style>
+
+    <style name="MyScrollViewStyle" parent="">
+        <item name="android:background">#000000</item>
+    </style>
+
+    <style name="MyScrollViewStyleBright" parent="">
+        <item name="android:background">#ffffff</item>
+    </style>
+
     <style name="LightButton" parent="Base.Widget.AppCompat.Button">
         <item name="android:background">@drawable/button_shape</item>
+        <item name="android:radius">33dp</item>
+    </style>
+
+    <style name="DarkButton" parent="Base.Widget.AppCompat.Button">
+        <item name="android:background">@drawable/dark_button_shape</item>
         <item name="android:radius">33dp</item>
     </style>
 

@@ -48,8 +48,12 @@ public class MainActivity extends AppCompatActivity implements CatsDialogFragmen
         // does nothing if preferences have been set already.
         PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
 
+       ThemeChanger.changeTheme(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         getFragmentManager().beginTransaction().replace(R.id.settings_frame, new SettingsFragment())
                 .commit();

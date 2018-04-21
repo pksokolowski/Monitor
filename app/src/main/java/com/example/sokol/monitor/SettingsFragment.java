@@ -1,6 +1,7 @@
 package com.example.sokol.monitor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -15,6 +16,7 @@ import android.support.annotation.Nullable;
 public class SettingsFragment extends PreferenceFragment {
     // preference key determining whether or not a notification with remote controls is being shown
     public static final String KEY_SHOW_NOTIFICATION = "setting_show_notification";
+    public static final String KEY_DARK_THEME = "setting_dark_theme";
 
     /**
      * tells you whether or not the notification should be shown right now.
@@ -45,6 +47,22 @@ public class SettingsFragment extends PreferenceFragment {
                     // remove notification
                     NotificationProvider.removeNotification(getActivity());
                 }
+                return true;
+            }
+        });
+
+        findPreference(KEY_DARK_THEME).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor ed = sp.edit();
+
+                ed.putBoolean(KEY_DARK_THEME, (boolean) o);
+                ed.apply();
+                Intent i = getActivity().getApplicationContext().getPackageManager()
+                        .getLaunchIntentForPackage(getActivity().getApplicationContext().getPackageName());
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
                 return true;
             }
         });

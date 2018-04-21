@@ -4,4 +4,9 @@
         android:key="setting_show_notification"
         android:title="@string/settings_show_notification_title"
         android:defaultValue="true"/>
+
+    <SwitchPreference
+        android:key="setting_dark_theme"
+        android:title="@string/settings_dark_theme_title"
+        android:defaultValue="false"/>
 </PreferenceScreen>
