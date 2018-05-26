@@ -24,6 +24,7 @@ public class NotificationProvider extends BroadcastReceiver {
     public static final int NOTIFICATION_ID_REMOTE_CONTROL = 0;
 
     public static final String ACTION_NOTIFICATION_BUTTON_CLICK = "com.example.sokolrandomstringppp.Monitor.NOTIFICATION_BUTTON_CLICK";
+    public static final String ACTION_NOTIFICATION_PLACEHOLDER_CLICK = "com.example.sokolrandomstringppp.Monitor.NOTIFICATION_PLACEHOLDER_CLICK";
     public static final String EXTRA_CAT_ID = "cat_title";
 
     public static void removeNotification(Context context) {
@@ -42,13 +43,33 @@ public class NotificationProvider extends BroadcastReceiver {
 
         // make notification consistent with the chosen theme in the app
         boolean darkTheme = ThemeChanger.getTheme(context) == ThemeChanger.THEME_MATERIAL;
-        if(darkTheme){
+        if (darkTheme) {
             rv.setInt(R.id.button_holder_layout, "setBackgroundColor", context.getColor(R.color.dark_notification_background));
         }
 
         // clear it first in case of some weird reuse
         rv.removeAllViews(R.id.buttonHolder);
 
+         /* When no cats, show placeholder:
+            this block will add a placeholder, info for the user
+            when touched it will send the user to the app and preferably
+            open the cats Dialog.
+             */
+        if (cats.size() == 0) {
+            RemoteViews button = new RemoteViews(context.getPackageName(), R.layout.button_view);
+            if (darkTheme)
+                button.setInt(R.id.button, "setTextColor", context.getColor(R.color.dark_notification_text));
+            button.setTextViewText(R.id.button, "tap to add categories");
+            rv.addView(R.id.buttonHolder, button);
+
+            Intent intent = new Intent(context, NotificationProvider.class)
+                    .setAction(ACTION_NOTIFICATION_PLACEHOLDER_CLICK);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            button.setOnClickPendingIntent(R.id.button, pendingIntent);
+        }
+
+        // for all cats, add buttons:
         for (int i = 0; i < cats.size(); i++) {
             CatData cat = cats.get(i);
 
@@ -59,7 +80,8 @@ public class NotificationProvider extends BroadcastReceiver {
             }
 
             RemoteViews button = new RemoteViews(context.getPackageName(), button_layout);
-            if(darkTheme) button.setInt(R.id.button, "setTextColor", context.getColor(R.color.dark_notification_text));
+            if (darkTheme)
+                button.setInt(R.id.button, "setTextColor", context.getColor(R.color.dark_notification_text));
             button.setTextViewText(R.id.button, cat.getInitial());
             rv.addView(R.id.buttonHolder, button);
 
@@ -130,6 +152,11 @@ public class NotificationProvider extends BroadcastReceiver {
                     WorkInProgressManager.startNow(context, catID);
                     showNotificationIfEnabled(context, true);
                 }
+                break;
+            case ACTION_NOTIFICATION_PLACEHOLDER_CLICK:
+                // a placeholder was clicked, no cats exist, user should be moved to MainActivity
+                // in order to add some cats
+                MainActivity.startMe(context, MainActivity.COMMAND_DISPLAY_CATS_DIALOG);
                 break;
         }
     }

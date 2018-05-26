@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements CatsDialogFragmen
     public static final int RANGE_DAY = 4;
     public static final int RANGE_TODAY_ONLY = 5;
 
+    static final String EXTRA_COMMAND_TO_EXECUTE_UPON_START = "com.example.sokolrandomstringppp.Monitor.MainActivity.command_to_execute_upon_start";
+    public static final int COMMAND_DO_NOTHING = 0;
+    public static final int COMMAND_DISPLAY_CATS_DIALOG = 1;
 
     private LogsSelector mSelector;
 
@@ -53,6 +56,13 @@ public class MainActivity extends AppCompatActivity implements CatsDialogFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+        int command = intent.getIntExtra(MainActivity.EXTRA_COMMAND_TO_EXECUTE_UPON_START, COMMAND_DO_NOTHING);
+        switch (command){
+            case COMMAND_DISPLAY_CATS_DIALOG:
+                showCatsDialog();
+                break;
+        }
 
 
         getFragmentManager().beginTransaction().replace(R.id.settings_frame, new SettingsFragment())
@@ -76,8 +86,7 @@ public class MainActivity extends AppCompatActivity implements CatsDialogFragmen
         saveLoadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CatsDialogFragment eventLoadSave = new CatsDialogFragment();
-                eventLoadSave.show(getFragmentManager(), "event loadsave");
+                showCatsDialog();
             }
         });
 
@@ -121,6 +130,18 @@ public class MainActivity extends AppCompatActivity implements CatsDialogFragmen
         });
 
         scrollToXY(0, 0);
+    }
+
+    private void showCatsDialog() {
+        CatsDialogFragment eventLoadSave = new CatsDialogFragment();
+        eventLoadSave.show(getFragmentManager(), "event loadsave");
+    }
+
+    public static void startMe(Context context, int command){
+        Intent intent = new Intent(context, MainActivity.class);
+        if(command != COMMAND_DO_NOTHING)
+            intent.putExtra(EXTRA_COMMAND_TO_EXECUTE_UPON_START, command);
+        context.startActivity(intent);
     }
 
     private void refreshAllGraphs() {
