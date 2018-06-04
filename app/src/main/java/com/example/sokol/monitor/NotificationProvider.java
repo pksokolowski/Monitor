@@ -45,6 +45,8 @@ public class NotificationProvider extends BroadcastReceiver {
         boolean darkTheme = ThemeChanger.getTheme(context) == ThemeChanger.THEME_MATERIAL;
         if (darkTheme) {
             rv.setInt(R.id.button_holder_layout, "setBackgroundColor", context.getColor(R.color.dark_notification_background));
+        } else {
+            rv.setInt(R.id.button_holder_layout, "setBackgroundColor", context.getColor(R.color.bright_notification_background));
         }
 
         // clear it first in case of some weird reuse
