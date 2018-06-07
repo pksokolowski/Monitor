@@ -19,6 +19,7 @@
         android:labelFor="@id/add_imagebutton"
         android:nextFocusDown="@id/cat_initial"
         app:layout_constraintEnd_toStartOf="@+id/cat_initial"
+        android:imeOptions="actionNext"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
