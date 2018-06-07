@@ -331,7 +331,6 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
 
     @Override
     public List<Log> getLogs() {
-        LogsData data = mSelector.getLogsForAllNonDeletedCats(this, getLowerTimeBoundForData(), getUpperTimeBoundForData());
-        return Log.getLogsList(data, mSelector);
+        return Log.getLogsList(this, getLowerTimeBoundForData(), getUpperTimeBoundForData());
     }
 }

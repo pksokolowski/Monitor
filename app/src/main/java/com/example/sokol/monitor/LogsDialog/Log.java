@@ -1,5 +1,7 @@
 package com.example.sokol.monitor.LogsDialog;
 
+import android.content.Context;
+
 import com.example.sokol.monitor.LogsData;
 import com.example.sokol.monitor.LogsSelector;
 
@@ -25,12 +27,13 @@ public class Log {
 
     /**
      * statically provides a list of Log objects, category initials are shared, as references to the same Strings, per category
-     * Thus a LogsSelector object is necessary, as it provides the (CatID to cat initial) mapping.
-     * @param logsData
-     * @param selector
-     * @return
+     * Thus a LogsSelector object is necessary, as it provides the (CatID to cat initial) mapping, as well as it governs the query to db.
+     * @return a list of Log objects, convenient for adapters of recycler views etc, a compiled pack of data about individual logs.
      */
-    public static List<Log> getLogsList(LogsData logsData, LogsSelector selector) {
+    public static List<Log> getLogsList(Context context, long lowerBound, long upperBound) {
+        LogsSelector selector = new LogsSelector(context);
+        LogsData logsData = selector.getLogsForAllNonDeletedCats(context, lowerBound, upperBound);
+
         List<Log> list = new ArrayList<>(logsData.getLength());
 
         for (int i = 0; i < logsData.getLength(); i++) {
