@@ -24,6 +24,14 @@ public class LogsSelector {
 //    private LogsData mData;
 //    private long mSince;
 
+    public String getCatInitialByID(long ID){
+        return mCatMapByID.get(ID).getInitial();
+    }
+
+    public String getCatTitleByID(long ID){
+        return mCatMapByID.get(ID).getInitial();
+    }
+
     public LogsData getLogsForAllNonDeletedCats(Context context, long since, long till) {
         // get all categories that are non-deleted
         List<CatData> cats = DbHelper.getInstance(context).getCategories(CatData.CATEGORY_STATUS_INACTIVE);

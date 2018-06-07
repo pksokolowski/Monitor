@@ -17,11 +17,12 @@ import com.example.sokol.monitor.Graphs.DistributionTimeSlupkowySimpleGraph2;
 import com.example.sokol.monitor.Graphs.PieChart;
 import com.example.sokol.monitor.Graphs.SlupkowySimpleGraph;
 import com.example.sokol.monitor.Graphs.TextualData;
+import com.example.sokol.monitor.LogsDialog.Log;
 import com.example.sokol.monitor.LogsDialog.LogsDialogFragment;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnNeedUserInterfaceUpdate, LogsDataProvider {
+public class MainActivity extends AppCompatActivity implements OnNeedUserInterfaceUpdate, LogsProvider {
 
     // time ranges for data retrieved from the database:
     public static final int RANGE_UNKNOWN = -1;
@@ -329,7 +330,8 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     }
 
     @Override
-    public LogsData getLogs() {
-        return mSelector.getLogsForAllNonDeletedCats(this, getLowerTimeBoundForData(), getUpperTimeBoundForData());
+    public List<Log> getLogs() {
+        LogsData data = mSelector.getLogsForAllNonDeletedCats(this, getLowerTimeBoundForData(), getUpperTimeBoundForData());
+        return Log.getLogsList(data, mSelector);
     }
 }
