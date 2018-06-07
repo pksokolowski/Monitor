@@ -33,11 +33,7 @@ import static android.support.v7.widget.helper.ItemTouchHelper.UP;
 
 public class CatsDialogFragment extends DialogFragment {
 
-    CatsDialogFragment.OnNeedUserInterfaceUpdate mCallback;
-
-    public interface OnNeedUserInterfaceUpdate {
-        void onNeedUserInterfaceUpdate();
-    }
+    OnNeedUserInterfaceUpdate mCallback;
 
     @Override
     public void onAttach(Context context) {
@@ -46,7 +42,7 @@ public class CatsDialogFragment extends DialogFragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mCallback = (CatsDialogFragment.OnNeedUserInterfaceUpdate) context;
+            mCallback = (OnNeedUserInterfaceUpdate) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnNeedUserInterfaceUpdate");

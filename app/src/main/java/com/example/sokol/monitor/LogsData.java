@@ -15,11 +15,13 @@ public class LogsData
 {
     private long[] startTimes;
     private long[] endTimes;
+    private long[] IDs;
     private long[] catIDs;
 
-    public LogsData(long[] startTimes, long[]endTimes, long[] catIDs){
+    public LogsData(long[] startTimes, long[]endTimes, long[] IDs, long[] catIDs){
         this.startTimes = startTimes;
         this.endTimes = endTimes;
+        this.IDs = IDs;
         this.catIDs = catIDs;
     }
 
@@ -65,9 +67,11 @@ public class LogsData
         return startTimes.length;
     }
 
-    public long getIDat(int i) {
+    public long getCatIDat(int i) {
         return catIDs[i];
     }
+
+    public long getIDat(int i) { return IDs[i]; }
 
     public long getDuration(int i) {
         return endTimes[i]-startTimes[i];
@@ -77,23 +81,26 @@ public class LogsData
 
         List<Long> startTimes;
         List<Long> endTimes;
+        List<Long> IDs;
         List<Long> catIDs;
 
         public LogsDataBuilder(){
             startTimes = new ArrayList<>();
             endTimes = new ArrayList<>();
+            IDs = new ArrayList<>();
             catIDs = new ArrayList<>();
         }
 
-        public void addDataPoint(long startTime, long endTime, long catID){
+        public void addDataPoint(long startTime, long endTime, long ID, long catID){
             startTimes.add(startTime);
             endTimes.add(endTime);
+            IDs.add(ID);
             catIDs.add(catID);
         }
 
         public LogsData spitItOut(){
             int n = startTimes.size();
-            return new LogsData(cnvrt(startTimes), cnvrt(endTimes), cnvrt(catIDs));
+            return new LogsData(cnvrt(startTimes), cnvrt(endTimes), cnvrt(IDs), cnvrt(catIDs));
         }
 
         /** What a C#'s .ToArray() would do...

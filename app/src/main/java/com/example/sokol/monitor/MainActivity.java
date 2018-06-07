@@ -12,16 +12,16 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.sokol.monitor.Graphs.DistributionTimeSlupkowySimpleGraph2;
 import com.example.sokol.monitor.Graphs.PieChart;
 import com.example.sokol.monitor.Graphs.SlupkowySimpleGraph;
 import com.example.sokol.monitor.Graphs.TextualData;
+import com.example.sokol.monitor.LogsDialog.LogsDialogFragment;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements CatsDialogFragment.OnNeedUserInterfaceUpdate {
+public class MainActivity extends AppCompatActivity implements OnNeedUserInterfaceUpdate, LogsDataProvider {
 
     // time ranges for data retrieved from the database:
     public static final int RANGE_UNKNOWN = -1;
@@ -82,13 +82,20 @@ public class MainActivity extends AppCompatActivity implements CatsDialogFragmen
 
         NotificationProvider.showNotificationIfEnabled(this, false);
 
-        Button saveLoadButton = (Button) findViewById(R.id.cats_button);
+        Button saveLoadButton = findViewById(R.id.cats_button);
         saveLoadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showCatsDialog();
             }
         });
+        findViewById(R.id.logs_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLogsDialog();
+            }
+        });
+
 
         // this will be used to fetch logs from db
         // a layer of abstraction, just to keep things tidy here.
@@ -135,6 +142,11 @@ public class MainActivity extends AppCompatActivity implements CatsDialogFragmen
     private void showCatsDialog() {
         CatsDialogFragment eventLoadSave = new CatsDialogFragment();
         eventLoadSave.show(getFragmentManager(), "event loadsave");
+    }
+
+    private void showLogsDialog() {
+        LogsDialogFragment logsViewer = new LogsDialogFragment();
+        logsViewer.show(getFragmentManager(), "logs viewer");
     }
 
     public static void startMe(Context context, int command){
@@ -314,5 +326,10 @@ public class MainActivity extends AppCompatActivity implements CatsDialogFragmen
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
+    }
+
+    @Override
+    public LogsData getLogs() {
+        return mSelector.getLogsForAllNonDeletedCats(this, getLowerTimeBoundForData(), getUpperTimeBoundForData());
     }
 }

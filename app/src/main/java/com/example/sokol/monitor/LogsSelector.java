@@ -42,7 +42,7 @@ public class LogsSelector {
     public List<PieChart.Datum> convertLogsToCatSums(final LogsData data){
         HashMap<Long, Long> idToSum = new HashMap<>();
         for(int i =0; i<data.getLength(); i++){
-            long id = data.getIDat(i);
+            long id = data.getCatIDat(i);
             long val = data.getDuration(i);
             if(!idToSum.containsKey(id)) idToSum.put(id, val);
             else

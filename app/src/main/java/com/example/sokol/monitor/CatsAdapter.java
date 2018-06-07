@@ -113,7 +113,7 @@ public class CatsAdapter extends RecyclerView.Adapter<CatsAdapter.ItemViewHolder
 
         public ItemViewHolder(View itemView) {
             super(itemView);
-            titleView = itemView.findViewById(R.id.title);
+            titleView = itemView.findViewById(R.id.start_time);
             initialView = itemView.findViewById(R.id.initial);
             statusView = itemView.findViewById(R.id.status);
         }

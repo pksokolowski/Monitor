@@ -251,7 +251,8 @@ public class DbHelper extends SQLiteOpenHelper {
         String[] projection = {
                 Contract.logs.COLUMN_NAME_START_TIME,
                 Contract.logs.COLUMN_NAME_END_TIME,
-                Contract.logs.COLUMN_NAME_CAT
+                Contract.logs.COLUMN_NAME_CAT,
+                Contract.logs._ID
         };
 
         String whereClause = "("+Contract.logs.COLUMN_NAME_START_TIME + " >=? OR " +Contract.logs.COLUMN_NAME_END_TIME + " >= ? ) AND " + Contract.logs.COLUMN_NAME_START_TIME + " <? AND " + Contract.logs.COLUMN_NAME_CAT + " IN " + makePlaceholders(categories.length);
@@ -278,6 +279,7 @@ public class DbHelper extends SQLiteOpenHelper {
         final int column_start = cursor.getColumnIndex(Contract.logs.COLUMN_NAME_START_TIME);
         final int column_end = cursor.getColumnIndex(Contract.logs.COLUMN_NAME_END_TIME);
         final int column_catId = cursor.getColumnIndex(Contract.logs.COLUMN_NAME_CAT);
+        final int column_Id = cursor.getColumnIndex(Contract.logs._ID);
 
         LogsData.LogsDataBuilder lbuilder = new LogsData.LogsDataBuilder();
         while (cursor.moveToNext()) {
@@ -285,6 +287,7 @@ public class DbHelper extends SQLiteOpenHelper {
             lbuilder.addDataPoint(
                     Math.max(cursor.getLong(column_start), since),
                     Math.min(cursor.getLong(column_end), till),
+                    cursor.getLong(column_Id),
                     cursor.getLong(column_catId)
             );
         }
