@@ -56,6 +56,7 @@ public class LogsDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setNegativeButton("close", null);
         builder.setView(mView);
+        builder.setNeutralButton("save changes", null);
 
         return builder.create();
     }
