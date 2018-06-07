@@ -32,7 +32,11 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Log log = mItems.get(position);
 
+        holder.initialView.setText(log.getCatTitle());
+        holder.durationview.setText(log.getDurationString());
+        holder.startTimeView.setText(log.getStartTimeString());
     }
 
     @Override
@@ -76,7 +80,7 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
         public TextView startTimeView;
         public ViewHolder(View itemView) {
             super(itemView);
-            initialView = itemView.findViewById(R.id.initial);
+            initialView = itemView.findViewById(R.id.category_displayed_identifier);
             durationview = itemView.findViewById(R.id.duration);
             startTimeView = itemView.findViewById(R.id.start_time);
         }

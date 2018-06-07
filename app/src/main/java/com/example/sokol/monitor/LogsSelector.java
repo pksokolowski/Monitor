@@ -29,7 +29,7 @@ public class LogsSelector {
     }
 
     public String getCatTitleByID(long ID){
-        return mCatMapByID.get(ID).getInitial();
+        return mCatMapByID.get(ID).getTitle();
     }
 
     public LogsData getLogsForAllNonDeletedCats(Context context, long since, long till) {

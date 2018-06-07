@@ -65,6 +65,13 @@ public class TimeHelper {
         return String.valueOf(hours) + " h";
     }
 
+    public static String getTimeStampString(long millis){
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm  dd.MM.yy");
+        // formatter.setTimeZone(java.util.TimeZone.getTimeZone("GMT"));
+        String dateString = formatter.format(new Date(millis));
+        return dateString;
+    }
+
     public static final long MINUTE_LEN_IN_MILLIS = 60000;
     public static final long DAY_LEN_IN_MILLIS = 86400000;
     public static final long WEEK_LEN_IN_MILLIS = 604800000;
