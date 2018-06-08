@@ -19,11 +19,7 @@ import java.util.Calendar;
 public class DateTimePicker extends LinearLayout
         implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-    private int year;
-    private int month;
-    private int day;
-    private int hour;
-    private int minute;
+    Calendar values;
 
     TextView mDate;
     TextView mTime;
@@ -45,12 +41,7 @@ public class DateTimePicker extends LinearLayout
 
         setListeners(context, this);
 
-        Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
-        day = c.get(Calendar.DAY_OF_MONTH);
-        hour = c.get(Calendar.HOUR_OF_DAY);
-        minute = c.get(Calendar.MINUTE);
+        values = Calendar.getInstance();
 
         updateDisplayedDate();
         updateDisplayedTime();
@@ -79,38 +70,31 @@ public class DateTimePicker extends LinearLayout
 
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        year = i;
-        month = i1;
-        day = i2;
+        values.set(Calendar.YEAR, i);
+        values.set(Calendar.MONTH, i1);
+        values.set(Calendar.DAY_OF_MONTH, i2);
 
         updateDisplayedDate();
     }
 
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
-        hour = i;
-        minute = i1;
+        values.set(Calendar.HOUR_OF_DAY, i);
+        values.set(Calendar.MINUTE, i1);
 
        updateDisplayedTime();
     }
 
     private void updateDisplayedDate(){
-        mDate.setText(HumanReadabilityHelper.getDateStampString(year, month, day));
+        mDate.setText(HumanReadabilityHelper.getDateStampString(values));
     }
 
     private void updateDisplayedTime(){
-        mTime.setText(HumanReadabilityHelper.getTimeStampString(hour, minute));
+        mTime.setText(HumanReadabilityHelper.getTimeStampString(values));
     }
 
     private Calendar getCurrentDateTimeAsCalendar(){
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, day);
-        c.set(Calendar.HOUR_OF_DAY, hour);
-        c.set(Calendar.MINUTE, minute);
-
-        return c;
+        return values;
     }
 
     public long getValue() {
