@@ -65,8 +65,22 @@ public class TimeHelper {
         return String.valueOf(hours) + " h";
     }
 
-    public static String getTimeStampString(long millis){
+    public static String getDateTimeStampString(long millis){
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm  dd.MM.yy");
+        // formatter.setTimeZone(java.util.TimeZone.getTimeZone("GMT"));
+        String dateString = formatter.format(new Date(millis));
+        return dateString;
+    }
+
+    public static String getDateStampString(long millis){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yy");
+        // formatter.setTimeZone(java.util.TimeZone.getTimeZone("GMT"));
+        String dateString = formatter.format(new Date(millis));
+        return dateString;
+    }
+
+    public static String getTimeStampString(long millis){
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         // formatter.setTimeZone(java.util.TimeZone.getTimeZone("GMT"));
         String dateString = formatter.format(new Date(millis));
         return dateString;

@@ -33,7 +33,7 @@ public class Log {
     }
 
     public String getStartTimeString(){
-        return TimeHelper.getTimeStampString(startTime);
+        return TimeHelper.getDateTimeStampString(startTime);
     }
 
     public Log(long ID, String initial, String title, long startTime, long endTime) {
