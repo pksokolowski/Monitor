@@ -118,10 +118,12 @@
     <com.example.sokol.monitor.DateTimePicker.DateRangePicker
         android:id="@+id/range_picker"
         android:layout_width="0dp"
-        android:layout_height="18dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/logs_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/spinner"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>
 </ScrollView>
