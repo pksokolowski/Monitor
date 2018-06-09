@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 
+import com.example.sokol.monitor.DateTimePicker.DateRangePicker;
 import com.example.sokol.monitor.Graphs.DistributionTimeSlupkowySimpleGraph2;
 import com.example.sokol.monitor.Graphs.PieChart;
 import com.example.sokol.monitor.Graphs.SlupkowySimpleGraph;
@@ -26,12 +27,14 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
 
     // time ranges for data retrieved from the database:
     public static final int RANGE_UNKNOWN = -1;
-    public static final int RANGE_ALL_TIME = 0;
-    public static final int RANGE_3_MONTHS = 1;
-    public static final int RANGE_MONTH = 2;
-    public static final int RANGE_WEEK = 3;
-    public static final int RANGE_DAY = 4;
-    public static final int RANGE_TODAY_ONLY = 5;
+    public static final int RANGE_CUSTOM = 0;
+    public static final int RANGE_ALL_TIME = 1;
+    public static final int RANGE_3_MONTHS = 2;
+    public static final int RANGE_MONTH = 3;
+    public static final int RANGE_WEEK = 4;
+    public static final int RANGE_DAY = 5;
+    public static final int RANGE_TODAY_ONLY = 6;
+
 
     static final String EXTRA_COMMAND_TO_EXECUTE_UPON_START = "com.example.sokolrandomstringppp.Monitor.MainActivity.command_to_execute_upon_start";
     public static final int COMMAND_DO_NOTHING = 0;
@@ -102,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         // a layer of abstraction, just to keep things tidy here.
         mSelector = new LogsSelector(this);
 
-        refreshAllGraphs();
         // data for all cats
 
         // create the pieChart here and populate it with data.
@@ -122,11 +124,32 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         });
 
         final Spinner spinner = findViewById(R.id.spinner);
-        spinner.setSelection(1);
+        final DateRangePicker rangePicker = findViewById(R.id.range_picker);
+
+        // set default range for data shown
+        spinner.setSelection(RANGE_3_MONTHS);
+        setRangePickerToMatchSpinner(rangePicker);
+
+        refreshAllGraphs();
+
+        rangePicker.setOnRangeChangedListener(new DateRangePicker.OnRangeChangedListener() {
+            @Override
+            public void onRangeChanged(long start, long end) {
+                refreshAllGraphs();
+                spinner.setSelection(RANGE_CUSTOM);
+            }
+        });
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (SpinnerUses++ >0) refreshAllGraphs();
+                // if spinner is set tu "custom", do nothing
+                if(i==RANGE_CUSTOM) return;
+                if (SpinnerUses++ >0) {
+                    // set value in the range picker
+                    setRangePickerToMatchSpinner(rangePicker);
+                    refreshAllGraphs();
+                }
                 // bugfix: so after changing data time range it will still recognize change
                 mPieChartsLastTouchedID = -1;
             }
@@ -138,6 +161,10 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         });
 
         scrollToXY(0, 0);
+    }
+
+    private void setRangePickerToMatchSpinner(DateRangePicker rangePicker) {
+        rangePicker.setRange(getSpinnersLowerTimeBound(), getSpinnersUpperTimeBound());
     }
 
     private void showCatsDialog() {
@@ -219,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         });
     }
 
-    private long getLowerTimeBoundForData() {
+    private long getSpinnersLowerTimeBound(){
         Spinner spinner = findViewById(R.id.spinner);
         int item_selected = spinner.getSelectedItemPosition();
         if (item_selected == -1) return 0;
@@ -242,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         return 0;
     }
 
-    private long getUpperTimeBoundForData() {
+    private long getSpinnersUpperTimeBound(){
         Spinner spinner = findViewById(R.id.spinner);
         int item_selected = spinner.getSelectedItemPosition();
         if (item_selected == -1) return 0;
@@ -267,6 +294,16 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         }
 
         return 0;
+    }
+
+    private long getLowerTimeBoundForData() {
+        DateRangePicker rangePicker = findViewById(R.id.range_picker);
+        return rangePicker.getStartValue();
+    }
+
+    private long getUpperTimeBoundForData() {
+        DateRangePicker rangePicker = findViewById(R.id.range_picker);
+        return rangePicker.getEndValue();
     }
 
     private int getRangeSelection() {

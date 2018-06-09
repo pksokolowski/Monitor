@@ -18,6 +18,8 @@ import java.util.Calendar;
 public class DateRangePicker extends LinearLayout
         implements DatePickerDialog.OnDateSetListener {
 
+    OnRangeChangedListener mListener;
+
     Calendar startValues;
     Calendar endValues;
     Calendar currentlyModified;
@@ -80,6 +82,7 @@ public class DateRangePicker extends LinearLayout
         currentlyModified.set(Calendar.MONTH, i1);
         currentlyModified.set(Calendar.DAY_OF_MONTH, i2);
         updateDisplayedDates();
+        fireOnRangeChangedEvent();
     }
 
     private void updateDisplayedDates(){
@@ -98,5 +101,24 @@ public class DateRangePicker extends LinearLayout
 
     public long getEndValue() {
         return endValues.getTimeInMillis();
+    }
+
+    public void setRange(long start, long end){
+        startValues.setTimeInMillis(start);
+        endValues.setTimeInMillis(end);
+        updateDisplayedDates();
+    }
+
+    private void fireOnRangeChangedEvent(){
+        if(mListener == null) return;
+        mListener.onRangeChanged(startValues.getTimeInMillis(), endValues.getTimeInMillis());
+    }
+
+    public void setOnRangeChangedListener(OnRangeChangedListener listener){
+        mListener = listener;
+    }
+
+    public interface OnRangeChangedListener{
+        void onRangeChanged(long start, long end);
     }
 }

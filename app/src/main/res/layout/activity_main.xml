@@ -27,12 +27,9 @@
         android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cats_button"
+        android:entries="@array/spinner_titles"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cats_button"
-        android:entries="@array/spinner_titles" />
+        app:layout_constraintTop_toTopOf="@+id/logs_button" />
 
     <com.example.sokol.monitor.Graphs.PieChart
         android:id="@+id/pie"
@@ -117,6 +114,14 @@
         android:text="Logs"
         app:layout_constraintStart_toEndOf="@+id/cats_button"
         app:layout_constraintTop_toBottomOf="@+id/pie" />
+
+    <com.example.sokol.monitor.DateTimePicker.DateRangePicker
+        android:id="@+id/range_picker"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/spinner"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
 </android.support.constraint.ConstraintLayout>
 </ScrollView>

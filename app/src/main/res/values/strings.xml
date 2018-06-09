@@ -9,6 +9,7 @@
     <string name="graph_title_weekly_distribution">days of week distribution</string>
 
     <string-array name="spinner_titles">
+        <item>custom</item>
         <item>all time</item>
         <item>3 months</item>
         <item>30 days</item>
