@@ -21,6 +21,7 @@ import com.example.sokol.monitor.Graphs.TextualData;
 import com.example.sokol.monitor.LogsDialog.Log;
 import com.example.sokol.monitor.LogsDialog.LogsDialogFragment;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnNeedUserInterfaceUpdate, LogsProvider {
@@ -209,7 +210,13 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
 
     private boolean shouldUpdateDisplayedData() {
         return (TimeHelper.get0HourTimeOfAGivenDay(lastUpdateDay0Hour) != TimeHelper.get0HourNdaysAgo(0) ||
-                getRangeSelection() == RANGE_TODAY_ONLY && WorkInProgressManager.getCounter(this) > lastSavedEntryNumber);
+                isTodayInRangeSelected() && WorkInProgressManager.getCounter(this) > lastSavedEntryNumber);
+    }
+
+    private boolean isTodayInRangeSelected(){
+        long upperBound = getUpperTimeBoundForData();
+        long zeroHourToday =  TimeHelper.get0HourNdaysAgo(0);
+        return zeroHourToday < upperBound;
     }
 
     @Override
