@@ -2,6 +2,7 @@ package com.example.sokol.monitor.LogsDialog;
 
 import android.content.Context;
 
+import com.example.sokol.monitor.CatData;
 import com.example.sokol.monitor.LogsData;
 import com.example.sokol.monitor.LogsSelector;
 import com.example.sokol.monitor.TimeHelper;
@@ -10,11 +11,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Log {
-    public long id;
+    private long id;
     private String catInitial;
     private String catTitle;
     private long startTime;
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
     private long endTime;
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setCat(CatData cat){
+        this.catTitle = cat.getTitle();
+        this.catInitial = cat.getInitial();
+    }
 
     public String getCatInitial(){
         return catInitial;

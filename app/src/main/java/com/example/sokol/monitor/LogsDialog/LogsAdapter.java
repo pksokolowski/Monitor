@@ -1,5 +1,6 @@
 package com.example.sokol.monitor.LogsDialog;
 
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import java.util.List;
 public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
 
     List<Log> mItems;
+
+    // TODO: 10.06.2018 remove the wasDataChanged thingy, will not be used anyway, as LogsDialogFrag has it's own change tracking capabilities
     private boolean mWasDataChanged = false;
 
     public boolean isDataChanged() {
@@ -31,12 +34,20 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Log log = mItems.get(position);
 
         holder.initialView.setText(log.getCatTitle());
         holder.durationview.setText(log.getDurationString());
         holder.startTimeView.setText(log.getStartTimeString());
+
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int adapterPos = holder.getAdapterPosition();
+                fireItemSelectedEvent(adapterPos, mItems.get(adapterPos));
+            }
+        });
     }
 
     @Override
@@ -68,9 +79,23 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
         mWasDataChanged = true;
     }
 
-    public void addACat(Log log) {
-        mItems.add(log);
-        notifyItemInserted(mItems.size() - 1);
+    public void change(int pos){
+        notifyItemChanged(pos);
+        mWasDataChanged = true;
+    }
+
+    public void addALog(Log log) {
+        int pos = -1;
+        // find the right pos, linear complexity for now
+        for(int i = 0; i<mItems.size(); i++){
+            if(mItems.get(i).getStartTime() <= log.getStartTime()){
+                pos = i;
+                break;
+            }
+        }
+        if(pos == -1) pos = mItems.size();
+        mItems.add(pos, log);
+        notifyItemInserted(pos);
         mWasDataChanged = true;
     }
 
@@ -78,11 +103,25 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
         public TextView initialView;
         public TextView durationview;
         public TextView startTimeView;
+        public ConstraintLayout layout;
         public ViewHolder(View itemView) {
             super(itemView);
             initialView = itemView.findViewById(R.id.category_displayed_identifier);
             durationview = itemView.findViewById(R.id.duration);
             startTimeView = itemView.findViewById(R.id.start_time);
+            layout = itemView.findViewById(R.id.item);
         }
+    }
+
+    OnItemSelectedListener mListener;
+    public void setOnItemSelectedListener(OnItemSelectedListener listener){
+        mListener = listener;
+    }
+    private void fireItemSelectedEvent(int i, Log log){
+        if(mListener==null) return;
+        mListener.onItemSelected(i, log);
+    }
+    interface OnItemSelectedListener{
+        void onItemSelected(int i, Log log);
     }
 }

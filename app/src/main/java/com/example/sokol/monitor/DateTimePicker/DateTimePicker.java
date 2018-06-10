@@ -101,4 +101,10 @@ public class DateTimePicker extends LinearLayout
         Calendar c = getCurrentDateTimeAsCalendar();
         return c.getTimeInMillis();
     }
+
+    public void setValue(long value){
+        values.setTimeInMillis(value);
+        updateDisplayedTime();
+        updateDisplayedDate();
+    }
 }
