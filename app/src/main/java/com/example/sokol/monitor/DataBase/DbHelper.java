@@ -239,6 +239,27 @@ public class DbHelper extends SQLiteOpenHelper {
         long newRowId = sDataBase.insert(Contract.logs.TABLE_NAME, null, cv);
     }
 
+    public void changeLog(long logID, long catID, long startTime, long endTime){
+        loadWritableDatabaseIfNotLoadedAlready();
+        ContentValues cv = new ContentValues();
+        cv.put(Contract.logs.COLUMN_NAME_START_TIME, startTime);
+        cv.put(Contract.logs.COLUMN_NAME_END_TIME, endTime);
+        cv.put(Contract.logs.COLUMN_NAME_CAT, catID);
+        String whereClause = Contract.logs._ID + " =? ";
+        String[] whereArgs = {
+                String.valueOf(logID)
+        };
+        long numOFRowsAffected = sDataBase.update(Contract.logs.TABLE_NAME, cv, whereClause, whereArgs);
+    }
+
+    public void deleteLog(long logID){
+        loadWritableDatabaseIfNotLoadedAlready();
+        String whereClause = Contract.logs._ID + " =? ";
+        String[] whereArgs = {
+                String.valueOf(logID)
+        };
+        sDataBase.delete(Contract.logs.TABLE_NAME, whereClause, whereArgs);
+    }
 
     public LogsData getLogs(long since, long till, Long[] categories) {
         // return empty set for empty categories requested list...
