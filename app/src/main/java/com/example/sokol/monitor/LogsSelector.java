@@ -35,10 +35,7 @@ public class LogsSelector {
     public LogsData getLogsForAllNonDeletedCats(Context context, long since, long till) {
         // get all categories that are non-deleted
         List<CatData> cats = DbHelper.getInstance(context).getCategories(CatData.CATEGORY_STATUS_INACTIVE);
-        Long[] catIDs = new Long[cats.size()];
-        for (int i = 0; i < catIDs.length; i++) {
-            catIDs[i] = cats.get(i).getID();
-        }
+        Long[] catIDs = CatData.getCatIDsArray(cats);
 
         return fetchDataFromDb(since, till, context, catIDs);
     }

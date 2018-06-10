@@ -1,5 +1,7 @@
 package com.example.sokol.monitor;
 
+import java.util.List;
+
 /** Datum Class.
  * Created by Sokol on 23.03.2018.
  */
@@ -82,6 +84,14 @@ public class CatData {
         result = 31 * result + initial.hashCode();
         result = 31 * result + status;
         return result;
+    }
+
+    public static Long[] getCatIDsArray(List<CatData> cats){
+        Long[] catIDs = new Long[cats.size()];
+        for (int i = 0; i < catIDs.length; i++) {
+            catIDs[i] = cats.get(i).getID();
+        }
+        return catIDs;
     }
 
 }

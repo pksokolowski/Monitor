@@ -3,6 +3,8 @@ package com.example.sokol.monitor.LogsDialog;
 import android.content.Context;
 
 import com.example.sokol.monitor.CatData;
+import com.example.sokol.monitor.CatNameToIDHelper;
+import com.example.sokol.monitor.DataBase.DbHelper;
 import com.example.sokol.monitor.LogsData;
 import com.example.sokol.monitor.LogsSelector;
 import com.example.sokol.monitor.TimeHelper;
@@ -77,15 +79,21 @@ public class Log {
      * @return a list of Log objects, convenient for adapters of recycler views etc, a compiled pack of data about individual logs.
      */
     public static List<Log> getLogsList(Context context, long lowerBound, long upperBound) {
-        LogsSelector selector = new LogsSelector(context);
-        LogsData logsData = selector.getLogsForAllNonDeletedCats(context, lowerBound, upperBound);
+        DbHelper db = DbHelper.getInstance(context);
 
+        // obtain cats then use them to obtain logs 
+        List<CatData> cats = db.getCategories(CatData.CATEGORY_STATUS_INACTIVE);
+        Long[] catIDs = CatData.getCatIDsArray(cats);
+        LogsData logsData = db.getLogs(lowerBound, upperBound, catIDs, false);
+
+        // prepare a list and a helper to use in the loop below
         List<Log> list = new ArrayList<>(logsData.getLength());
+        CatNameToIDHelper catHelper = new CatNameToIDHelper(cats);
 
         for (int i = 0; i < logsData.getLength(); i++) {
             long catID = logsData.getCatIDat(i);
-            String initial = selector.getCatInitialByID(catID);
-            String title = selector.getCatTitleByID(catID);
+            String initial = catHelper.getCatByID(catID).getInitial();
+            String title = catHelper.getCatByID(catID).getTitle();
             list.add(getLogAtI(i, logsData, initial, title));
         }
 

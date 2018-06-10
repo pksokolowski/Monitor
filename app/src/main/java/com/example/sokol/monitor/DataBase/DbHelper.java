@@ -261,7 +261,11 @@ public class DbHelper extends SQLiteOpenHelper {
         sDataBase.delete(Contract.logs.TABLE_NAME, whereClause, whereArgs);
     }
 
-    public LogsData getLogs(long since, long till, Long[] categories) {
+    public LogsData getLogs(long since, long till, Long[] categories){
+        return getLogs(since, till, categories, true);
+    }
+
+    public LogsData getLogs(long since, long till, Long[] categories, boolean cutLogsToFitBoundaries) {
         // return empty set for empty categories requested list...
         if (categories.length == 0) {
             return new LogsData.LogsDataBuilder().spitItOut();
@@ -305,9 +309,17 @@ public class DbHelper extends SQLiteOpenHelper {
         LogsData.LogsDataBuilder lbuilder = new LogsData.LogsDataBuilder();
         while (cursor.moveToNext()) {
 
+            long startTime = cursor.getLong(column_start);
+            long endTime = cursor.getLong(column_end);
+
+            if(cutLogsToFitBoundaries){
+                startTime = Math.max(startTime, since);
+                endTime = Math.min(endTime, till);
+            }
+
             lbuilder.addDataPoint(
-                    Math.max(cursor.getLong(column_start), since),
-                    Math.min(cursor.getLong(column_end), till),
+                    startTime,
+                    endTime,
                     cursor.getLong(column_Id),
                     cursor.getLong(column_catId)
             );
