@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.example.sokol.monitor.CatData;
+import com.example.sokol.monitor.CatNameToIDHelper;
 import com.example.sokol.monitor.DataBase.DbHelper;
 import com.example.sokol.monitor.DateTimePicker.DateTimePicker;
 import com.example.sokol.monitor.LogsProvider;
@@ -27,7 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 public class LogsDialogFragment extends DialogFragment
-        implements LogsAdapter.OnItemSelectedListener {
+        implements LogsAdapter.OnItemSelectedListener, DialogInterface.OnClickListener {
 
     OnNeedUserInterfaceUpdate mCallback;
     LogsProvider mDataProvider;
@@ -91,7 +93,7 @@ public class LogsDialogFragment extends DialogFragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setNegativeButton("close", null);
         builder.setView(mView);
-        builder.setNeutralButton("save changes", null);
+        builder.setNeutralButton("save changes", (DialogInterface.OnClickListener) this);
 
         return builder.create();
     }
@@ -200,5 +202,43 @@ public class LogsDialogFragment extends DialogFragment
     private void setAddDelButtonText() {
         if (activeLog == null) mAddDelButton.setText("add");
         else mAddDelButton.setText("del");
+    }
+
+    /**
+     * Saving changes:
+     */
+    @Override
+    public void onClick(DialogInterface dialogInterface, int i) {
+        // if nothing changed, just return:
+        if(addedLogs.size()==0 && changedLogs.size()==0 && deletedLogs.size()==0) return;
+
+        DbHelper db = DbHelper.getInstance(getActivity());
+        // get all cats, just in case there would be anything missing on the usual list
+        List<CatData> allCats = db.getCategories(CatData.CATEGORY_STATUS_DELETED);
+        CatNameToIDHelper titleToID = new CatNameToIDHelper(allCats);
+
+        // deliver changes of each type in sequence:
+        // additions:
+        if (addedLogs.size() != 0) {
+            for(Log log : addedLogs){
+                long catID = titleToID.getIDByTitle(log.getCatTitle());
+                db.pushLog(catID, log.getStartTime(), log.getEndTime());
+            }
+        }
+        // modifications:
+        if (changedLogs.size() != 0) {
+            for(Log log : changedLogs) {
+                long catID = titleToID.getIDByTitle(log.getCatTitle());
+                db.changeLog(log.getID(), catID, log.getStartTime(), log.getEndTime());
+            }
+        }
+        // deletions:
+        if (deletedLogs.size() != 0) {
+            for(Log log : deletedLogs){
+                db.deleteLog(log.getID());
+            }
+        }
+
+        mCallback.onNeedUserInterfaceUpdate();
     }
 }

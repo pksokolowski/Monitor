@@ -16,6 +16,10 @@ public class Log {
     private String catTitle;
     private long startTime;
 
+    public long getID(){
+        return id;
+    }
+
     public long getStartTime() {
         return startTime;
     }
