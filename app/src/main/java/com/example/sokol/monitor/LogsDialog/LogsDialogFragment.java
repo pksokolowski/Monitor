@@ -1,17 +1,24 @@
 package com.example.sokol.monitor.LogsDialog;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -43,6 +50,10 @@ public class LogsDialogFragment extends DialogFragment
     private Button mClearButton;
     private Button mChangeButton;
     private Button mAddDelButton;
+    private ImageButton mEditorExpanderButton;
+    private ConstraintLayout mEditorLayout;
+    private RecyclerView mRecycler;
+    private ConstraintLayout mMyLayout;
 
     private LogsAdapter mLogsAdapter;
     private ArrayAdapter<String> mCatsAdapter;
@@ -51,6 +62,9 @@ public class LogsDialogFragment extends DialogFragment
     // currently selected record
     private Log activeLog = null;
     private int activeLogIndex = -1;
+
+    // editor visibility
+    private boolean editorExpanded = false;
 
     private Set<Log> deletedLogs = new HashSet<>();
     private Set<Log> changedLogs = new HashSet<>();
@@ -76,6 +90,7 @@ public class LogsDialogFragment extends DialogFragment
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         mView = inflater.inflate(R.layout.logs_dialog, null);
+        mMyLayout = (ConstraintLayout) mView;
 
         // obtain a list of categories
         mCats = DbHelper.getInstance(mView.getContext()).getCategories(CatData.CATEGORY_STATUS_INACTIVE);
@@ -86,9 +101,8 @@ public class LogsDialogFragment extends DialogFragment
         Collections.reverse(data);
         mLogsAdapter = new LogsAdapter(data);
 
-        final RecyclerView recyclerView = mView.findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(mLogsAdapter);
+        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecycler.setAdapter(mLogsAdapter);
 
         mLogsAdapter.setOnItemSelectedListener(this);
 
@@ -107,6 +121,9 @@ public class LogsDialogFragment extends DialogFragment
         mClearButton = mView.findViewById(R.id.clear_button);
         mChangeButton = mView.findViewById(R.id.change_button);
         mAddDelButton = mView.findViewById(R.id.add_del_button);
+        mEditorExpanderButton = mView.findViewById(R.id.expand_editor_image_button);
+        mEditorLayout = mView.findViewById(R.id.editor_layout);
+        mRecycler = mView.findViewById(R.id.recycler);
 
         String[] spinnerOptions = new String[mCats.size() + 1];
         spinnerOptions[0] = "";
@@ -166,6 +183,32 @@ public class LogsDialogFragment extends DialogFragment
             }
         });
 
+        mEditorExpanderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editorExpanded) {
+                    editorExpanded = false;
+                    mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_more_accent_24dp));
+
+                    mEditorExpanderButton.animate().translationY(0).setDuration(500).start();
+                    mRecycler.animate().translationY(0).setDuration(500).start();
+                    mEditorLayout.animate().translationY(0).setDuration(500).start();
+
+                } else {
+                    editorExpanded = true;
+                    mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_less_accent_24dp));
+
+                    mEditorExpanderButton.animate().translationY(mEditorLayout.getHeight()).setDuration(500).start();
+                    mRecycler.animate().translationY(mEditorLayout.getHeight()).setDuration(500).start();
+                    mEditorLayout.animate().translationY(mEditorLayout.getHeight()).setDuration(500).start();
+
+                    // ugly, hacky way to ensure visibility
+                    mEditorLayout.setVisibility(View.GONE);
+                    mEditorLayout.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
     }
 
     private void applyEditorValuesToLog(Log log) {
