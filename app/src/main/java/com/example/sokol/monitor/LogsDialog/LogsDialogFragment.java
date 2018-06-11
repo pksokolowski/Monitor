@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.sokol.monitor.CatData;
 import com.example.sokol.monitor.CatNameToIDHelper;
@@ -22,6 +23,7 @@ import com.example.sokol.monitor.LogsProvider;
 import com.example.sokol.monitor.OnNeedUserInterfaceUpdate;
 import com.example.sokol.monitor.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
@@ -112,6 +114,12 @@ public class LogsDialogFragment extends DialogFragment
             spinnerOptions[i + 1] = mCats.get(i).getTitle();
         }
 
+        // set time on DatePimePickers to the same value:
+        Calendar c = Calendar.getInstance();
+        long timeNow = c.getTimeInMillis();
+        mStartPicker.setValue(timeNow);
+        mEndPicker.setValue(timeNow);
+
         // populate spinner with mCats and default "Select category" string
         mCatsAdapter = new ArrayAdapter<String>(mView.getContext(), android.R.layout.simple_spinner_item, spinnerOptions);
         mCatsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -128,7 +136,9 @@ public class LogsDialogFragment extends DialogFragment
             @Override
             public void onClick(View view) {
                 // set values to the activeLog and save it as Changed.
-                if (activeLog == null) return; // TODO: 10.06.2018 diplay error
+                if (activeLog == null) return;
+                if (!isUserInputValid(true)) return;
+
                 applyEditorValuesToLog(activeLog);
                 mLogsAdapter.change(activeLogIndex);
                 changedLogs.add(activeLog);
@@ -142,6 +152,7 @@ public class LogsDialogFragment extends DialogFragment
                 // TODO: 10.06.2018 depending on activeLog being null or not, delete or create
                 if (activeLog == null) {
                     // add new log
+                    if (!isUserInputValid(true)) return;
                     CatData cat = getCatForCurrentSpinnerSelection();
                     activeLog = new Log(-1, cat.getInitial(), cat.getTitle(), mStartPicker.getValue(), mEndPicker.getValue());
                     mLogsAdapter.addALog(activeLog);
@@ -210,7 +221,7 @@ public class LogsDialogFragment extends DialogFragment
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
         // if nothing changed, just return:
-        if(addedLogs.size()==0 && changedLogs.size()==0 && deletedLogs.size()==0) return;
+        if (addedLogs.size() == 0 && changedLogs.size() == 0 && deletedLogs.size() == 0) return;
 
         DbHelper db = DbHelper.getInstance(getActivity());
         // get all cats, just in case there would be anything missing on the usual list
@@ -220,25 +231,55 @@ public class LogsDialogFragment extends DialogFragment
         // deliver changes of each type in sequence:
         // additions:
         if (addedLogs.size() != 0) {
-            for(Log log : addedLogs){
+            for (Log log : addedLogs) {
                 long catID = titleToID.getIDByTitle(log.getCatTitle());
                 db.pushLog(catID, log.getStartTime(), log.getEndTime());
             }
         }
         // modifications:
         if (changedLogs.size() != 0) {
-            for(Log log : changedLogs) {
+            for (Log log : changedLogs) {
                 long catID = titleToID.getIDByTitle(log.getCatTitle());
                 db.changeLog(log.getID(), catID, log.getStartTime(), log.getEndTime());
             }
         }
         // deletions:
         if (deletedLogs.size() != 0) {
-            for(Log log : deletedLogs){
+            for (Log log : deletedLogs) {
                 db.deleteLog(log.getID());
             }
         }
 
         mCallback.onNeedUserInterfaceUpdate();
+    }
+
+    private boolean isUserInputValid(boolean displayErrorMessages) {
+        List<String> errors = new ArrayList<>();
+
+        if (mCatSpinner.getSelectedItemPosition() == 0) {
+            errors.add("Select a category.");
+        }
+
+        if (mStartPicker.getValue() >= mEndPicker.getValue()) {
+            errors.add("Start time must be before end time.");
+        }
+
+        if (errors.size() == 0) return true;
+
+        if (displayErrorMessages) {
+            StringBuilder sb = new StringBuilder(errors.size());
+            boolean first_entry = true;
+            for (String s : errors) {
+                // two newLine chars if it's not the first entry
+                if (!first_entry) {
+                    sb.append("\n\n");
+                } else {
+                    first_entry = false;
+                }
+                sb.append(s);
+            }
+            Toast.makeText(getContext(), sb.toString(), Toast.LENGTH_LONG).show();
+        }
+        return false;
     }
 }
