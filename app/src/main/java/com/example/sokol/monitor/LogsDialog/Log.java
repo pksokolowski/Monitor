@@ -6,7 +6,6 @@ import com.example.sokol.monitor.CatData;
 import com.example.sokol.monitor.CatNameToIDHelper;
 import com.example.sokol.monitor.DataBase.DbHelper;
 import com.example.sokol.monitor.LogsData;
-import com.example.sokol.monitor.LogsSelector;
 import com.example.sokol.monitor.TimeHelper;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class Log {
     private String catTitle;
     private long startTime;
 
-    public long getID(){
+    public long getID() {
         return id;
     }
 
@@ -40,12 +39,12 @@ public class Log {
         this.endTime = endTime;
     }
 
-    public void setCat(CatData cat){
+    public void setCat(CatData cat) {
         this.catTitle = cat.getTitle();
         this.catInitial = cat.getInitial();
     }
 
-    public String getCatInitial(){
+    public String getCatInitial() {
         return catInitial;
     }
 
@@ -57,11 +56,11 @@ public class Log {
         return endTime - startTime;
     }
 
-    public String getDurationString(){
+    public String getDurationString() {
         return TimeHelper.getDuration(this.getDuration());
     }
 
-    public String getStartTimeString(){
+    public String getStartTimeString() {
         return TimeHelper.getDateTimeStampString(startTime);
     }
 
@@ -75,7 +74,8 @@ public class Log {
 
     /**
      * statically provides a list of Log objects, category initials are shared, as references to the same Strings, per category
-     * Thus a LogsSelector object is necessary, as it provides the (CatID to cat initial) mapping, as well as it governs the query to db.
+     * Thus a CatNameToIDHelper object is necessary, as it provides a (CatID to cat initial) mapping.
+     *
      * @return a list of Log objects, convenient for adapters of recycler views etc, a compiled pack of data about individual logs.
      */
     public static List<Log> getLogsList(Context context, long lowerBound, long upperBound) {
