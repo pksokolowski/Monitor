@@ -22,6 +22,8 @@
         <item name="importantTextViewColor">#ffffff</item>
         <item name="chartsMainColor">#a1a1a1</item>
 
+        <item name="android:background">#000000</item>
+
         <item name="android:buttonStyle">@style/DarkButton</item>
     </style>
 
