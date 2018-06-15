@@ -63,7 +63,7 @@ public class LogsDialogFragment extends DialogFragment
     private int activeLogIndex = -1;
 
     // editor visibility
-    private boolean editorExpanded = false;
+    private EditorStateManager editorStateManager;
 
     private Set<Log> deletedLogs = new HashSet<>();
     private Set<Log> changedLogs = new HashSet<>();
@@ -123,6 +123,8 @@ public class LogsDialogFragment extends DialogFragment
         mEditorExpanderButton = mView.findViewById(R.id.expand_editor_image_button);
         mEditorLayout = mView.findViewById(R.id.editor_layout);
         mRecycler = mView.findViewById(R.id.recycler);
+
+        editorStateManager = new EditorStateManager(getContext(), mEditorExpanderButton, mEditorLayout, mRecycler, mMyLayout);
 
         String[] spinnerOptions = new String[mCats.size() + 1];
         spinnerOptions[0] = "";
@@ -185,39 +187,11 @@ public class LogsDialogFragment extends DialogFragment
         mEditorExpanderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               toggleEditorMode();
+               editorStateManager.toggleEditorMode();
             }
         });
     }
 
-    private void toggleEditorMode(){
-        int height = mEditorLayout.getHeight();
-
-        int endMargin = 0;
-        int recyclerHei = mRecycler.getHeight();
-        if (editorExpanded) {
-            endMargin = 0;
-            recyclerHei += height;
-            mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_more_accent_24dp));
-        } else {
-            endMargin = height;
-            recyclerHei -= height;
-            mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_less_accent_24dp));
-        }
-        editorExpanded = !editorExpanded;
-
-        ConstraintSet oldSet= new ConstraintSet();
-        oldSet.clone(getContext(), R.layout.logs_dialog);
-        oldSet.setMargin(R.id.expand_editor_image_button, ConstraintSet.TOP, endMargin);
-        oldSet.constrainHeight(R.id.recycler, recyclerHei);
-
-        AutoTransition transition = new AutoTransition();
-        transition.setDuration(500);
-        transition.setInterpolator(new AccelerateDecelerateInterpolator());
-
-        TransitionManager.beginDelayedTransition(mMyLayout, transition);
-        oldSet.applyTo(mMyLayout);
-    }
     private void applyEditorValuesToLog(Log log) {
         log.setStartTime(mStartPicker.getValue());
         log.setEndTime(mEndPicker.getValue());
