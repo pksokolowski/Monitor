@@ -7,14 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.AutoTransition;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -48,6 +44,7 @@ public class LogsDialogFragment extends DialogFragment
     private DateTimePicker mStartPicker;
     private DateTimePicker mEndPicker;
     private Button mClearButton;
+    private Button mChangeButton;
     private Button mAddDelButton;
     private ImageButton mEditorExpanderButton;
     private ConstraintLayout mEditorLayout;
@@ -118,6 +115,7 @@ public class LogsDialogFragment extends DialogFragment
         mStartPicker = mView.findViewById(R.id.start_picker);
         mEndPicker = mView.findViewById(R.id.end_picker);
         mClearButton = mView.findViewById(R.id.clear_button);
+        mChangeButton = mView.findViewById(R.id.change_button);
         mAddDelButton = mView.findViewById(R.id.add_del_button);
         mEditorExpanderButton = mView.findViewById(R.id.expand_editor_image_button);
         mEditorLayout = mView.findViewById(R.id.editor_layout);
@@ -145,7 +143,7 @@ public class LogsDialogFragment extends DialogFragment
         mCatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                setIntelligentButtonsTextToChangeIfAppropriate();
+                setAddDelButtonTextToChangeIfAppropriate();
             }
 
             @Override
@@ -157,7 +155,7 @@ public class LogsDialogFragment extends DialogFragment
         DateTimePicker.OnDateTimeChangedListener dateTimeChangeListener = new DateTimePicker.OnDateTimeChangedListener() {
             @Override
             public void onDateTimeChanged(long value) {
-                setIntelligentButtonsTextToChangeIfAppropriate();
+                setAddDelButtonTextToChangeIfAppropriate();
             }
         };
 
@@ -171,31 +169,28 @@ public class LogsDialogFragment extends DialogFragment
             }
         });
 
+        mChangeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editorActionChange();
+
+            }
+        });
+
         mAddDelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: 10.06.2018 depending on activeLog being null or not, delete or create
                 if (activeLog == null) {
-                    // add new log
-                    if (!isUserInputValid(true)) return;
-                    CatData cat = getCatForCurrentSpinnerSelection();
-                    activeLog = new Log(-1, cat.getInitial(), cat.getTitle(), mStartPicker.getValue(), mEndPicker.getValue());
-                    mLogsAdapter.addALog(activeLog);
-                    addedLogs.add(activeLog);
-                    clearLogEditor();
+                    editorActionAdd();
                 } else {
-                    if(isEditorDataDivertedFromLog(activeLog)){
-                        if (!isUserInputValid(true)) return;
-
-                        applyEditorValuesToLog(activeLog);
-                        mLogsAdapter.change(activeLogIndex);
-                        changedLogs.add(activeLog);
-                        clearLogEditor();
-                    }else {
-                        mLogsAdapter.remove(activeLogIndex);
-                        deletedLogs.add(activeLog);
-                        clearLogEditor();
-                    }
+                    // commented out functionality of the addDel button to second as a change button
+                    // if reverted, also uncomment the corresponding line in setAddDelButtonTextToChangeIfAppropriate()
+//                    if(isEditorDataDivertedFromLog(activeLog)){
+//                        editorActionChange();
+//                    }else {
+                        editorActionDelete();
+//                    }
                 }
             }
         });
@@ -208,9 +203,41 @@ public class LogsDialogFragment extends DialogFragment
         });
     }
 
-    private void setIntelligentButtonsTextToChangeIfAppropriate() {
+    private void editorActionDelete() {
+        mLogsAdapter.remove(activeLogIndex);
+        deletedLogs.add(activeLog);
+        clearLogEditor();
+    }
+
+    private void editorActionAdd() {
+        // add new log
+        if (!isUserInputValid(true)) return;
+        CatData cat = getCatForCurrentSpinnerSelection();
+        activeLog = new Log(-1, cat.getInitial(), cat.getTitle(), mStartPicker.getValue(), mEndPicker.getValue());
+        mLogsAdapter.addALog(activeLog);
+        addedLogs.add(activeLog);
+        clearLogEditor();
+    }
+
+    private void editorActionChange() {
+        // set values to the activeLog and save it as Changed.
+        if (activeLog == null) return;
+        if (!isUserInputValid(true)) return;
+
+        applyEditorValuesToLog(activeLog);
+        mLogsAdapter.change(activeLogIndex);
+        changedLogs.add(activeLog);
+        clearLogEditor();
+    }
+
+    private void setAddDelButtonTextToChangeIfAppropriate() {
         if(activeLog != null && isEditorDataDivertedFromLog(activeLog)){
-            mAddDelButton.setText("change");
+            // commented out feature allowing addDel button to second as a change button
+            // if you wish to revert the change, uncomment both the line below and lines
+            // in addDel buttons listener.
+            //mAddDelButton.setText("change");
+
+            mChangeButton.setEnabled(true);
         }
     }
 
@@ -239,6 +266,7 @@ public class LogsDialogFragment extends DialogFragment
         activeLog = null;
         activeLogIndex = -1;
         setAddDelButtonText();
+        mChangeButton.setEnabled(false);
     }
 
     private CatData getCatForCurrentSpinnerSelection() {
