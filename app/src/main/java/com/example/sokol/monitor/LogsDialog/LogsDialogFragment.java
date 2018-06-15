@@ -198,11 +198,11 @@ public class LogsDialogFragment extends DialogFragment
         if (editorExpanded) {
             endMargin = 0;
             recyclerHei += height;
-            mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_less_accent_24dp));
+            mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_more_accent_24dp));
         } else {
             endMargin = height;
             recyclerHei -= height;
-            mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_more_accent_24dp));
+            mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_less_accent_24dp));
         }
         editorExpanded = !editorExpanded;
 
