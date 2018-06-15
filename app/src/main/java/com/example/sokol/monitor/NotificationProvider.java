@@ -1,13 +1,16 @@
 package com.example.sokol.monitor;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import com.example.sokol.monitor.DataBase.DbHelper;
@@ -26,6 +29,8 @@ public class NotificationProvider extends BroadcastReceiver {
     public static final String ACTION_NOTIFICATION_BUTTON_CLICK = "com.example.sokolrandomstringppp.Monitor.NOTIFICATION_BUTTON_CLICK";
     public static final String ACTION_NOTIFICATION_PLACEHOLDER_CLICK = "com.example.sokolrandomstringppp.Monitor.NOTIFICATION_PLACEHOLDER_CLICK";
     public static final String EXTRA_CAT_ID = "cat_title";
+
+    public static final String CHANNEL_ID_NOTIFICATION_CONTROLS = "notification_controls";
 
     public static void removeNotification(Context context) {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -100,7 +105,7 @@ public class NotificationProvider extends BroadcastReceiver {
 
         Uri startSoundUri = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.click_sound);
 
-        Notification.Builder B = new Notification.Builder(context)
+        NotificationCompat.Builder B = new NotificationCompat.Builder(context, CHANNEL_ID_NOTIFICATION_CONTROLS)
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .setSmallIcon(R.drawable.ic_wb_incandescent_white_24dp)
                 .setOngoing(true)
@@ -163,4 +168,20 @@ public class NotificationProvider extends BroadcastReceiver {
         }
     }
 
+
+    public static void createNotificationChannel(Context context) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "notification controls";
+            String description = "The sole notification in this channel works as a remote and is the only mean of letting the app know when work starts/ends within a given category.";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID_NOTIFICATION_CONTROLS, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 }

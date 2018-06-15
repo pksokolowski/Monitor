@@ -84,6 +84,10 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
 //            }
 //        });
 
+        // first create a notification channel, for android O and later
+        // no worries, it only makes changes the first time a given channel's creation
+        // is requested.
+        NotificationProvider.createNotificationChannel(this);
 
         NotificationProvider.showNotificationIfEnabled(this, false);
 
