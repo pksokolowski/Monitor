@@ -12,6 +12,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -190,17 +192,23 @@ public class LogsDialogFragment extends DialogFragment
                     editorExpanded = false;
                     mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_more_accent_24dp));
 
-                    mEditorExpanderButton.animate().translationY(0).setDuration(500).start();
-                    mRecycler.animate().translationY(0).setDuration(500).start();
-                    mEditorLayout.animate().translationY(0).setDuration(500).start();
+//                    mEditorExpanderButton.animate().translationY(0).setDuration(500).start();
+//                    mRecycler.animate().translationY(0).setDuration(500).start();
+//                    mEditorLayout.animate().translationY(0).setDuration(500).start();
+
+                    animate(0);
+
 
                 } else {
                     editorExpanded = true;
                     mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_less_accent_24dp));
 
-                    mEditorExpanderButton.animate().translationY(mEditorLayout.getHeight()).setDuration(500).start();
-                    mRecycler.animate().translationY(mEditorLayout.getHeight()).setDuration(500).start();
-                    mEditorLayout.animate().translationY(mEditorLayout.getHeight()).setDuration(500).start();
+//                    mEditorExpanderButton.animate().translationY(mEditorLayout.getHeight()).setDuration(500).start();
+//                    mRecycler.animate().translationY(mEditorLayout.getHeight()).setDuration(500).start();
+//                    mEditorLayout.animate().translationY(mEditorLayout.getHeight()).setDuration(500).start();
+
+                    float height = mEditorLayout.getHeight();
+                    animate(height);
 
                     // ugly, hacky way to ensure visibility
                     mEditorLayout.setVisibility(View.GONE);
@@ -211,6 +219,19 @@ public class LogsDialogFragment extends DialogFragment
         });
     }
 
+
+    private void animate(float endMargin){
+        ConstraintSet oldSet= new ConstraintSet();
+        oldSet.clone(getContext(), R.layout.logs_dialog);
+        oldSet.setMargin(R.id.expand_editor_image_button, ConstraintSet.TOP, (int)endMargin);
+
+        AutoTransition transition = new AutoTransition();
+        transition.setDuration(500);
+        transition.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        TransitionManager.beginDelayedTransition(mMyLayout, transition);
+        oldSet.applyTo(mMyLayout);
+    }
     private void applyEditorValuesToLog(Log log) {
         log.setStartTime(mStartPicker.getValue());
         log.setEndTime(mEndPicker.getValue());
@@ -255,7 +276,7 @@ public class LogsDialogFragment extends DialogFragment
 
     private void setAddDelButtonText() {
         if (activeLog == null) mAddDelButton.setText("add");
-        else mAddDelButton.setText("del");
+        else mAddDelButton.setText("delete");
     }
 
     /**
