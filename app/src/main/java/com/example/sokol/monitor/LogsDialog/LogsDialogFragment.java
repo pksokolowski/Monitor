@@ -1,7 +1,5 @@
 package com.example.sokol.monitor.LogsDialog;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -17,7 +15,6 @@ import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -188,42 +185,31 @@ public class LogsDialogFragment extends DialogFragment
         mEditorExpanderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (editorExpanded) {
-                    editorExpanded = false;
-                    mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_more_accent_24dp));
-
-//                    mEditorExpanderButton.animate().translationY(0).setDuration(500).start();
-//                    mRecycler.animate().translationY(0).setDuration(500).start();
-//                    mEditorLayout.animate().translationY(0).setDuration(500).start();
-
-                    animate(0);
-
-
-                } else {
-                    editorExpanded = true;
-                    mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_less_accent_24dp));
-
-//                    mEditorExpanderButton.animate().translationY(mEditorLayout.getHeight()).setDuration(500).start();
-//                    mRecycler.animate().translationY(mEditorLayout.getHeight()).setDuration(500).start();
-//                    mEditorLayout.animate().translationY(mEditorLayout.getHeight()).setDuration(500).start();
-
-                    float height = mEditorLayout.getHeight();
-                    animate(height);
-
-                    // ugly, hacky way to ensure visibility
-                    mEditorLayout.setVisibility(View.GONE);
-                    mEditorLayout.setVisibility(View.VISIBLE);
-
-                }
+               toggleEditorMode();
             }
         });
     }
 
+    private void toggleEditorMode(){
+        int height = mEditorLayout.getHeight();
 
-    private void animate(float endMargin){
+        int endMargin = 0;
+        int recyclerHei = mRecycler.getHeight();
+        if (editorExpanded) {
+            endMargin = 0;
+            recyclerHei += height;
+            mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_less_accent_24dp));
+        } else {
+            endMargin = height;
+            recyclerHei -= height;
+            mEditorExpanderButton.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_more_accent_24dp));
+        }
+        editorExpanded = !editorExpanded;
+
         ConstraintSet oldSet= new ConstraintSet();
         oldSet.clone(getContext(), R.layout.logs_dialog);
-        oldSet.setMargin(R.id.expand_editor_image_button, ConstraintSet.TOP, (int)endMargin);
+        oldSet.setMargin(R.id.expand_editor_image_button, ConstraintSet.TOP, endMargin);
+        oldSet.constrainHeight(R.id.recycler, recyclerHei);
 
         AutoTransition transition = new AutoTransition();
         transition.setDuration(500);
