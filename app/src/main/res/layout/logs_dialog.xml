@@ -22,88 +22,7 @@
         app:layout_constraintTop_toBottomOf="@+id/expand_editor_image_button"
         tools:listitem="@layout/logs_dialog_recycler_item" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/editor_layout"
-        android:layout_width="0dp"
-        android:layout_height="131dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/expand_editor_image_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Spinner
-            android:id="@+id/cat_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.example.sokol.monitor.DateTimePicker.DateTimePicker
-            android:id="@+id/start_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cat_spinner" />
-
-        <com.example.sokol.monitor.DateTimePicker.DateTimePicker
-            android:id="@+id/end_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/start_picker" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="-"
-            app:layout_constraintEnd_toStartOf="@+id/end_picker"
-            app:layout_constraintStart_toEndOf="@+id/start_picker"
-            app:layout_constraintTop_toTopOf="@+id/start_picker" />
-
-        <Button
-            android:id="@+id/clear_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="clear"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/start_picker" />
-
-        <Button
-            android:id="@+id/change_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="change"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/add_del_button"
-            app:layout_constraintStart_toEndOf="@+id/clear_button"
-            app:layout_constraintTop_toTopOf="@+id/clear_button" />
-
-        <Button
-            android:id="@+id/add_del_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="add"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/change_button" />
-    </android.support.constraint.ConstraintLayout>
+    <include layout="@layout/editor_layout" />
 
     <ImageButton
         android:id="@+id/expand_editor_image_button"
@@ -112,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_expand_more_accent_24dp"
-        tools:layout_editor_absoluteY="168dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_expand_more_accent_24dp" />
 
 </android.support.constraint.ConstraintLayout>
