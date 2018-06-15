@@ -7,6 +7,8 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="15sp"
         android:layout_marginRight="7dp"
         android:layout_weight="1" />
 
@@ -14,5 +16,7 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textStyle="bold"
         android:layout_weight="1" />
 </LinearLayout>
