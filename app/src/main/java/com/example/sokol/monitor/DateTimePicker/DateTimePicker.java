@@ -19,6 +19,8 @@ import java.util.Calendar;
 public class DateTimePicker extends LinearLayout
         implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
+    OnDateTimeChangedListener mListener;
+
     Calendar values;
 
     TextView mDate;
@@ -75,6 +77,7 @@ public class DateTimePicker extends LinearLayout
         values.set(Calendar.DAY_OF_MONTH, i2);
 
         updateDisplayedDate();
+        fireOnDateTimeChangedEvent(values.getTimeInMillis());
     }
 
     @Override
@@ -83,6 +86,7 @@ public class DateTimePicker extends LinearLayout
         values.set(Calendar.MINUTE, i1);
 
        updateDisplayedTime();
+        fireOnDateTimeChangedEvent(values.getTimeInMillis());
     }
 
     private void updateDisplayedDate(){
@@ -106,5 +110,18 @@ public class DateTimePicker extends LinearLayout
         values.setTimeInMillis(value);
         updateDisplayedTime();
         updateDisplayedDate();
+    }
+
+    private void fireOnDateTimeChangedEvent(long value){
+        if(mListener == null) return;
+        mListener.onDateTimeChanged(value);
+    }
+
+    public void setOnDateTimeChangedListener(OnDateTimeChangedListener listener){
+        mListener = listener;
+    }
+
+    public interface OnDateTimeChangedListener{
+        void onDateTimeChanged(long value);
     }
 }
