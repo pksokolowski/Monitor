@@ -5,6 +5,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.RecyclerView;
 import android.transition.AutoTransition;
+import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageButton;
@@ -18,17 +19,18 @@ import com.example.sokol.monitor.R;
  *
  * It provides an animation too.
  */
-public class EditorStateManager {
-    public boolean isExpanded() {
+class EditorStateManager implements Transition.TransitionListener {
+    boolean isExpanded() {
         return isExpanded;
     }
 
     private boolean isExpanded = false;
 
     private Context context;
-
     private ImageButton mEditorExpanderButton;
     private ConstraintLayout mEditorLayout;
+    private RecyclerView mRecycler;
+    private ConstraintLayout mMyLayout;
 
     EditorStateManager(Context context, ImageButton mEditorExpanderButton, ConstraintLayout mEditorLayout, RecyclerView mRecycler, ConstraintLayout mMyLayout) {
         this.context = context;
@@ -37,9 +39,6 @@ public class EditorStateManager {
         this.mRecycler = mRecycler;
         this.mMyLayout = mMyLayout;
     }
-
-    private RecyclerView mRecycler;
-    private ConstraintLayout mMyLayout;
 
     void toggleEditorMode(){
         int height = mEditorLayout.getHeight();
@@ -66,7 +65,34 @@ public class EditorStateManager {
         transition.setDuration(500);
         transition.setInterpolator(new AccelerateDecelerateInterpolator());
 
+        transition.addListener(this);
+
         TransitionManager.beginDelayedTransition(mMyLayout, transition);
         oldSet.applyTo(mMyLayout);
+    }
+
+    @Override
+    public void onTransitionStart(Transition transition) {
+        mEditorExpanderButton.setEnabled(false);
+    }
+
+    @Override
+    public void onTransitionEnd(Transition transition) {
+        mEditorExpanderButton.setEnabled(true);
+    }
+
+    @Override
+    public void onTransitionCancel(Transition transition) {
+
+    }
+
+    @Override
+    public void onTransitionPause(Transition transition) {
+
+    }
+
+    @Override
+    public void onTransitionResume(Transition transition) {
+
     }
 }
