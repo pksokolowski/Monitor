@@ -15,6 +15,7 @@ import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -47,7 +48,6 @@ public class LogsDialogFragment extends DialogFragment
     private DateTimePicker mStartPicker;
     private DateTimePicker mEndPicker;
     private Button mClearButton;
-    private Button mChangeButton;
     private Button mAddDelButton;
     private ImageButton mEditorExpanderButton;
     private ConstraintLayout mEditorLayout;
@@ -118,7 +118,6 @@ public class LogsDialogFragment extends DialogFragment
         mStartPicker = mView.findViewById(R.id.start_picker);
         mEndPicker = mView.findViewById(R.id.end_picker);
         mClearButton = mView.findViewById(R.id.clear_button);
-        mChangeButton = mView.findViewById(R.id.change_button);
         mAddDelButton = mView.findViewById(R.id.add_del_button);
         mEditorExpanderButton = mView.findViewById(R.id.expand_editor_image_button);
         mEditorLayout = mView.findViewById(R.id.editor_layout);
@@ -143,23 +142,31 @@ public class LogsDialogFragment extends DialogFragment
         mCatsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mCatSpinner.setAdapter(mCatsAdapter);
 
-        mClearButton.setOnClickListener(new View.OnClickListener() {
+        mCatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                clearLogEditor();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                setIntelligentButtonsTextToChangeIfAppropriate();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
-        mChangeButton.setOnClickListener(new View.OnClickListener() {
+        DateTimePicker.OnDateTimeChangedListener dateTimeChangeListener = new DateTimePicker.OnDateTimeChangedListener() {
+            @Override
+            public void onDateTimeChanged(long value) {
+                setIntelligentButtonsTextToChangeIfAppropriate();
+            }
+        };
+
+        mStartPicker.setOnDateTimeChangedListener(dateTimeChangeListener);
+        mEndPicker.setOnDateTimeChangedListener(dateTimeChangeListener);
+
+        mClearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // set values to the activeLog and save it as Changed.
-                if (activeLog == null) return;
-                if (!isUserInputValid(true)) return;
-
-                applyEditorValuesToLog(activeLog);
-                mLogsAdapter.change(activeLogIndex);
-                changedLogs.add(activeLog);
                 clearLogEditor();
             }
         });
@@ -177,9 +184,18 @@ public class LogsDialogFragment extends DialogFragment
                     addedLogs.add(activeLog);
                     clearLogEditor();
                 } else {
-                    mLogsAdapter.remove(activeLogIndex);
-                    deletedLogs.add(activeLog);
-                    clearLogEditor();
+                    if(isEditorDataDivertedFromLog(activeLog)){
+                        if (!isUserInputValid(true)) return;
+
+                        applyEditorValuesToLog(activeLog);
+                        mLogsAdapter.change(activeLogIndex);
+                        changedLogs.add(activeLog);
+                        clearLogEditor();
+                    }else {
+                        mLogsAdapter.remove(activeLogIndex);
+                        deletedLogs.add(activeLog);
+                        clearLogEditor();
+                    }
                 }
             }
         });
@@ -192,10 +208,27 @@ public class LogsDialogFragment extends DialogFragment
         });
     }
 
+    private void setIntelligentButtonsTextToChangeIfAppropriate() {
+        if(activeLog != null && isEditorDataDivertedFromLog(activeLog)){
+            mAddDelButton.setText("change");
+        }
+    }
+
     private void applyEditorValuesToLog(Log log) {
         log.setStartTime(mStartPicker.getValue());
         log.setEndTime(mEndPicker.getValue());
         log.setCat(getCatForCurrentSpinnerSelection());
+    }
+
+    /**
+     * checks whether or not the editor values are different than in a given Log object
+     * @param log a Log object to be compared with the current user input in the editor
+     * @return true if Log and editor values are different.
+     */
+    private boolean isEditorDataDivertedFromLog(Log log){
+        return log.getStartTime() != mStartPicker.getValue() ||
+                log.getEndTime() != mEndPicker.getValue() ||
+                !log.getCatTitle().equals(getCatForCurrentSpinnerSelection().getTitle());
     }
 
     private void clearLogEditor() {
