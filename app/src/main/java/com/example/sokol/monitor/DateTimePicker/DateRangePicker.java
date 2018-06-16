@@ -57,23 +57,23 @@ public class DateRangePicker extends LinearLayout
         mStartDate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentlyModified = startValues;
-                DatePickerFragment newFragment = new DatePickerFragment();
-                newFragment.setDateChangedListener(listener);
-                newFragment.setInitialDate(currentlyModified);
-                newFragment.show(((AppCompatActivity)context).getSupportFragmentManager(), "datePicker");
+                modifyValues(context, startValues, "datePicker1", listener);
             }
         });
         mEndDate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentlyModified = endValues;
-                DatePickerFragment newFragment = new DatePickerFragment();
-                newFragment.setDateChangedListener(listener);
-                newFragment.setInitialDate(currentlyModified);
-                newFragment.show(((AppCompatActivity)context).getSupportFragmentManager(), "datePicker2");
+                modifyValues(context, endValues, "datePicker2", listener);
             }
         });
+    }
+
+    private void modifyValues(Context context, Calendar valuesToModify, String fragmentTag, DateRangePicker listener){
+        currentlyModified = valuesToModify;
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.setDateChangedListener(listener);
+        newFragment.setInitialDate(currentlyModified);
+        newFragment.show(((AppCompatActivity)context).getSupportFragmentManager(), fragmentTag);
     }
 
     @Override
