@@ -339,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
 //            }
 //            String result = TimeHelper.getDuration(sum);
 
-        PeriodicDistro perio = new PeriodicDistro(data);
+        PeriodicDistro perio = new PeriodicDistro(data, getUpperTimeBoundForData()>=TimeHelper.now());
 
         //result+= " |perio: "+TimeHelper.getDuration(perio.mDaily[perio.mDaily.length-1]);
 //        Toast.makeText(this, perio.oddling, Toast.LENGTH_SHORT).show();

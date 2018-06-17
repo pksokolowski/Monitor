@@ -15,7 +15,7 @@ public class PeriodicDistro {
     public long[] mDaily;
     public long[] mWeekly;
 
-    public PeriodicDistro(LogsData data) {
+    public PeriodicDistro(LogsData data, boolean includeToday) {
         long rangeStart = data.getRangeStartDay0Hour();
         long weekStart = data.getRangeStartMonday(rangeStart);
         long today0Hour = TimeHelper.get0HourNdaysAgo(0);
@@ -27,7 +27,7 @@ public class PeriodicDistro {
             return;
         }
 
-        if (today0Hour == rangeStart) today0Hour += TimeHelper.DAY_LEN_IN_MILLIS;
+        if (includeToday) today0Hour += TimeHelper.DAY_LEN_IN_MILLIS;
 
         mHourly = getDistribution(data, rangeStart, TimeHelper.MINUTE_LEN_IN_MILLIS * 5, rangeStart + TimeHelper.DAY_LEN_IN_MILLIS, today0Hour, false);
         mDaily = getDistribution(data, rangeStart, TimeHelper.DAY_LEN_IN_MILLIS, today0Hour, today0Hour, false);
@@ -37,7 +37,7 @@ public class PeriodicDistro {
     private long[] getDistribution(LogsData data, long rangeStart, long period, long rangeEnd, long dropDataLaterThan, boolean takeAveragePerPeriod) {
         long rangeWidth = rangeEnd - rangeStart;
         if (rangeWidth < 1) return new long[1];
-        int periodsInRange = (int) (rangeWidth / period);
+        int periodsInRange = (int) Math.ceil((double)rangeWidth / (double)period);
         long[] array = new long[periodsInRange];
         int[] population = new int[1];
         if (takeAveragePerPeriod) {

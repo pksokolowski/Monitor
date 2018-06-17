@@ -22,7 +22,7 @@ public class TimeHelper {
     public static long get0HourNdaysAgo(int n){
         long now = Calendar.getInstance().getTimeInMillis();
 
-        return get0HourTimeOfAGivenDay(now)-(n*DAY_LEN_IN_MILLIS);
+        return get0HourTimeOfAGivenDay(now-(n*DAY_LEN_IN_MILLIS));
     }
 
     public static long getLastMonday0HourSinceGivenMoment(long moment){
