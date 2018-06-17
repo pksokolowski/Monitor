@@ -29,18 +29,20 @@ public class PeriodicDistro {
 
         if (today0Hour == rangeStart) today0Hour += TimeHelper.DAY_LEN_IN_MILLIS;
 
-        mHourly = getDistribution(data, rangeStart, TimeHelper.MINUTE_LEN_IN_MILLIS * 5, rangeStart + TimeHelper.DAY_LEN_IN_MILLIS, today0Hour);
-        mDaily = getDistribution(data, rangeStart, TimeHelper.DAY_LEN_IN_MILLIS, today0Hour, today0Hour); // when last two are equal, bug happens when real first log is known...
-        //long[] fffff = dailySpecial(data, rangeStart, today0Hour, TimeHelper.DAY_LEN_IN_MILLIS);
-        //long[] bezecne =  bezecenstwo(data, rangeStart, today0Hour);
-        mWeekly = getDistribution(data, weekStart, TimeHelper.DAY_LEN_IN_MILLIS, weekStart + TimeHelper.WEEK_LEN_IN_MILLIS, TimeHelper.getLastMonday());
+        mHourly = getDistribution(data, rangeStart, TimeHelper.MINUTE_LEN_IN_MILLIS * 5, rangeStart + TimeHelper.DAY_LEN_IN_MILLIS, today0Hour, false);
+        mDaily = getDistribution(data, rangeStart, TimeHelper.DAY_LEN_IN_MILLIS, today0Hour, today0Hour, false);
+        mWeekly = getDistribution(data, weekStart, TimeHelper.DAY_LEN_IN_MILLIS, weekStart + TimeHelper.WEEK_LEN_IN_MILLIS, today0Hour, true);
     }
 
-    private long[] getDistribution(LogsData data, long rangeStart, long period, long rangeEnd, long dropDataLaterThan) {
+    private long[] getDistribution(LogsData data, long rangeStart, long period, long rangeEnd, long dropDataLaterThan, boolean takeAveragePerPeriod) {
         long rangeWidth = rangeEnd - rangeStart;
         if (rangeWidth < 1) return new long[1];
         int periodsInRange = (int) (rangeWidth / period);
         long[] array = new long[periodsInRange];
+        int[] population = new int[1];
+        if (takeAveragePerPeriod) {
+            population = new int[periodsInRange];
+        }
 
         long[] data_start_times = data.getStartTimes();
         long[] data_end_times = data.getEndTimes();
@@ -78,11 +80,13 @@ public class PeriodicDistro {
             // dodaję czas wypracowany do odpowiednich periodów:
             if (roznica_indexow == 0 && length <= period) {
                 array[first_period_index] += time_of_range_End - time_of_range_Start;
+                if(takeAveragePerPeriod) population[first_period_index] += 1;
             } else {
                 long toAdd = length;
                 // first
                 long firstVal = period - time_of_period_start;
                 array[first_period_index] += firstVal;
+                if(takeAveragePerPeriod) population[first_period_index] += 1;
                 toAdd -= firstVal;
                 //the rest
                 int p = first_period_index;
@@ -90,99 +94,22 @@ public class PeriodicDistro {
                     p = (p + 1) % periodsInRange;
                     long val = Math.min(period, toAdd);
                     array[p] += val;
+                    if(takeAveragePerPeriod) population[p] += 1;
                     toAdd -= val;
                 }
             }
+        }
 
-            // old implementation
-//            if (roznica_indexow == 0) {
-//                array[first_period_index] += time_of_range_End - time_of_range_Start;
-//            } else {
-//                // first
-//                array[first_period_index] += period - time_of_period_start;
-//                // last
-//                array[last_period_index] += time_of_period_end;
-//                //all between:
-//                for (int ii = 1; ii < roznica_indexow; ii++) {
-//                    array[first_period_index + ii] += period;
-//                }
-//            }
+        if(takeAveragePerPeriod) {
+            // perform averaging
+            for (int i = 0; i < array.length; i++) {
+                if(population[i]==0) continue;
+                array[i] /= population[i];
+            }
         }
 
         // save the updated array, new String, so shared prefs editor doesn't fail to recognize changes.
         return array;
-    }
-
-    private long[] dailySpecial(LogsData data, long firstDay0hour, long lastDay0hour, long period) {
-        int periods = (int) ((lastDay0hour - firstDay0hour) / period);
-
-        long[] data_start_times = data.getStartTimes();
-        long[] data_end_times = data.getEndTimes();
-
-        long output[] = new long[periods];
-
-        for (int i = 0; i < data.getLength(); i++) {
-            long start = Math.min(data_start_times[i] - firstDay0hour, lastDay0hour);
-            long end = Math.min(data_end_times[i] - firstDay0hour, lastDay0hour);
-            long len = end - start;
-
-            // find first index
-            int firstIndex = (int) (len / period);
-            if (firstIndex == periods) firstIndex = periods - 1;
-
-            // add to first, special case:
-            long time_of_period_start = start - (firstIndex * period);
-            output[firstIndex] += period - time_of_period_start;
-
-            // add to all the others
-            int ii = firstIndex;
-            long toDistribute = len;
-            while (toDistribute > 0) {
-                ii = (ii + 1) % periods;
-                long amount_to_add = Math.min(period, toDistribute);
-                output[ii] += amount_to_add;
-                toDistribute -= amount_to_add;
-            }
-        }
-
-        return output;
-    }
-
-    private long[] bezecenstwo(LogsData data, long rangeStart, long rangeEnd) {
-        long period = TimeHelper.DAY_LEN_IN_MILLIS;
-        long rangeWidth = rangeEnd - rangeStart;
-        if (rangeWidth < 1) return new long[1];
-        int periodsInRange = (int) (rangeWidth / period);
-        long[] array = new long[periodsInRange];
-
-        long[] data_start_times = data.getStartTimes();
-        long[] data_end_times = data.getEndTimes();
-
-        long[] output = new long[periodsInRange];
-
-        long[] p_starts = new long[periodsInRange];
-        long[] p_ends = new long[periodsInRange];
-        for (int i = 0; i < periodsInRange; i++) {
-            p_starts[i] = i * period;
-            p_ends[i] = (i + 1) * period;
-        }
-
-        for (int i = 0; i < data.getLength(); i++) {
-            long start = Math.min(data_start_times[i] - rangeStart, rangeEnd);
-            long end = Math.min(data_end_times[i] - rangeStart, rangeEnd);
-            long len = end - start;
-            for (int ii = 0; ii < periodsInRange; ii++) {
-                // within
-                if (start >= p_starts[ii] && end <= p_ends[ii]) {
-                    output[ii] += len;
-                } else if (start >= p_starts[ii] && start <= p_ends[ii] && end > p_ends[ii]) {
-                    output[ii] += p_ends[ii] - start;
-                    output[(ii + 1) % periodsInRange] += end - p_ends[ii];
-                }
-            }
-        }
-
-        return output;
     }
 
     private int getPeriodindexFromTime(long time, long period, int periodsPerSpan) {
