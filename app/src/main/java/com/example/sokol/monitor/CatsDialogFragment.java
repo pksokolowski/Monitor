@@ -135,7 +135,7 @@ public class CatsDialogFragment extends DialogFragment {
                         mCallback.onNeedUserInterfaceUpdate();
                     }
                 })
-                .setNegativeButton("cancel", null)
+                .setNegativeButton("close", null)
                 .setView(mView);
 
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
