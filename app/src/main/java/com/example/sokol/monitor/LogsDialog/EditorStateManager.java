@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.transition.AutoTransition;
 import android.transition.Transition;
 import android.transition.TransitionManager;
+import android.view.MotionEvent;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageButton;
 import com.example.sokol.monitor.R;
@@ -32,15 +33,32 @@ class EditorStateManager implements Transition.TransitionListener {
     private RecyclerView mRecycler;
     private ConstraintLayout mMyLayout;
 
+    private boolean canRecyclerScroll = true;
+
     EditorStateManager(Context context, ImageButton mEditorExpanderButton, ConstraintLayout mEditorLayout, RecyclerView mRecycler, ConstraintLayout mMyLayout) {
         this.context = context;
         this.mEditorExpanderButton = mEditorExpanderButton;
         this.mEditorLayout = mEditorLayout;
         this.mRecycler = mRecycler;
         this.mMyLayout = mMyLayout;
+
+        // block scrolling when canRecyclerScroll is set to false
+        // this was introduced as a bug fix, because scrolling in recyclerView and transition
+        // animation, together can cause a crash.
+        mRecycler.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                if(canRecyclerScroll) return false;
+                return rv.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING;
+            }
+        });
     }
 
     void toggleEditorMode(){
+        // bugfix, because it would crash with transition and recycler scrolling combined.
+        mRecycler.stopScroll();
+        canRecyclerScroll = false;
+
         int height = mEditorLayout.getHeight();
 
         int endMargin = 0;
@@ -58,6 +76,8 @@ class EditorStateManager implements Transition.TransitionListener {
 
         ConstraintSet oldSet= new ConstraintSet();
         oldSet.clone(context, R.layout.logs_dialog);
+
+        // actual changes animated:
         oldSet.setMargin(R.id.expand_editor_image_button, ConstraintSet.TOP, endMargin);
         oldSet.constrainHeight(R.id.recycler, recyclerHei);
 
@@ -79,6 +99,7 @@ class EditorStateManager implements Transition.TransitionListener {
     @Override
     public void onTransitionEnd(Transition transition) {
         mEditorExpanderButton.setEnabled(true);
+        canRecyclerScroll=true;
     }
 
     @Override
