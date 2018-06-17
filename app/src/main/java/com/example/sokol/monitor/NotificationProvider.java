@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -175,9 +176,18 @@ public class NotificationProvider extends BroadcastReceiver {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "notification controls";
             String description = "The sole notification in this channel works as a remote and is the only mean of letting the app know when work starts/ends within a given category.";
+
+            AudioAttributes attributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .build();
+            Uri startSoundUri = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.click_sound);
+
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID_NOTIFICATION_CONTROLS, name, importance);
             channel.setDescription(description);
+            // make sure the channel has the correct custom sound
+            channel.setSound(startSoundUri, attributes);
+
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
