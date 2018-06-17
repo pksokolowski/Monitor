@@ -93,7 +93,7 @@ public class LogsDialogFragment extends DialogFragment
 
         setUpUIElements();
 
-        List<Log> data = mDataProvider.getLogs();
+        List<Log> data = Log.getLogsList(getActivity(), Long.MIN_VALUE, Long.MAX_VALUE);
         Collections.reverse(data);
         mLogsAdapter = new LogsAdapter(data);
 
