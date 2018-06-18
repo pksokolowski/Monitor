@@ -231,6 +231,7 @@ public class PieChart extends View {
     }
 
     private int getIndexForAGivenXY(int touch_x, int touch_y) {
+        if(mAngles == null) return -1;
         float radius = getHeight() / 2f;
         // odrzuć klicki poza kołem (distance > radius)
         float distanceFromCenter = (float) Math.sqrt(Math.pow(touch_x - radius, 2) + Math.pow(touch_y - radius, 2));
