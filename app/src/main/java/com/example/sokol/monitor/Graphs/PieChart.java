@@ -70,6 +70,8 @@ public class PieChart extends View {
     public void setData(List<Datum> data) {
         mData = data;
         if (data == null || data.size() == 0) {
+            mAngles = null;
+            mPercentages = null;
             invalidate();
             return;
         }
