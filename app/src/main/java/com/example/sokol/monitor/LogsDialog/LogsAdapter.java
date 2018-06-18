@@ -85,15 +85,7 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
     }
 
     public void addALog(Log log) {
-        int pos = -1;
-        // find the right pos, linear complexity for now
-        for(int i = 0; i<mItems.size(); i++){
-            if(mItems.get(i).getStartTime() <= log.getStartTime()){
-                pos = i;
-                break;
-            }
-        }
-        if(pos == -1) pos = mItems.size();
+        int pos = 0;
         mItems.add(pos, log);
         notifyItemInserted(pos);
         mWasDataChanged = true;

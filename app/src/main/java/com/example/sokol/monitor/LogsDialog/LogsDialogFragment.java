@@ -217,6 +217,7 @@ public class LogsDialogFragment extends DialogFragment
         mLogsAdapter.addALog(activeLog);
         addedLogs.add(activeLog);
         clearLogEditor();
+        mRecycler.scrollToPosition(0);
     }
 
     private void editorActionChange() {
