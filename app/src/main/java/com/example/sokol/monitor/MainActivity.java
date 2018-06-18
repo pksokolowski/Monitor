@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ScrollView;
@@ -72,6 +74,17 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
 
         getFragmentManager().beginTransaction().replace(R.id.settings_frame, new SettingsFragment())
                 .commit();
+
+        // set insets on the bottom
+        final ConstraintLayout mainConstraintLayout = findViewById(R.id.main_constraint_layout);
+        mainConstraintLayout.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                mainConstraintLayout.setPadding(0,0,0,
+                        windowInsets.getSystemWindowInsetBottom());
+                return windowInsets.consumeSystemWindowInsets();
+            }
+        });
 
 //        final FrameLayout frame = (FrameLayout) findViewById(R.id.settings_frame);
 //        frame.post(new Runnable() {
