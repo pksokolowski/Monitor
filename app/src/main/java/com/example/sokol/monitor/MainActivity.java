@@ -104,7 +104,13 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         // is requested.
         NotificationProvider.createNotificationChannels(this);
 
-        NotificationProvider.showNotificationIfEnabled(this, false);
+        // establish whether to use sound with notification
+        boolean notificationWithSound = false;
+        if(TimeHelper.isToday(firstRunTime)){
+            notificationWithSound = true;
+        }
+
+        NotificationProvider.showNotificationIfEnabled(this, notificationWithSound);
 
         Button saveLoadButton = findViewById(R.id.cats_button);
         saveLoadButton.setOnClickListener(new View.OnClickListener() {
