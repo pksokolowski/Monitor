@@ -24,7 +24,7 @@ public class PeriodicDistroTests {
 
         long[] desired_output = new long[]{150, 150, 150};
         LogsData logs = new LogsData(starts, ends, ends, catIDs);
-        PeriodicDistro peri = new PeriodicDistro(logs);
+        PeriodicDistro peri = new PeriodicDistro(logs, false);
 
         assertArrayEquals(desired_output, peri.mDaily);
     }
