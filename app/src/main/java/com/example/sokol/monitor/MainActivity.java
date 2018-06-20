@@ -209,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
 
     public static void startMe(Context context, int command){
         Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         if(command != COMMAND_DO_NOTHING)
             intent.putExtra(EXTRA_COMMAND_TO_EXECUTE_UPON_START, command);
         context.startActivity(intent);
