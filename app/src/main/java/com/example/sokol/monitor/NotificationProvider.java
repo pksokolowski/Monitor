@@ -33,6 +33,7 @@ public class NotificationProvider extends BroadcastReceiver {
     public static final String EXTRA_CAT_ID = "cat_title";
 
     public static final String CHANNEL_ID_NOTIFICATION_CONTROLS = "notification_controls";
+    public static final String CHANNEL_ID_NOTIFICATION_CONTROLS_SILENT = "notification_controls_silent";
 
     public static void removeNotification(Context context) {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -107,7 +108,11 @@ public class NotificationProvider extends BroadcastReceiver {
 
         Uri startSoundUri = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.click_sound);
 
-        NotificationCompat.Builder B = new NotificationCompat.Builder(context, CHANNEL_ID_NOTIFICATION_CONTROLS)
+        // use the appropriate channel depending on sound setting
+        String channelID = CHANNEL_ID_NOTIFICATION_CONTROLS_SILENT;
+        if (withSound) { channelID = CHANNEL_ID_NOTIFICATION_CONTROLS; }
+
+        NotificationCompat.Builder B = new NotificationCompat.Builder(context, channelID)
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .setSmallIcon(R.drawable.ic_wb_incandescent_white_24dp)
                 .setOngoing(true)
@@ -192,7 +197,7 @@ public class NotificationProvider extends BroadcastReceiver {
     }
 
 
-    public static void createNotificationChannel(Context context) {
+    public static void createNotificationChannels(Context context) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -209,6 +214,25 @@ public class NotificationProvider extends BroadcastReceiver {
             channel.setDescription(description);
             // make sure the channel has the correct custom sound
             channel.setSound(startSoundUri, attributes);
+
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        // also create the silent channel for no_sound notifications
+        createSilentNotificationChannel(context);
+    }
+
+    private static void createSilentNotificationChannel(Context context){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "silent notification controls";
+            String description = "The sole notification in this channel works as a remote and is the only mean of letting the app know when work starts/ends within a given category. This channel's notification should make no sound.";
+
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID_NOTIFICATION_CONTROLS_SILENT, name, importance);
+            channel.setDescription(description);
 
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this

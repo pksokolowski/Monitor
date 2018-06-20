@@ -23,7 +23,6 @@ import com.example.sokol.monitor.Graphs.TextualData;
 import com.example.sokol.monitor.LogsDialog.Log;
 import com.example.sokol.monitor.LogsDialog.LogsDialogFragment;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnNeedUserInterfaceUpdate, LogsProvider {
@@ -103,9 +102,15 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         // first create a notification channel, for android O and later
         // no worries, it only makes changes the first time a given channel's creation
         // is requested.
-        NotificationProvider.createNotificationChannel(this);
+        NotificationProvider.createNotificationChannels(this);
 
-        NotificationProvider.showNotificationIfEnabled(this, false);
+        // establish whether to use sound with notification
+        boolean notificationWithSound = false;
+        if(TimeHelper.isToday(firstRunTime)){
+            notificationWithSound = true;
+        }
+
+        NotificationProvider.showNotificationIfEnabled(this, notificationWithSound);
 
         Button saveLoadButton = findViewById(R.id.cats_button);
         saveLoadButton.setOnClickListener(new View.OnClickListener() {
