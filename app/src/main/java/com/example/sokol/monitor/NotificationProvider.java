@@ -11,6 +11,7 @@ import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
@@ -125,6 +126,27 @@ public class NotificationProvider extends BroadcastReceiver {
 
         // to 0 to ID, pozwoli mi potem manipulować tym notification, w szczególności je usunąc lub zastąpić
         NotificationManager.notify(NOTIFICATION_ID_REMOTE_CONTROL, notif);
+    }
+
+    /**
+     * checks whether the remote control notification is there or wasn't yet pushed/was cancelled
+     * should not be used to determine whether or not to update the notification!
+     * It would break theme changes.
+     * @return true if notification controls are already among the active notifications.
+     */
+    public static boolean isControlNotificationAlreadyThere(Context context){
+        NotificationManager NotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if(NotificationManager == null) return false;
+
+        StatusBarNotification[] activeNotifs =  NotificationManager.getActiveNotifications();
+        if(activeNotifs == null || activeNotifs.length == 0) return false;
+
+        for(StatusBarNotification sn : activeNotifs){
+            if(sn.getId() == NOTIFICATION_ID_REMOTE_CONTROL) return true;
+        }
+
+        return false;
     }
 
     public static void showNotificationIfEnabled(Context context, boolean withSound) {
