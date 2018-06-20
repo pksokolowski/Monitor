@@ -93,4 +93,12 @@ public class TimeHelper {
     public static long now() {
         return Calendar.getInstance().getTimeInMillis();
     }
+
+    public static boolean areSameDay(long a, long b){
+        return get0HourTimeOfAGivenDay(a) == get0HourTimeOfAGivenDay(b);
+    }
+
+    public static boolean isToday(long a){
+        return areSameDay(a, now());
+    }
 }

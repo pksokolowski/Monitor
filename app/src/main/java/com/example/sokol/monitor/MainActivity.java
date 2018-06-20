@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         // does nothing if preferences have been set already.
         PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
 
+        // important: recognize first startup time; also saves now as the first run time if it is.
+        long firstRunTime = FirstRunDateTimeManager.getFirstStartupTime(this);
+
        ThemeChanger.changeTheme(this);
 
         super.onCreate(savedInstanceState);
@@ -145,7 +148,11 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         final DateRangePicker rangePicker = findViewById(R.id.range_picker);
 
         // set default range for data shown
-        spinner.setSelection(RANGE_3_MONTHS);
+        if (TimeHelper.isToday(firstRunTime)) {
+            spinner.setSelection(RANGE_TODAY_ONLY);
+        } else {
+            spinner.setSelection(RANGE_3_MONTHS);
+        }
         setRangePickerToMatchSpinner(rangePicker);
 
         refreshAllGraphs();
