@@ -10,12 +10,14 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.sokol.monitor.DataBase.DbHelper;
 
@@ -50,17 +52,28 @@ public class CatsDialogFragment extends DialogFragment {
     }
 
     private View mView;
+    private AutoCompleteTextView titleEditText;
+    private EditText initialEditText;
+    private RecyclerView recyclerView;
+    private ImageButton addButton;
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+    private long lastEditorActionRegistered = 0;
 
-        mView = inflater.inflate(R.layout.cats_dialog, null);
+    private void setupUIReferences(){
+        titleEditText = mView.findViewById(R.id.cat_name);
+        initialEditText = mView.findViewById(R.id.cat_initial);
+        recyclerView = mView.findViewById(R.id.plans_recycler_view);
+        addButton = mView.findViewById(R.id.add_imagebutton);
+    }
 
-        List<CatData> cats = new ArrayList<>();
-        List<CatData> Allcats = null;
-        final List<String> deletedCats = new ArrayList<>();
+    List<CatData> cats;
+    List<CatData> Allcats;
+    List<String> deletedCats;
+
+    private void loadCatsData(){
+        cats = new ArrayList<>();
+        Allcats = null;
+        deletedCats = new ArrayList<>();
         // load categories from the database
         DbHelper db = DbHelper.getInstance(getActivity());
         Allcats = db.getCategories(CatData.CATEGORY_STATUS_DELETED);
@@ -75,20 +88,102 @@ public class CatsDialogFragment extends DialogFragment {
                 deletedCats.add(cat.getTitle());
             }
         }
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        mView = inflater.inflate(R.layout.cats_dialog, null);
+        setupUIReferences();
+
+        loadCatsData();
 
         final ArrayAdapter<String> suggestionsAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, deletedCats);
-
-        //if (cats == null) cats = new ArrayList<>();
-
-        final RecyclerView recyclerView = mView.findViewById(R.id.plans_recycler_view);
-        //recyclerView.setHasFixedSize(true);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         final CatsAdapter adapter = new CatsAdapter(cats);
         recyclerView.setAdapter(adapter);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder//.setMessage("Edit event")
+                .setNeutralButton("save changes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // unless nothing is changed:
+                        if (!adapter.isDataChanged()) return;
+
+                        // save cats to db
+                        DbHelper db = DbHelper.getInstance(getActivity());
+                        db.pushCategories(adapter.getAllCats());
+
+                        // update the notification:
+                        NotificationProvider.showNotificationIfEnabled(getActivity(), true);
+
+                        // let mainactivity know cats have changed
+                        mCallback.onNeedUserInterfaceUpdate();
+                    }
+                })
+                .setNegativeButton("close", null)
+                .setView(mView);
+
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(getSimpleCallback(adapter, suggestionsAdapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        setupUIListeners(deletedCats, suggestionsAdapter, adapter);
+
+        titleEditText.setAdapter(suggestionsAdapter);
+
+        // Create the AlertDialog object and return it
+        return builder.create();
+    }
+
+    private void setupUIListeners(final List<String> deletedCats, final ArrayAdapter<String> suggestionsAdapter, final CatsAdapter adapter) {
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveNewCat(deletedCats, suggestionsAdapter, adapter);
+            }
+        });
+
+        initialEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                long now = TimeHelper.now();
+                // "spam" protection in case of double editor actions.
+                if(lastEditorActionRegistered < now-2000){
+                    lastEditorActionRegistered = now;
+                    saveNewCat(deletedCats, suggestionsAdapter, adapter);
+                }
+                return true;
+            }
+        });
+    }
+
+    private void saveNewCat(List<String> deletedCats, ArrayAdapter<String> suggestionsAdapter, CatsAdapter adapter) {
+        String title = String.valueOf(titleEditText.getText());
+        if (title.length() == 0) return;
+        String initial = String.valueOf(initialEditText.getText());
+        if (initial.length() == 0) return;
+
+        // jeżeli dodano cat z sugerowanych, to więcej go nie sugeruje
+        int indexWithinDeletedOnes = deletedCats.indexOf(title);
+        if (indexWithinDeletedOnes != -1) {
+            suggestionsAdapter.remove(title);
+        }
+
+        adapter.addACat(new CatData(title, initial, CatData.CATEGORY_STATUS_ACTIVE));
+        titleEditText.setText("");
+        initialEditText.setText("");
+
+        titleEditText.requestFocus();
+    }
+
+    private ItemTouchHelper.SimpleCallback getSimpleCallback(final CatsAdapter adapter, final ArrayAdapter<String> suggestionsAdapter)
+    {
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(UP | DOWN, LEFT | RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -116,60 +211,6 @@ public class CatsDialogFragment extends DialogFragment {
             }
         };
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder//.setMessage("Edit event")
-                .setNeutralButton("save changes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // unless nothing is changed:
-                        if (!adapter.isDataChanged()) return;
-
-                        // save cats to db
-                        DbHelper db = DbHelper.getInstance(getActivity());
-                        db.pushCategories(adapter.getAllCats());
-
-                        // update the notification:
-                        NotificationProvider.showNotificationIfEnabled(getActivity(), true);
-
-                        // let mainactivity know cats have changed
-                        mCallback.onNeedUserInterfaceUpdate();
-                    }
-                })
-                .setNegativeButton("close", null)
-                .setView(mView);
-
-        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-
-        ImageButton addButton = mView.findViewById(R.id.add_imagebutton);
-        final AutoCompleteTextView titleEditText = mView.findViewById(R.id.cat_name);
-        final EditText initialEditText = mView.findViewById(R.id.cat_initial);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String title = String.valueOf(titleEditText.getText());
-                if (title.length() == 0) return;
-                String initial = String.valueOf(initialEditText.getText());
-                if (initial.length() == 0) return;
-
-                // jeżeli dodano cat z sugerowanych, to więcej go nie sugeruje
-                int indexWithinDeletedOnes = deletedCats.indexOf(title);
-                if (indexWithinDeletedOnes != -1) {
-                    suggestionsAdapter.remove(title);
-                }
-
-                adapter.addACat(new CatData(title, initial, CatData.CATEGORY_STATUS_ACTIVE));
-                titleEditText.setText("");
-                initialEditText.setText("");
-
-                titleEditText.requestFocus();
-            }
-        });
-
-
-        titleEditText.setAdapter(suggestionsAdapter);
-
-        // Create the AlertDialog object and return it
-        return builder.create();
+        return simpleCallback;
     }
 }
