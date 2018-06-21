@@ -2,4 +2,5 @@
 <resources>
     <attr name="importantTextViewColor" format="reference|color" />
     <attr name="chartsMainColor" format="reference|color" />
+    <attr name="listItemBackground" format="integer" />
 </resources>

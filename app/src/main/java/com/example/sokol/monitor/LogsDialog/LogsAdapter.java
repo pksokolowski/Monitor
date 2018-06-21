@@ -14,7 +14,15 @@ import java.util.List;
 
 public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
 
-    List<Log> mItems;
+    private List<Log> mItems;
+    private int lastItemTouched = -1;
+
+    public void unselectAll(){
+        if(lastItemTouched == -1) return;
+        int oldSelection = lastItemTouched;
+        lastItemTouched = -1;
+        notifyItemChanged(oldSelection);
+    }
 
     // TODO: 10.06.2018 remove the wasDataChanged thingy, will not be used anyway, as LogsDialogFrag has it's own change tracking capabilities
     private boolean mWasDataChanged = false;
@@ -41,11 +49,22 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
         holder.durationview.setText(log.getDurationString());
         holder.startTimeView.setText(log.getStartTimeString());
 
+        holder.layout.setSelected(position == lastItemTouched);
+
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (holder.getAdapterPosition() == RecyclerView.NO_POSITION) return;
+
                 int adapterPos = holder.getAdapterPosition();
                 fireItemSelectedEvent(adapterPos, mItems.get(adapterPos));
+
+                // select item in a visible way
+                if (adapterPos == lastItemTouched) return;
+                int oldSelection = lastItemTouched;
+                lastItemTouched = adapterPos;
+                notifyItemChanged(adapterPos);
+                if (oldSelection != -1) notifyItemChanged(oldSelection);
             }
         });
     }

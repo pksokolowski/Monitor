@@ -268,6 +268,7 @@ public class LogsDialogFragment extends DialogFragment
         activeLogIndex = -1;
         setAddDelButtonText();
         mChangeButton.setEnabled(false);
+        mLogsAdapter.unselectAll();
     }
 
     private CatData getCatForCurrentSpinnerSelection() {
