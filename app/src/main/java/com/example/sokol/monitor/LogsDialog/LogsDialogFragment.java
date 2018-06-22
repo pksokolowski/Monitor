@@ -181,7 +181,6 @@ public class LogsDialogFragment extends DialogFragment
         mAddDelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: 10.06.2018 depending on activeLog being null or not, delete or create
                 if (activeLog == null) {
                     editorActionAdd();
                 } else {

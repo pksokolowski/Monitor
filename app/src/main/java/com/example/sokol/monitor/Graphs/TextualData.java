@@ -29,7 +29,6 @@ public class TextualData extends ConstraintLayout {
     }
 
     public void setData(long[] daily_data) {
-        // TODO: 31.03.2018 work on the data and display it the way you see fit
         long total_time = 0;
         long peak = 0;
         for(int i =0; i< daily_data.length;i++){

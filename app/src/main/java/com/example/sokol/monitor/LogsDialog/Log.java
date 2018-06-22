@@ -101,7 +101,6 @@ public class Log {
     }
 
     private static Log getLogAtI(int i, LogsData data, String initial, String title) {
-        // TODO: 06.06.2018 figure out how to get the initial (probably alter the way logs are obtained from DB, and the builder
         return new Log(data.getIDat(i), initial, title, data.getStartTimes()[i], data.getEndTimes()[i]);
     }
 }

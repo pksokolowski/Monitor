@@ -24,13 +24,6 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
         notifyItemChanged(oldSelection);
     }
 
-    // TODO: 10.06.2018 remove the wasDataChanged thingy, will not be used anyway, as LogsDialogFrag has it's own change tracking capabilities
-    private boolean mWasDataChanged = false;
-
-    public boolean isDataChanged() {
-        return mWasDataChanged;
-    }
-
     public LogsAdapter(List<Log> data_to_show){
         mItems = data_to_show;
     }
@@ -89,25 +82,21 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
             }
         }
         notifyItemMoved(fromPos, toPos);
-        mWasDataChanged = true;
     }
 
     public void remove(int pos){
         mItems.remove(pos);
         notifyItemRemoved(pos);
-        mWasDataChanged = true;
     }
 
     public void change(int pos){
         notifyItemChanged(pos);
-        mWasDataChanged = true;
     }
 
     public void addALog(Log log) {
         int pos = 0;
         mItems.add(pos, log);
         notifyItemInserted(pos);
-        mWasDataChanged = true;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
