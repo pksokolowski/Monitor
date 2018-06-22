@@ -1,5 +1,8 @@
 package com.example.sokol.monitor;
 
+import java.util.Calendar;
+import java.util.HashSet;
+
 /**
  * This class is meant to combine data into a period based distributions.
  * <p>
@@ -10,6 +13,9 @@ public class PeriodicDistro {
     public long[] mHourly;
     public long[] mDaily;
     public long[] mWeekly;
+
+    // reusable calendar object
+    private Calendar mCalendar = Calendar.getInstance();
 
     public PeriodicDistro(LogsData data, boolean includeToday) {
         long rangeStart = data.getRangeStartDay0Hour();
@@ -33,13 +39,15 @@ public class PeriodicDistro {
     private long[] getDistribution(LogsData data, long rangeStart, long period, long rangeEnd, long dropDataLaterThan, boolean takeAveragePerPeriod) {
         long rangeWidth = rangeEnd - rangeStart;
         if (rangeWidth < 1) return new long[1];
-        int periodsInRange = (int) Math.ceil((double)rangeWidth / (double)period);
+        int periodsInRange = (int) Math.ceil((double) rangeWidth / (double) period);
         long[] array = new long[periodsInRange];
+
+        // stuff related to averaging, only important if takeAveragePerPeriod is set to true
         int[] populationSizePerPeriod = new int[1];
+        HashSet<Long> daysSeen = new HashSet<>();
         if (takeAveragePerPeriod) {
             populationSizePerPeriod = new int[periodsInRange];
         }
-        long population_lastDaySeen = 0;
 
         long[] data_start_times = data.getStartTimes();
         long[] data_end_times = data.getEndTimes();
@@ -77,13 +85,13 @@ public class PeriodicDistro {
             if (roznica_indexow == 0 && length <= period) {
                 array[first_period_index] += time_of_range_End - time_of_range_Start;
 
-                population_lastDaySeen = addToPopulationN(takeAveragePerPeriod, first_period_index, data_start_times[i], populationSizePerPeriod, population_lastDaySeen);
+               if(takeAveragePerPeriod) addToPopulationN(first_period_index, data_start_times[i], populationSizePerPeriod, daysSeen);
             } else {
                 long toAdd = length;
                 // first
                 long firstVal = period - time_of_period_start;
                 array[first_period_index] += firstVal;
-                population_lastDaySeen = addToPopulationN(takeAveragePerPeriod, first_period_index, data_start_times[i], populationSizePerPeriod, population_lastDaySeen);
+                if (takeAveragePerPeriod) addToPopulationN(first_period_index, data_start_times[i], populationSizePerPeriod, daysSeen);
                 toAdd -= firstVal;
                 //the rest
                 int p = first_period_index;
@@ -91,16 +99,16 @@ public class PeriodicDistro {
                     p = (p + 1) % periodsInRange;
                     long val = Math.min(period, toAdd);
                     array[p] += val;
-                    population_lastDaySeen = addToPopulationN(takeAveragePerPeriod, p,data_start_times[i] + (length - toAdd), populationSizePerPeriod, population_lastDaySeen);
+                    if (takeAveragePerPeriod) addToPopulationN(p, data_start_times[i] + (length - toAdd), populationSizePerPeriod, daysSeen);
                     toAdd -= val;
                 }
             }
         }
 
-        if(takeAveragePerPeriod) {
+        if (takeAveragePerPeriod) {
             // perform averaging
             for (int i = 0; i < array.length; i++) {
-                if(populationSizePerPeriod[i]==0) continue;
+                if (populationSizePerPeriod[i] == 0) continue;
                 array[i] /= populationSizePerPeriod[i];
             }
         }
@@ -114,17 +122,13 @@ public class PeriodicDistro {
      * It makes sure to only count unique days on which data was gathered. This way population size array only contains
      * counts of unique days on which logs appeared. Array is of length equal to the number of periods, counts of days are maintained
      * per period, each index of the array is a different period's counter.
-     * @return new (or old) value of the last day seen.
      */
-    private long addToPopulationN(boolean takeAveragePerPeriod, int arrayIndex, long startTime, int[] population, long population_lastDaySeen ) {
-        if(takeAveragePerPeriod){
-            long dayNubmer = TimeHelper.getDayNumOf(startTime);
-            if (dayNubmer != population_lastDaySeen) {
-                population[arrayIndex] += 1;
-                population_lastDaySeen = dayNubmer;
-            }
+    private void addToPopulationN( int arrayIndex, long startTime, int[] population, HashSet<Long> daysSeen) {
+        long uniqueDayIdentifier = TimeHelper.applyTimeStampAs0HourOfItsDay(mCalendar, startTime);
+        if (!daysSeen.contains(uniqueDayIdentifier)) {
+            population[arrayIndex] += 1;
+            daysSeen.add(uniqueDayIdentifier);
         }
-        return population_lastDaySeen;
     }
 
     private int getPeriodindexFromTime(long time, long period, int periodsPerSpan) {

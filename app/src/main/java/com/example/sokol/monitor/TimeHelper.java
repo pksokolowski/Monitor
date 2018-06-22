@@ -121,7 +121,25 @@ public class TimeHelper {
         return areSameDay(a, now());
     }
 
-    public static long getDayNumOf(long timeStamp){
-        return timeStamp / TimeHelper.DAY_LEN_IN_MILLIS;
+    /**
+     * reuses a Calendar instance provided, changes it's value to match timeStamp but
+     * only to day's precision. Effectively it's a get0HourTimeOfAGivenDay() but reusing
+     * a Calendar instance instead of creating a new one. This is supposed to be used in
+     * cases where lots of calls will be made and preventing construction of thousands of Calendar
+     * objects is desired.
+     * @param c Calendar instance to be reused and set to 0 hour of the day in which timeStamp lands
+     * @param timeStamp the timestamp to be added to the calendar instance,
+     *                  but without it's millis, seconds, minutes and hours_of_day.
+     * @return timeStamp after cutting hours and smaller units out.
+     *         0 hour of the day of the original timeStamp, in other words.
+     */
+    public static long applyTimeStampAs0HourOfItsDay(Calendar c, long timeStamp){
+        c.setTimeInMillis(timeStamp);
+        c.set(Calendar.MILLISECOND, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+
+        return c.getTimeInMillis();
     }
 }
