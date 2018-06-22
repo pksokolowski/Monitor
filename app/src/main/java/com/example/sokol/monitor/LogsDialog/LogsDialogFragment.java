@@ -255,9 +255,11 @@ public class LogsDialogFragment extends DialogFragment
      * @return true if Log and editor values are different.
      */
     private boolean isEditorDataDivertedFromLog(Log log){
+        CatData spinnerSelectedCat = getCatForCurrentSpinnerSelection();
         return log.getStartTime() != mStartPicker.getValue() ||
                 log.getEndTime() != mEndPicker.getValue() ||
-                !log.getCatTitle().equals(getCatForCurrentSpinnerSelection().getTitle());
+                spinnerSelectedCat == null ||
+                !log.getCatTitle().equals(spinnerSelectedCat.getTitle());
     }
 
     private void clearLogEditor() {
@@ -273,6 +275,8 @@ public class LogsDialogFragment extends DialogFragment
     }
 
     private CatData getCatForCurrentSpinnerSelection() {
+        int selectedCatIndex = mCatSpinner.getSelectedItemPosition() -1;
+        if(selectedCatIndex == -1) return null;
         return mCats.get(mCatSpinner.getSelectedItemPosition() - 1);
     }
 
