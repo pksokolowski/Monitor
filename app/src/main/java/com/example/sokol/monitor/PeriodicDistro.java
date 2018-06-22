@@ -43,6 +43,7 @@ public class PeriodicDistro {
         if (takeAveragePerPeriod) {
             population = new int[periodsInRange];
         }
+        long population_lastDaySeen = 0;
 
         long[] data_start_times = data.getStartTimes();
         long[] data_end_times = data.getEndTimes();
@@ -54,7 +55,6 @@ public class PeriodicDistro {
 
             if (startTime > dropDataLaterThan) continue;
             if (endTime > dropDataLaterThan) {
-                // the -1 is important
                 endTime = dropDataLaterThan;
             }
 
@@ -80,13 +80,28 @@ public class PeriodicDistro {
             // dodaję czas wypracowany do odpowiednich periodów:
             if (roznica_indexow == 0 && length <= period) {
                 array[first_period_index] += time_of_range_End - time_of_range_Start;
-                if(takeAveragePerPeriod) population[first_period_index] += 1;
+
+                if (takeAveragePerPeriod){
+                    // only count anoter unique day of input when it's a new day
+                    // don't count single day twice.
+                    long dayNubmer = TimeHelper.getDayNumOf(data_start_times[i]);
+                    if (dayNubmer != population_lastDaySeen) {
+                        population[first_period_index] += 1;
+                        population_lastDaySeen = dayNubmer;
+                    }
+                }
             } else {
                 long toAdd = length;
                 // first
                 long firstVal = period - time_of_period_start;
                 array[first_period_index] += firstVal;
-                if(takeAveragePerPeriod) population[first_period_index] += 1;
+                if(takeAveragePerPeriod){
+                    long dayNubmer = TimeHelper.getDayNumOf(data_start_times[i]);
+                    if (dayNubmer != population_lastDaySeen) {
+                        population[first_period_index] += 1;
+                        population_lastDaySeen = dayNubmer;
+                    }
+                }
                 toAdd -= firstVal;
                 //the rest
                 int p = first_period_index;
@@ -94,7 +109,13 @@ public class PeriodicDistro {
                     p = (p + 1) % periodsInRange;
                     long val = Math.min(period, toAdd);
                     array[p] += val;
-                    if(takeAveragePerPeriod) population[p] += 1;
+                    if(takeAveragePerPeriod){
+                        long dayNubmer = TimeHelper.getDayNumOf(data_start_times[i] + (length - toAdd) );
+                        if (dayNubmer != population_lastDaySeen) {
+                            population[p] += 1;
+                            population_lastDaySeen = dayNubmer;
+                        }
+                    }
                     toAdd -= val;
                 }
             }

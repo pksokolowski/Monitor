@@ -25,6 +25,7 @@ import com.example.sokol.monitor.DateTimePicker.DateTimePicker;
 import com.example.sokol.monitor.LogsProvider;
 import com.example.sokol.monitor.OnNeedUserInterfaceUpdate;
 import com.example.sokol.monitor.R;
+import com.example.sokol.monitor.TimeHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -261,7 +262,7 @@ public class LogsDialogFragment extends DialogFragment
 
     private void clearLogEditor() {
         mCatSpinner.setSelection(0);
-        long timeNow = Calendar.getInstance().getTimeInMillis();
+        long timeNow = TimeHelper.getNowWithoutSecondsAndMillis();
         mStartPicker.setValue(timeNow);
         mEndPicker.setValue(timeNow);
         activeLog = null;

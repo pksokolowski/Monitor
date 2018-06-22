@@ -19,6 +19,25 @@ public class TimeHelper {
         return c.getTimeInMillis();
     }
 
+    /**
+     * cuts off seconds and milliseconds, to make sure they are zero.
+     * @param timeToModify
+     * @return for input like 05:30:20:999 (hours:minutes:seconds:millis) it will return 05:30:00:000
+     */
+    public static long putZerosInSecondsAndMillis(long timeToModify){
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(timeToModify);
+
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+
+        return c.getTimeInMillis();
+    }
+
+    public static long getNowWithoutSecondsAndMillis(){
+        return putZerosInSecondsAndMillis(now());
+    }
+
     public static long get0HourNdaysAgo(int n){
         long now = Calendar.getInstance().getTimeInMillis();
 
@@ -100,5 +119,9 @@ public class TimeHelper {
 
     public static boolean isToday(long a){
         return areSameDay(a, now());
+    }
+
+    public static long getDayNumOf(long timeStamp){
+        return timeStamp / TimeHelper.DAY_LEN_IN_MILLIS;
     }
 }
