@@ -19,7 +19,7 @@
     </string-array>
 
     <string name="help_universal_getting_started">
-        Welcome to Monitor![p]Monitor helps you track your activities and provides a bunch of graphs and stats regarding categories of activities you\'ve defined.[/p]
+        Welcome to Monitor![p]Monitor helps you track your activities and provides a bunch of charts and stats regarding categories of activity you\'ve defined.[/p]
 
         First TODO:[p]In order to start using the app, you need to define categories of activities, eg. Studying, Training, Social media. For each of the categories, also you need to define
         a short name - such that fits well when there is little space, best an initial. So for example Training would get a T. The short names/initials you define will be shown on the app\'s notification
