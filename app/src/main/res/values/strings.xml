@@ -44,10 +44,14 @@
         Categories[p]CATS stands for categories. They are basically the kinds of activities to track. Playing sports, Shopping, Running, Gaming - anything that takes time and you might want to know how much of your
         time you spend on it.[/p]
 
-        CATS[p] When you press the CATS button in the app, CATS editor will open up. In the editor you can add, reorder, delete and activate/deactivate categories. Any changes made require tapping SAVE button in order to be saved[/p]
+        Cats editor[p] When you press the CATS button in the app, CATS editor will open up. In the editor you can add, reorder, delete and activate/deactivate categories. Any changes made require tapping SAVE button in order to be saved[/p]
 
-        Initials[p]Required for the app to work correctly - they are displayed on the notification, where they represent the categories they were assigned to. Since the only way to signalize to the app that you\'ve
-        started or stopped an activity you wish to track is by means of tapping the initials on the notification - they are important.[/p]
+        Adding categories[p] In Cats editor, tap on top left text field, type the title of the category you wish to add, then move to the next text field and assign an initial to the category - a single letter representation of the category.
+        The initial will later appear on the notification. After adding both the title and the initial, tap on the plus button right next to the text input fields. You can repeat the above to add further categories.
+        Once you\'ve added all categories you wanted, be sure to tap SAVE button.[/p]
+
+        Initials[p] Initials are short names for the categories, preferably a single letter. They are displayed on the notification, where they represent the categories they were assigned to.
+        When you tap the initial (on the notification), the app will take it as a signal that you\'ve started an activity in a given category. Tap it again when you stop.[/p]
 
         Changing an initial[p] If you wish to change an initial for an existing category, slide the category off the screen, then add it anew with a new initial. Remember to tap SAVE button to persist the change.[/p]
 
