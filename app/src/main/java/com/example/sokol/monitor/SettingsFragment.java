@@ -8,6 +8,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.sokol.monitor.Help.HelpProvider;
 
@@ -76,7 +77,7 @@ public class SettingsFragment extends PreferenceFragment {
         findPreference(KEY_HELP).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                HelpProvider.requestHelp(getActivity(), HelpProvider.TOPIC_MAIN_ACTIVITY);
+                HelpProvider.requestHelp((AppCompatActivity)getActivity(), HelpProvider.TOPIC_MAIN_ACTIVITY);
                 return true;
             }
         });

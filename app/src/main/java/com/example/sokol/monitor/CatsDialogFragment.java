@@ -2,6 +2,7 @@ package com.example.sokol.monitor;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.app.AlertDialog;
@@ -153,7 +154,7 @@ public class CatsDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v)
             {
-                HelpProvider.requestHelp(getActivity(), HelpProvider.TOPIC_CATS);
+                HelpProvider.requestHelp((AppCompatActivity)getActivity(), HelpProvider.TOPIC_CATS);
             }
         });
     }

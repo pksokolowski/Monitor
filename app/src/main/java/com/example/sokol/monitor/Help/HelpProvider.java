@@ -2,6 +2,7 @@ package com.example.sokol.monitor.Help;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * Displays help UI for the user. A form of a manual.
@@ -14,8 +15,8 @@ public class HelpProvider {
     public static final int TOPIC_CATS = 2;
     public static final int TOPIC_LOGS = 3;
 
-    public static void requestHelp(Activity context, int topic){
+    public static void requestHelp(AppCompatActivity context, int topic){
         HelpDialogFragment helpDialog = new HelpDialogFragment();
-        helpDialog.show(context.getFragmentManager(), "help");
+        helpDialog.show(context.getSupportFragmentManager(), "help");
     }
 }
