@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -110,7 +111,7 @@ public class CatsDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder//.setMessage("Edit event")
-                .setNeutralButton("save changes", new DialogInterface.OnClickListener() {
+                .setPositiveButton("save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // unless nothing is changed:
@@ -127,7 +128,8 @@ public class CatsDialogFragment extends DialogFragment {
                         mCallback.onNeedUserInterfaceUpdate();
                     }
                 })
-                .setNegativeButton("close", null)
+                .setNegativeButton("cancel", null)
+                .setNeutralButton("help", null)
                 .setView(mView);
 
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(getSimpleCallback(adapter, suggestionsAdapter));
@@ -139,6 +141,20 @@ public class CatsDialogFragment extends DialogFragment {
 
         // Create the AlertDialog object and return it
         return builder.create();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AlertDialog alertDialog = (AlertDialog) getDialog();
+        Button okButton = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+            }
+        });
     }
 
     private void setupUIListeners(final List<String> deletedCats, final ArrayAdapter<String> suggestionsAdapter, final CatsAdapter adapter) {
