@@ -14,7 +14,7 @@
     </style>
 
     <style name="DarkMaterial" parent="@android:style/Theme.Material.NoActionBar">
-        <item name="android:textColorSecondary">#4b4b4b</item>
+        <item name="android:textColorSecondary">#949494</item>
         <item name="colorPrimary">#232323</item>
         <item name="colorPrimaryDark">#151515</item>
 
