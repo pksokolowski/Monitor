@@ -18,7 +18,7 @@ import com.example.sokol.monitor.R;
 
 import java.util.regex.Pattern;
 
-public class UniversalHelpPagaFragment extends Fragment {
+public class UniversalHelpPagaFragment extends Fragment implements ViewOwner {
 
     private View myView;
     private String myMarkup;
@@ -59,7 +59,7 @@ public class UniversalHelpPagaFragment extends Fragment {
         }
     }
 
-    public boolean isThisYourView(View view){
+    public boolean owns(View view){
         return view == myView;
     }
 

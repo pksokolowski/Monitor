@@ -46,6 +46,7 @@ class FixedTabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return ((UniversalHelpPagaFragment)object).isThisYourView(view);
+        ViewOwner potentialOwner = (ViewOwner) object;
+        return potentialOwner.owns(view);
     }
 }
