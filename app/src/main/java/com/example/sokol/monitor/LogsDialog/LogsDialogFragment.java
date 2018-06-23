@@ -22,6 +22,7 @@ import com.example.sokol.monitor.CatData;
 import com.example.sokol.monitor.CatNameToIDHelper;
 import com.example.sokol.monitor.DataBase.DbHelper;
 import com.example.sokol.monitor.DateTimePicker.DateTimePicker;
+import com.example.sokol.monitor.Help.HelpProvider;
 import com.example.sokol.monitor.LogsProvider;
 import com.example.sokol.monitor.OnNeedUserInterfaceUpdate;
 import com.example.sokol.monitor.R;
@@ -121,7 +122,7 @@ public class LogsDialogFragment extends DialogFragment
             @Override
             public void onClick(View v)
             {
-
+                HelpProvider.requestHelp(getActivity(), HelpProvider.TOPIC_LOGS);
             }
         });
     }

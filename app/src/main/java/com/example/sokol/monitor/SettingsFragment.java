@@ -9,6 +9,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
+import com.example.sokol.monitor.Help.HelpProvider;
+
 /**
  * Created by Sokol on 21.03.2018.
  */
@@ -17,6 +19,7 @@ public class SettingsFragment extends PreferenceFragment {
     // preference key determining whether or not a notification with remote controls is being shown
     public static final String KEY_SHOW_NOTIFICATION = "setting_show_notification";
     public static final String KEY_DARK_THEME = "setting_dark_theme";
+    public static final String KEY_HELP = "help";
 
     /**
      * tells you whether or not the notification should be shown right now.
@@ -66,6 +69,14 @@ public class SettingsFragment extends PreferenceFragment {
                         .getLaunchIntentForPackage(getActivity().getApplicationContext().getPackageName());
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
+                return true;
+            }
+        });
+
+        findPreference(KEY_HELP).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                HelpProvider.requestHelp(getActivity(), HelpProvider.TOPIC_MAIN_ACTIVITY);
                 return true;
             }
         });

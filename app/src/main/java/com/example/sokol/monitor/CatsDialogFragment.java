@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.sokol.monitor.DataBase.DbHelper;
+import com.example.sokol.monitor.Help.HelpProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,7 +153,7 @@ public class CatsDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v)
             {
-
+                HelpProvider.requestHelp(getActivity(), HelpProvider.TOPIC_CATS);
             }
         });
     }

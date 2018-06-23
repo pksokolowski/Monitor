@@ -9,4 +9,7 @@
         android:key="setting_dark_theme"
         android:title="@string/settings_dark_theme_title"
         android:defaultValue="false"/>
+
+    <Preference android:title="Help"
+        android:key="help"/>
 </PreferenceScreen>
