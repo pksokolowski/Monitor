@@ -32,7 +32,7 @@ public class HelpDialogFragment extends DialogFragment {
     private void setupTabs(){
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-        ViewPager viewPager = mView.findViewById(R.id.view_pager_f);
+        ViewPager viewPager = mView.findViewById(R.id.view_pager);
         PagerAdapter pagerAdapter = new FixedTabsPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 

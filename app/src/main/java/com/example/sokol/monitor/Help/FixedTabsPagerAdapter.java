@@ -18,9 +18,9 @@ class FixedTabsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case HelpProvider.TOPIC_GETTING_STARTED:
-                return UniversalHelpPagaFragment.getFragWithContent("");
+                return UniversalHelpPagaFragment.getFragWithContent("title[p]some small text[/p]");
             case HelpProvider.TOPIC_MAIN_ACTIVITY:
-                return UniversalHelpPagaFragment.getFragWithContent("");
+                return UniversalHelpPagaFragment.getFragWithContent("title[p]some small text[/p]title2[p]some small text2 llllllllll lllllllllllllllll llllllllllllllllllp ppppppppppppppppppppppppppppppppp[/p]");
             case HelpProvider.TOPIC_CATS:
                 return UniversalHelpPagaFragment.getFragWithContent("");
             case HelpProvider.TOPIC_LOGS:
@@ -46,6 +46,6 @@ class FixedTabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return false;
+        return ((UniversalHelpPagaFragment)object).isThisYourView(view);
     }
 }

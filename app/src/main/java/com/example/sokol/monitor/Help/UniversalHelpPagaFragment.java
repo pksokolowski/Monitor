@@ -1,14 +1,22 @@
 package com.example.sokol.monitor.Help;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.style.TextAppearanceSpan;
+import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.sokol.monitor.R;
+
+import java.util.regex.Pattern;
 
 public class UniversalHelpPagaFragment extends Fragment {
 
@@ -35,8 +43,48 @@ public class UniversalHelpPagaFragment extends Fragment {
         return frag;
     }
 
-    private void populateLayoutWithParagraphs(){
-     LinearLayout paragraphsLayout = myView.findViewById(R.id.paragraphs_layout);
+    private void populateLayoutWithParagraphs() {
+        LinearLayout paragraphsLayout = myView.findViewById(R.id.paragraphs_layout);
+        String[] ps = myMarkup.split(Pattern.quote("[/p]"));
+        for (String s : ps) {
+            int pIndex = s.indexOf("[p]");
+            if (pIndex == -1) continue;
 
+            String title = s.substring(0, pIndex);
+            String text = s.substring(pIndex + 3);
+
+            Paragraph p = new Paragraph(getContext());
+            p.setContent(title, text);
+            paragraphsLayout.addView(p);
+        }
+    }
+
+    public boolean isThisYourView(View view){
+        return view == myView;
+    }
+
+    private static class Paragraph extends LinearLayout{
+
+        public Paragraph(Context context) {
+            super(context);
+            setup(context);
+        }
+
+        public Paragraph(Context context, @Nullable AttributeSet attrs) {
+            super(context, attrs);
+            setup(context);
+        }
+
+        private void setup(Context context) {
+            inflate(context, R.layout.help_universal_page_fragment_paragraph, this);
+        }
+
+        public void setContent(String title, String text){
+            TextView titleTextView = findViewById(R.id.title);
+            TextView textTextView = findViewById(R.id.text);
+
+            titleTextView.setText(title);
+            textTextView.setText(text);
+        }
     }
 }
