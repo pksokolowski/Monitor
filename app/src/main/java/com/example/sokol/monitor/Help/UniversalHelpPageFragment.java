@@ -1,13 +1,10 @@
 package com.example.sokol.monitor.Help;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +15,7 @@ import com.example.sokol.monitor.R;
 
 import java.util.regex.Pattern;
 
-public class UniversalHelpPagaFragment extends Fragment implements ViewOwner {
+public class UniversalHelpPageFragment extends Fragment implements ViewOwner {
 
     private View myView;
     private String myMarkup;
@@ -37,8 +34,8 @@ public class UniversalHelpPagaFragment extends Fragment implements ViewOwner {
      *               title[p]paragraph text[/p]Another title[p]another paragraph[/p]
      * @return
      */
-    public static UniversalHelpPagaFragment getFragWithContent(String markup){
-        UniversalHelpPagaFragment frag = new UniversalHelpPagaFragment();
+    public static UniversalHelpPageFragment getFragWithContent(String markup){
+        UniversalHelpPageFragment frag = new UniversalHelpPageFragment();
         frag.myMarkup = markup;
         return frag;
     }
@@ -50,8 +47,8 @@ public class UniversalHelpPagaFragment extends Fragment implements ViewOwner {
             int pIndex = s.indexOf("[p]");
             if (pIndex == -1) continue;
 
-            String title = s.substring(0, pIndex);
-            String text = s.substring(pIndex + 3);
+            String title = s.substring(0, pIndex).trim();
+            String text = s.substring(pIndex + 3).trim();
 
             Paragraph p = new Paragraph(getContext());
             p.setContent(title, text);

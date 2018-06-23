@@ -1,14 +1,20 @@
 package com.example.sokol.monitor.Help;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 
+import com.example.sokol.monitor.R;
+
 class FixedTabsPagerAdapter extends FragmentPagerAdapter {
-    public FixedTabsPagerAdapter(FragmentManager fm) {
+    public FixedTabsPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
+        mContext = context;
     }
+    Context mContext;
+
     @Override
     public int getCount() {
         return 4;
@@ -18,13 +24,13 @@ class FixedTabsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case HelpProvider.TOPIC_GETTING_STARTED:
-                return UniversalHelpPagaFragment.getFragWithContent("title[p]some small text[/p]");
+                return UniversalHelpPageFragment.getFragWithContent(mContext.getString(R.string.help_universal_getting_started));
             case HelpProvider.TOPIC_MAIN_ACTIVITY:
-                return UniversalHelpPagaFragment.getFragWithContent("title[p]some small text[/p]title2[p]some small text2 llllllllll lllllllllllllllll llllllllllllllllllp ppppppppppppppppppppppppppppppppp[/p]");
+                return UniversalHelpPageFragment.getFragWithContent(mContext.getString(R.string.help_universal_general));
             case HelpProvider.TOPIC_CATS:
-                return UniversalHelpPagaFragment.getFragWithContent("");
+                return UniversalHelpPageFragment.getFragWithContent(mContext.getString(R.string.help_universal_cats));
             case HelpProvider.TOPIC_LOGS:
-                return UniversalHelpPagaFragment.getFragWithContent("");
+                return UniversalHelpPageFragment.getFragWithContent(mContext.getString(R.string.help_universal_logs));
         }
         return null;
     }

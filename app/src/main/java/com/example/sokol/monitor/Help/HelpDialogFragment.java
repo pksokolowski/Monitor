@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +29,8 @@ public class HelpDialogFragment extends DialogFragment {
     }
 
     private void setupTabs(){
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-
         ViewPager viewPager = mView.findViewById(R.id.view_pager);
-        PagerAdapter pagerAdapter = new FixedTabsPagerAdapter(getChildFragmentManager());
+        PagerAdapter pagerAdapter = new FixedTabsPagerAdapter(getChildFragmentManager(), getActivity());
         viewPager.setAdapter(pagerAdapter);
 
         TabLayout tabLayout = mView.findViewById(R.id.tabLayout);
