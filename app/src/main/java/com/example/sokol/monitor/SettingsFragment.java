@@ -25,7 +25,7 @@ public class SettingsFragment extends PreferenceFragment {
      */
     public static boolean getShowNotification(Context context){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(SettingsFragment.KEY_SHOW_NOTIFICATION, false);
+        return sp.getBoolean(SettingsFragment.KEY_SHOW_NOTIFICATION, true);
     }
 
     @Override
