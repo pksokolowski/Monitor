@@ -17,6 +17,7 @@ public class HelpProvider {
 
     public static void requestHelp(AppCompatActivity context, int topic){
         HelpDialogFragment helpDialog = new HelpDialogFragment();
+        helpDialog.setInitialTopic(topic);
         helpDialog.show(context.getSupportFragmentManager(), "help");
     }
 }

@@ -28,6 +28,10 @@ public class HelpDialogFragment extends DialogFragment {
         return mView;
     }
 
+    public void setInitialTopic(int topic){
+        startupTabIndex = topic;
+    }
+
     private void setupTabs(){
         ViewPager viewPager = mView.findViewById(R.id.view_pager);
         PagerAdapter pagerAdapter = new FixedTabsPagerAdapter(getChildFragmentManager(), getActivity());
@@ -35,5 +39,9 @@ public class HelpDialogFragment extends DialogFragment {
 
         TabLayout tabLayout = mView.findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+
+        if(startupTabIndex != -1) {
+            viewPager.setCurrentItem(startupTabIndex);
+        }
     }
 }
