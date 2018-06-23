@@ -63,8 +63,8 @@
         Reordering cats[p] To reorder categories, long press a category in the CATS editor and move it to it\'s new position on the list. The new order will also appear on the notification once you tap the SAVE button.[/p]
     </string>
     <string name="help_universal_logs">
-        Logs[p] Logs of activity are saved instances of time being spent on an activity of a given category. For example when you start activity in Running category, by pressing R on the notification, the app merely
-        notices the fact you have started an activity in that category and saves that to a file along with the start time. Once you tap on the R again, to finish the activity, the app reaches back to the saved start data
+        Logs[p] Logs of activity are saved instances of time spent on activity of a given category. For example when you start activity in Running category, by pressing R on the notification,
+        the app saves the start time. Once you tap on the R again, to finish the activity, the app reaches back to the saved start data
         and generates a log of activity which is then saved to the database. Therefore you only see logs appearing in LOGS editor after the activity is finished.[/p]
 
         Logs editor[p] Tapping LOGS in the app will open up LOGS editor. This powerful tool allows you to change, delete and add logs of activity. Forgot to start? Left it on overnight by mistake? You can reverse any of these common

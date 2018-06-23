@@ -20,6 +20,7 @@ import com.example.sokol.monitor.Graphs.DistributionTimeSlupkowySimpleGraph2;
 import com.example.sokol.monitor.Graphs.PieChart;
 import com.example.sokol.monitor.Graphs.SlupkowySimpleGraph;
 import com.example.sokol.monitor.Graphs.TextualData;
+import com.example.sokol.monitor.Help.HelpProvider;
 import com.example.sokol.monitor.LogsDialog.Log;
 import com.example.sokol.monitor.LogsDialog.LogsDialogFragment;
 
@@ -105,9 +106,15 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         NotificationProvider.createNotificationChannels(this);
 
         // establish whether to use sound with notification
+        // also show help for new user
         boolean notificationWithSound = false;
         if(TimeHelper.isToday(firstRunTime)){
             notificationWithSound = true;
+            // if the startup is not from the notification tap; hence (command == COMMAND_DO_NOTHING)
+            // and the user never started any work tracking in the app before...
+            if(command == COMMAND_DO_NOTHING && WorkInProgressManager.getCounter(this) == 0){
+                HelpProvider.requestHelp(this, HelpProvider.TOPIC_GETTING_STARTED);
+            }
         }
 
         NotificationProvider.showNotificationIfEnabled(this, notificationWithSound);
