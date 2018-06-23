@@ -125,7 +125,7 @@ public class LogsDialogFragment extends DialogFragment
         editorStateManager = new EditorStateManager(getContext(), mEditorExpanderButton, mEditorLayout, mRecycler, mMyLayout);
 
         String[] spinnerOptions = new String[mCats.size() + 1];
-        spinnerOptions[0] = "";
+        spinnerOptions[0] = "select a category...";
         for (int i = 0; i < mCats.size(); i++) {
             spinnerOptions[i + 1] = mCats.get(i).getTitle();
         }
