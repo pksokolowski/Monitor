@@ -1,13 +1,16 @@
 package com.example.sokol.monitor;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.sokol.monitor.Help.HelpProvider;
@@ -39,19 +42,28 @@ public class SettingsFragment extends PreferenceFragment {
 
         findPreference(KEY_SHOW_NOTIFICATION).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
+            public boolean onPreferenceChange(final Preference preference, Object o) {
                 boolean nw = (boolean) o;
                 if(nw){
                     // show notification, using the enforce = true, because the method would
                     // otherwise read the setting, which is not yet changed, and refuse to show the
                     // notification.
                     NotificationProvider.showNotification(getActivity(), true);
+                    return true;
                 }
                 else{
-                    // remove notification
-                    NotificationProvider.removeNotification(getActivity());
+                    // remove notification if user confirms it
+                    ConfirmationDialogFragment.ask(getActivity(),"Disabling the notification will make it impossible to start/stop activity tracking. Do you wish to disable it?",
+                            new ConfirmationDialogFragment.OnConfirmationListener() {
+                                @Override
+                                public void onConfirmation() {
+                                    NotificationProvider.removeNotification(getActivity());
+                                    ((SwitchPreference) preference).setChecked(false);
+                                }
+                            });
+                    return false;
                 }
-                return true;
+
             }
         });
 
