@@ -58,6 +58,11 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         // does nothing if preferences have been set already.
         PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
 
+        // first create a notification channel, for android O and later
+        // no worries, it only makes changes the first time a given channel's creation
+        // is requested.
+        NotificationProvider.createNotificationChannels(this);
+
         // important: recognize first startup time; also saves now as the first run time if it is.
         long firstRunTime = FirstRunDateTimeManager.getFirstStartupTime(this);
 
@@ -74,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
                 break;
         }
 
-
         getFragmentManager().beginTransaction().replace(R.id.settings_frame, new SettingsFragment())
                 .commit();
 
@@ -88,22 +92,6 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
                 return windowInsets.consumeSystemWindowInsets();
             }
         });
-
-//        final FrameLayout frame = (FrameLayout) findViewById(R.id.settings_frame);
-//        frame.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                View frag_view = getFragmentManager().findFragmentById(R.id.settings_frame).getView();
-//                if(frag_view== null) return;
-//                int height = frag_view.getHeight();
-//                frame.setMinimumHeight(height);
-//            }
-//        });
-
-        // first create a notification channel, for android O and later
-        // no worries, it only makes changes the first time a given channel's creation
-        // is requested.
-        NotificationProvider.createNotificationChannels(this);
 
         // establish whether to use sound with notification
         // also show help for new user
@@ -138,9 +126,6 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         // a layer of abstraction, just to keep things tidy here.
         mSelector = new LogsSelector(this);
 
-        // data for all cats
-
-        // create the pieChart here and populate it with data.
         final PieChart pie = findViewById(R.id.pie);
         pie.setOnSliceSelectedListener(new PieChart.OnSliceSelected() {
             @Override
@@ -227,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         PieChart pie = findViewById(R.id.pie);
         List<PieChart.Datum> pieData = mSelector.convertLogsToCatSums(all_cats_data);
         pie.setData(pieData);
+        if(pieData.size() ==0) pie.setNoDataMessage("No data to show");
         updateSelectedInfo(all_cats_data);
 
         lastUpdateDay0Hour = TimeHelper.now();
@@ -359,23 +345,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     }
 
     private void updateSelectedInfo(LogsData data) {
-        // calculate distributions in time:
-//
-//            long today0Hour = TimeHelper.get0HourNdaysAgo(0);
-//            long sum = 0;
-//            for (int i = 0; i < data.getStartTimes().length; i++) {
-//                long start = data.getStartTimes()[i];
-//                long end = data.getEndTimes()[i];
-//
-//                if (start > today0Hour - TimeHelper.DAY_LEN_IN_MILLIS)
-//                    sum += end - start;
-//            }
-//            String result = TimeHelper.getDuration(sum);
-
         PeriodicDistro perio = new PeriodicDistro(data, getUpperTimeBoundForData()>=TimeHelper.now());
-
-        //result+= " |perio: "+TimeHelper.getDuration(perio.mDaily[perio.mDaily.length-1]);
-//        Toast.makeText(this, perio.oddling, Toast.LENGTH_SHORT).show();
 
         SlupkowySimpleGraph graphSlup = findViewById(R.id.slupkowySimpleGraph);
         graphSlup.setData(getString(R.string.graph_title_recent_days), perio.mDaily);
