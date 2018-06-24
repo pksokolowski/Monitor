@@ -20,6 +20,7 @@ public class PieChart extends View {
     Paint mStroke;
     Paint mFill;
     Paint mText;
+    Paint mNoDataText;
 
     List<Datum> mData;
     float[] mPercentages;
@@ -30,6 +31,8 @@ public class PieChart extends View {
     int[] mColors;
 
     private int mLastIndexTouched = -1;
+
+    private String mNoDataMessage;
 
     private static final float STARTING_ANGLE = 0;
 
@@ -63,8 +66,27 @@ public class PieChart extends View {
         mText.setColor(Color.WHITE);
         mText.setTextSize(text_size_in_pixels);
 
+        mNoDataText = new Paint();
+        mNoDataText.setColor(Color.BLACK);
+        mNoDataText.setTextSize(text_size_in_pixels*1.5f);
+
         rnd = new Random();
         mRectF = new RectF(0, 0, getRight(), getBottom());
+    }
+
+    public void setNoDataMessage(String message){
+        mNoDataMessage = message;
+        // set background color randomly
+        int ColorUpperBound = 200;
+        int ColorLowerBound = 50;
+        // text color shift compared to background
+        int shift = 30;
+        // random values for RGB channels withing bounds set above
+        int R = ColorLowerBound + rnd.nextInt(ColorUpperBound - ColorLowerBound);
+        int G = ColorLowerBound + rnd.nextInt(ColorUpperBound - ColorLowerBound);
+        int B = ColorLowerBound + rnd.nextInt(ColorUpperBound - ColorLowerBound);
+        mFill.setColor(Color.argb(255, R, G, B));
+        mNoDataText.setColor(Color.argb(255, R+shift, G+shift, B+shift));
     }
 
     public void setData(List<Datum> data) {
@@ -131,7 +153,7 @@ public class PieChart extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (mData == null || mData.size() == 0) return;
+        if (mData == null || mData.size() == 0) { drawNoDataMessage(canvas); return; }
 
         float radius = getHeight() / 2f;
         float segStartPoint = STARTING_ANGLE;
@@ -152,6 +174,20 @@ public class PieChart extends View {
 
             segStartPoint += mAngles[i];
         }
+    }
+
+    private void drawNoDataMessage(Canvas canvas){
+        if (mNoDataMessage == null) return;
+
+        canvas.drawArc(mRectF, STARTING_ANGLE, 360, true, mFill);
+
+        float angle = 360;
+        float radius = getHeight() / 2f;
+        float textAngle = STARTING_ANGLE + (angle / 2);
+        canvas.drawText(mNoDataMessage,
+                XProjectedAtAngle(textAngle, radius * 0.7f, radius),
+                YProjectedAtAngle(textAngle, radius * 0.7f, radius),
+                mNoDataText);
     }
 
     private int[] prepareColors(int len) {
