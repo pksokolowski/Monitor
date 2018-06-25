@@ -109,10 +109,10 @@ public class LogsDialogFragment extends DialogFragment
         mLogsAdapter.setOnItemSelectedListener(this);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setNegativeButton("cancel", null);
+        builder.setNegativeButton(R.string.dialog_button_cancel, null);
         builder.setView(mView);
-        builder.setPositiveButton("save", this);
-        builder.setNeutralButton("help", null);
+        builder.setPositiveButton(R.string.dialog_button_save, this);
+        builder.setNeutralButton(R.string.dialog_button_help, null);
 
         return builder.create();
     }
