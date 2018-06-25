@@ -1,0 +1,135 @@
+<resources>
+    <string name="main_button_edytuj_cats_title">Cats</string>
+    <string name="main_button_edytuj_logs_title">Logs</string>
+    <string name="main_message_no_data_to_show">Brak danych</string>
+
+    <string name="settings_show_notification_title">Wyświetlaj notyfikację</string>
+    <string name="settings_dark_theme_title">Ciemny motyw</string>
+    <string name="settings_help_title">Pomoc</string>
+    <string name="settings_warning_disabling_notification">Wyłączenie notyfikacji uniemożliwi aktywne korzystanie z aplikacji. Czy na pewno chcesz wyłączyć notyfikację?</string>
+
+    <string name="textual_data_total_time">W sumie</string>
+    <string name="textual_data_peak_day">Najwięcej</string>
+    <string name="textual_data_standard_deviation">Odchylenie std.</string>
+    <string name="textual_data_average_daily">Przeciętnie</string>
+
+    <string name="help_dialog_header">Pomoc</string>
+
+    <string name="help_topic_getting_started">Pierwsze kroki</string>
+    <string name="help_topic_general">Ogólne</string>
+    <string name="help_topic_cats">CATS</string>
+    <string name="help_topic_logs">LOGS</string>
+
+    <string name="dialog_button_save">zapisz</string>
+    <string name="dialog_button_cancel">anuluj</string>
+    <string name="dialog_button_help">pomoc</string>
+
+    <string name="logs_dialog_error_no_cat_selected">Wybierz kategorię.</string>
+    <string name="logs_dialog_error_start_time_not_before_end_time">Początek aktywności musi być przed jej końcem.</string>
+    <string name="logs_dialog_spinner_default_text">Wybierz kategorię…</string>
+
+    <string name="editor_layout_button_clear">czyść</string>
+    <string name="editor_layout_button_change">zmień</string>
+    <string name="editor_layout_button_add">dodaj</string>
+    <string name="editor_layout_button_delete">usuń</string>
+
+    <string name="cats_dialog_hint_title">tytuł</string>
+    <string name="cats_dialog_hint_initial">inicjał</string>
+
+    <string name="graph_title_recent_days">w ostatnich dniach</string>
+    <string name="graph_title_24h_distribution">wykres dobowy</string>
+    <string name="graph_title_weekly_distribution">dni tygodnia</string>
+
+    <string name="confirmation_dialog_title">Wymagane potwierdzenie</string>
+    <string name="confirmation_dialog_negative_button">anuluj</string>
+    <string name="confirmation_dialog_positive_button">potwierdź</string>
+
+    <string-array name="spinner_titles">
+        <item>ręcznie</item>
+        <item>od zawsze</item>
+        <item>3 miesiące</item>
+        <item>30 dni</item>
+        <item>7 dni</item>
+        <item>wczoraj</item>
+        <item>dzisiaj</item>
+    </string-array>
+
+    <string name="help_universal_getting_started">
+        Witaj![p]Monitor pomoże ci obserwować jak spędzasz czas.[/p]
+
+        Przygotowanie[p] Dodaj kategorie aktywności, np. Nauka, Bieganie, Gotowanie, Media społecznościowe. Dla każdej kategorii zdefiniuj nazwę skrótową/symbol, najlepiej inicjał lub pojedynczą emotkę.
+        Ta skrócona nazwa/inicjał będzie wyświetlana na notyfikacji, dlatego warto by była jednoliterowa. Przyciskiem CATS w aplikacji otwórz interface dodawania i edycji kategorii aktywności.
+        W pierwszym polu wpisz tytuł kategorii, np. Bieganie, w kolejnym inicjał, np. B lub pasującą emotkę. Zatwierdź przyciskiem z plusem, znajdującym się zaraz obok pól tekstowych. Powtórz powyższe czynności z kolejną kategorią, a gdy
+        dodasz już wszystkie, na których ci zależy, przyciśnij ZAPISZ - to kluczowe, bo nic nie zostanie zapisane bez twojej zgody.[/p]
+
+        Używanie aplikacji[p] Po dodaniu kategorii i ich inicjałów, możesz zamknąć aplikację i zacząć jej używać. Kiedy zaczniesz robić coś, co mieści się w którejś ze zdefiniowanych uprzednio kategorii,
+        na notyfikacji dotknij inicjał przypisany do tej kategorii. Gdy przerwiesz aktywność, dotknij ten inicjał jeszcze raz, aby przerwać naliczanie czasu - powstanie log aktywności, zawierający
+        czasy rozpoczęcia i zakończenia oraz kategorię.[/p]
+    </string>
+    <string name="help_universal_general">
+        Wykres kołowy[p] Dominujący układ aplikacji, wykres kołowy ma więcej niż tylko funkcję obrazowania danych. Każdy kawałek wykresu jest przyciskiem, którego wciśnięcie powoduje, że tylko dane dotyczące
+        kategorii reprezentowanej przez ten kawałek są wyświetlane poniżej, na pozostałych wykresach i wśród statystyk.[/p]
+
+        Zakres czasowy[p] Wyświetlane na wykresach dane dotyczą wybranego zakresu czasu. Pod wykresem kołowym, po prawej stronie znajdują się kontrolki pozwalające wybrać ten zakres. Górna stanowi rozwijalną listę
+        gotowych pozycji, np. dzisiaj, wczoraj, 7 ubiegłych dni; poniżej zaś znajdują się dwie daty, początku i końca zakresu odpowiednio. Dotknięcie ich powoduje wyświetlenie okienka wyboru konkretnej daty. O czym warto pamiętać,
+        to że daty są traktowane jako godzina 00:00 danego dnia, a więc początek zakresu jest traktowany włącznie, a dzień, do którego odnosi się data końca zakresu, jest wyłączony z zakresu.
+        Większość pozycji z listy predefiniowanych zakresów nie obejmuje dnia aktualnego, dzieje się tak dlatego, by nie porównywać dni pełnych z trwającym, np. w jego połowie.[/p]
+
+        Wykres dzienny[p] Drugi od góry wykres, po wykresie kołowym, prezentuje czas aktywności w kolejnych dniach, w ramach wybranego zakresu. Jednakże wykres ten rozpocznie wyświetlanie od pierwszego dnia z jakąkolwiek
+        aktywnością, pomijając puste dni wcześniejsze. Jest to wykres z założenia pokazujący relacje między dziennymi czasami aktywności wizualnie, niemniej dla wygody posiada też funkcję wyświetlenia pojedynczej
+        linii skali, wraz z wartością na jej poziomie - aby skorzystać z tej funkcji, dotknij wykresu na żądanym poziomie, aby ustawić tam linię i dokonać pomiaru czasu na tej wysokości.[/p]
+
+        Wykres dni tygodnia[p] Podobnie jak wykres dobowy wyświetla dystrybucję aktywności w ciągu doby, tak wykres tygodniowy robi to w podziale na 7 dni tygodnia, rozpoczynając od poniedziałku.[/p]
+    </string>
+    <string name="help_universal_cats">
+        Kategorie aktywności[p]CATS, od angielskiego categories, to rodzaje aktywności, dla których mierzony jest czas na nie poświęcany. Przykładowo mogą to być: Bieganie, Nauka, Oglądanie telewizji, Czytanie.[/p]
+
+        Edytor kategorii[p] Przycisk CATS w aplikacji otwiera edytor kategorii. Służy on dodawaniu, usuwaniu i aktywacji/dezaktywacji kategorii aktywności. Wszelkie zmiany dokonane w edytorze wymagają późniejszego
+        zatwierdzenia przyciskiem ZAPISZ.[/p]
+
+        Dodawanie kategorii[p] W edytorze kategorii, w polu na samej górze po lewej wpisz tytuł nowej kategorii aktywności. W polu obok inicjał dla kategorii - choć technicznie możliwe jest wpisanie więcej niż jedej litery,
+        o ile to możliwe warto ograniczyć się do pojedynczego znaku, można też użyć emotki. To co wpiszesz w polu \"inicjał\" pojawi się potem na notyfikacji. Po dodaniu tytułu i inicjału, dotknij przycisku z plusem, zaraz obok pól tekstowych.
+        Kategoria zostanie wówczas dodana do listy. Powtarzaj powyższe aby dodać kolejne kategorie. Gdy skończysz, dotknij przycisku ZAPISZ.[/p]
+
+        Inicjały[p] Inicjał w nomenklaturze aplikacji to skrócona nazwa kategorii, najlepiej pojedynczy znak. Inicjały są wyświetlane na notyfikacji, gdzie służą jako przyciski załączające i wyłączające liczenie czasu poświęcanego na
+        kategorię, do której zostały przypisane. Gdy rozpoczynasz aktywność w danej kategorii, dotknij jej inicjał na notyfikacji. Gdy przerwiesz, dotknij tego inicjału ponownie.[/p]
+
+        Zmiana inicjału[p] Aby zmienić inicjał istniejącej kategorii, zdecydowanie przesuń tę kategorię poza ekran a następnie dodaj ją ponownie, z nowym inicjałem. Pamiętaj by nacisnąć ZAPISZ gdy skończysz.[/p]
+
+        Kategorie aktywne i nieaktywne[p] Możesz dezaktywować kategorię. W tym celu na liście istniejących kategorii dotknij pole wyboru (odznacz je, i analogicznie przy aktywacji zaznacz) po prawej stronie na wysokości kategorii, którą pragniesz dezaktywować.
+        Nieaktywne kategorie nie wyświetlają się na notyfikacji, ale dane z nimi związane są nadal wyświetlane na wykresach. Jak każda zmiana dokonana w edytorze kategorii, tak i ta wymaga zapisania przyciskiem ZAPISZ, aby weszła w życie.[/p]
+
+        Usuwanie kategorii[p] Aby usunąć kategorię, zdecydowanie przesuń ją poza ekran. Pamiętaj o zapisaniu zmian przyciskiem ZAPISZ. Usunięte kategorie nie są reprezentowane ani na wykresach w aplikacji, ani na notyfikacji, ani na liście
+        istniejących kategorii. Logi aktywności w ich ramach nie są jednak kasowane, więc po ponownym dodaniu takiej kategorii (o takim samym tytule) dane zostaną przywrócone i pojawią się na wykresach. Aplikacja pamięta
+        tytuły usuniętych kategorii i podpowiada je przy tworzeniu nowych kategorii.[/p]
+
+        Zmiana kolejności[p] Aby zmienić kolejność, w jakiej inicjały kategorii występują na notyfikacji, na liście w edytorze kategorii dotknij i przytrzymaj przez chwilę wybraną kategorię, a następnie przesuń ją na nową pozycję na liście.
+        Kolejność na notyfikacji jest taka same, jak na liście. Pamiętaj o zapisaniu zmian przyciskiem ZAPISZ, gdy skończysz.[/p]
+    </string>
+    <string name="help_universal_logs">
+        Logi[p] Pojedynczy log zawiera informacje o czasach rozpoczęcia i zakończenia aktywności oraz kategorii tej aktywności.
+        Log jest tworzony po zakończeniu aktywności - gdy zasygnalizujesz jej przerwanie dotykając ponownie inicjału danej kategorii. Aplikacja zapamiętuje czas poświęcony na poszczególne kategorie właśnie w postaci zbioru logów.
+        Na liście w edytorze logów występują one w formacie: czas trwania, tytuł kategorii, czas i data rozpoczęcia.[/p]
+
+        Edytor logów[p] Przycisk LOGS w aplikacji otwiera edytor logów. Służy on usuwaniu, edycji i dodawaniu logów. Jeżeli zapomnisz załączyć liczenie czasu rozpoczynając aktywność, albo omyłkowo zostawisz je włączone za długo, nie ma
+        problemu by dodać brakujący log czy zmienić czas rozpoczęcia czy zakończenia istniejącego logu, jak również kategorię, do jakiej należy. Na samej górze okienka edytora logów znajduje się podłużny przycisk ze strzałką w dół. Jego
+        naciśnięcie opuści narzędzia edycyjne. Wszelkie zmiany dokonane przy ich pomocy należy później zatwierdzić przyciskiem ZAPISZ na dole okienka edytora.[/p]
+
+        Dodawanie logów[p] Otwórz edytor logów przyciskiem LOGS w aplikacji. Dotknij przycisku ze strzałką w dół, w górnej części okienka edytora. Wybierz kategorię z listy znajdującej się na samej górze okienka.
+        wybierz czas/datę rozpoczęcia dotykając czasu/daty pod wybraną kategorią. Analogicznie postąp z czasem/datą zakończenia aktywności. Następnie dotknij przycisk DODAJ. Nowy log pojawi się na liście poniżej. Aby zapisać zmiany, użyj przycisku ZAPISZ.[/p]
+
+        Usuwanie logów[p] Otwórz edytor logów przyciskiem LOGS w aplikacji. Znajdź log, który chcesz usunąć, na liście i dotknij go, co spowoduje jego zaznaczenie. Dotknij przycisku ze strzałką w dół, w górnej części okienka edytora. Dotknij przycisk USUŃ.
+        Aby zmiana została zapamiętana, dotknij przycisku ZAPISZ.[/p]
+
+        Edycja logów[p] Otwórz edytor logów przyciskiem LOGS w aplikacji. Znajdź log, który chcesz edytować, na liście i dotknij go, co spowoduje jego zaznaczenie. Dotknij przycisku ze strzałką w dół, w górnej części okienka edytora. Możesz zmienić kategorię
+        wybierając inną z rozwijalnej listy na samej górze; możesz zmienić czas i/lub datę rozpoczęcia dotykając czasu/daty po lewej stronie i analogicznie po prawej stronie postąpić z czasem i/lub datą zakończenia aktywności.
+        Po wprowadzeniu tych zmian, naciśnij przycisk "ZMIEŃ" - na liście pojawi się poprawiona wersja loga. Aby zachować zmiany na stałe, naciśnij ZAPISZ.[/p]
+    </string>
+
+    <string name="notification_no_categories_message">dotknij by dodać kategorie</string>
+    <string name="notification_channel_sound_title">pilot</string>
+    <string name="notification_channel_sound_description">Notyfikacja pozwalająca sygnalizować rozpoczęcie i zakończenie aktywności w ramach danej kategorii. Konieczna dla działania aplikacji.</string>
+    <string name="notification_channel_silent_title">pilot cichy</string>
+    <string name="notification_channel_silent_description">Notyfikacja pozwalająca sygnalizować rozpoczęcie i zakończenie aktywności w ramach danej kategorii. Konieczna dla działania aplikacji. Ten kanał nie powinien wydawać dźwięku.</string>
+
+</resources>

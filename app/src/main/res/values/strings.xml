@@ -1,8 +1,7 @@
 <resources>
-    <string name="app_name">Monitor</string>
+    <string name="app_name" translatable="false">Monitor</string>
     <string name="main_button_edytuj_cats_title">Cats</string>
     <string name="main_button_edytuj_logs_title">Logs</string>
-    <string name="main_button_edytuj_selections_title">Selections</string>
     <string name="main_message_no_data_to_show">No data to show</string>
 
     <string name="settings_show_notification_title">Show notification</string>
@@ -28,7 +27,7 @@
 
     <string name="logs_dialog_error_no_cat_selected">Select a category.</string>
     <string name="logs_dialog_error_start_time_not_before_end_time">Start time must be before end time.</string>
-    <string name="logs_dialog_spinner_default_text">select a category...</string>
+    <string name="logs_dialog_spinner_default_text">select a category…</string>
 
     <string name="editor_layout_button_clear">clear</string>
     <string name="editor_layout_button_change">change</string>
@@ -60,12 +59,12 @@
         Welcome to Monitor![p]Monitor helps you track your activities and provides a bunch of charts and stats regarding the categories of activity you\'ve defined.[/p]
 
         First TODO:[p]In order to start using the app, you need to define categories of activities, eg. Studying, Training, Social media. For each of the categories, you also need to define
-        a short name - such that fits well when there is little space, best an initial. So for example Training would get a T. The short names/initials you define will be shown on the app\'s notification
+        a short name - such that fits well when there is little space, best an initial or a single emoji. So for example Training would get a T. The short names/initials you define will be shown on the app\'s notification
         that\'s why it\'s best to restrict them to a single letter - you may need to fit many of those. Tap CATS button in the app and an interface will pop up letting you add categories: title, initial
         then click the plus button right next to them to add the category. Once you\'re done adding all of them - remember to tap SAVE button! Nothing is going to be saved without your permission, that\'s why it is important.[/p]
 
         Using the app[p]Once you\'ve defined the categories and their initials, you can close the app and start using it. When you start doing one of the things you\'ve added as categories, you just tap the initial
-        of that category on the app\'s notification. When you\'re done - tap it again. The app will then save a log of your activity - it\'s start time, duration and category.[/p]
+        of that category on the app\'s notification. When you\'re done - tap it again. The app will then save a log of your activity - it\'s start time, end time and category.[/p]
     </string>
     <string name="help_universal_general">
         Pie chart[p]The grand pie chart is not just for show. You can tap any slice on it, thus selecting it. Once you do, only the data regarding that slice - the category of activity it represents,
@@ -89,7 +88,7 @@
 
         Cats editor[p] When you press the CATS button in the app, CATS editor will open up. In the editor you can add, reorder, delete and activate/deactivate categories. Any changes made require tapping SAVE button in order to be saved[/p]
 
-        Adding categories[p] In Cats editor, tap on the top left text field, type the title of the category you wish to add, then move to the next text field and assign an initial to the category - a single letter representation of the category.
+        Adding categories[p] In Cats editor, tap on the top left text field, type the title of the category you wish to add, then move to the next text field and assign an initial to the category - a single letter representation of the category (you can also use an emoji).
         The initial will later appear on the notification. After adding both the title and the initial, press the plus button right next to the text fields. You can repeat the above to add further categories.
         Once you\'ve added all categories you wanted, be sure to tap SAVE button.[/p]
 
@@ -110,7 +109,8 @@
     <string name="help_universal_logs">
         Logs[p] Logs of activity are saved instances of time spent on activity of a given category. For example when you start activity in Running category, by pressing R on the notification,
         the app saves the start time. Once you tap on the R again, to finish the activity, the app reaches back to the saved start data
-        and generates a log of activity which is then saved to the database. Therefore you only see logs appearing in LOGS editor after the activity is finished.[/p]
+        and generates a log of activity which is then saved to the database. Therefore you only see logs appearing in LOGS editor after the activity is finished.
+        On the list in the LOGS editor, they appear in the following format: duration, category title, start time and date.[/p]
 
         Logs editor[p] Tapping LOGS in the app will open up LOGS editor. This powerful tool allows you to change, delete and add logs of activity. Forgot to start? Left it on overnight by mistake? You can reverse any of these common
         errors. On top of the editor there is a button with an arrow. Press it to drop down the editing tools.[/p]
