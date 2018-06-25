@@ -19,23 +19,28 @@
     </string-array>
 
     <string name="help_universal_getting_started">
-        Welcome to Monitor![p]Monitor helps you track your activities and provides a bunch of charts and stats regarding categories of activity you\'ve defined.[/p]
+        Welcome to Monitor![p]Monitor helps you track your activities and provides a bunch of charts and stats regarding the categories of activity you\'ve defined.[/p]
 
-        First TODO:[p]In order to start using the app, you need to define categories of activities, eg. Studying, Training, Social media. For each of the categories, also you need to define
+        First TODO:[p]In order to start using the app, you need to define categories of activities, eg. Studying, Training, Social media. For each of the categories, you also need to define
         a short name - such that fits well when there is little space, best an initial. So for example Training would get a T. The short names/initials you define will be shown on the app\'s notification
         that\'s why it\'s best to restrict them to a single letter - you may need to fit many of those. Tap CATS button in the app and an interface will pop up letting you add categories: title, initial
-        then click the plus button right next to them to add the cat. Once you\'re done - remember to tap SAVE button! Nothing is going to be saved without your permission, that\'s why it is important.[/p]
+        then click the plus button right next to them to add the category. Once you\'re done adding all of them - remember to tap SAVE button! Nothing is going to be saved without your permission, that\'s why it is important.[/p]
 
         Using the app[p]Once you\'ve defined the categories and their initials, you can close the app and start using it. When you start doing one of the things you\'ve added as categories, you just tap the initial
-        of that category on the app\'s notification. When you\'re done - tap it again. The app will then save a log of your activity - it\'s duration and the category.[/p]
+        of that category on the app\'s notification. When you\'re done - tap it again. The app will then save a log of your activity - it\'s start time, duration and category.[/p]
     </string>
     <string name="help_universal_general">
-        Pie chart[p]The grand pie chart is not just for show. You can tap any slice on it, thus selecting it. Once you do, only data regarding that slice - the category of activity it represents,
-        will be displayed on the other charts and stats below. When the chart does not show - it means there is no data in the selected date range[/p]
+        Pie chart[p]The grand pie chart is not just for show. You can tap any slice on it, thus selecting it. Once you do, only the data regarding that slice - the category of activity it represents,
+        will be displayed on the other charts and in the stats below. When the chart shows a no-data message - it means there is no data to be shown in the selected date range.[/p]
 
         Date range[p]Data displayed on app\'s charts is bound by the range selected. By default the range is set to \"today only\" on the first day the app is being used, and \"3 months\" later on.
-        It\'s important to realize the range is inclusive at the start but exclusive at the end. It is because date selected means 00:00 time of day on that date. You can change the range either by using predefined
-        values in the spinner under the pie chart, or by tapping dates below the spinner. In order to encompass current day, set the end of the range to the beginning of the next day.[/p]
+        It\'s important to realize that the range is inclusive at the start but exclusive at the end. It is because date selected means 00:00 time of day on that date. You can change the range either by using predefined
+        values in the spinner under the pie chart (most of which don\'t include the current day - this is to ensure comparing apples to apples, rather than a full previous day to say 10 first hours of the current one),
+        or by tapping dates below the spinner. In order to encompass the current day, set the end of the range to the beginning of the next day.[/p]
+
+        Recent days chart[p] The second chart, under the pie, represents activity time on consecutive days within the range selected. It will, however, trim the past and start with the first day in range where there was any logged activity.
+        Values are by design relative, just for visual comparison, but for convenience a scale replacement is available: tap at a given level within the graph and a horizontal line will appear along with a value in hours:minutes format
+        at that level.[/p]
 
         Weekly distribution chart[p]Similar to the 24 hour distribution above it, the \"days of week distribution\" chart shows how days of week compare in terms of time of activity. Chart, starting with Monday,
         represents 7 days of week with relative time of activity in each of them, on average, within date range set as well as respecting selection(or lack thereof) on the pie chart.[/p]
@@ -46,8 +51,8 @@
 
         Cats editor[p] When you press the CATS button in the app, CATS editor will open up. In the editor you can add, reorder, delete and activate/deactivate categories. Any changes made require tapping SAVE button in order to be saved[/p]
 
-        Adding categories[p] In Cats editor, tap on top left text field, type the title of the category you wish to add, then move to the next text field and assign an initial to the category - a single letter representation of the category.
-        The initial will later appear on the notification. After adding both the title and the initial, tap on the plus button right next to the text input fields. You can repeat the above to add further categories.
+        Adding categories[p] In Cats editor, tap on the top left text field, type the title of the category you wish to add, then move to the next text field and assign an initial to the category - a single letter representation of the category.
+        The initial will later appear on the notification. After adding both the title and the initial, press the plus button right next to the text fields. You can repeat the above to add further categories.
         Once you\'ve added all categories you wanted, be sure to tap SAVE button.[/p]
 
         Initials[p] Initials are short names for the categories, preferably a single letter. They are displayed on the notification, where they represent the categories they were assigned to.
@@ -55,10 +60,12 @@
 
         Changing an initial[p] If you wish to change an initial for an existing category, slide the category off the screen, then add it anew with a new initial. Remember to tap SAVE button to persist the change.[/p]
 
-        Active/Inactive cats[p] You can deactivate a category by unchecking the check box next to them in the CATS editor. The inactive category will be shown on the charts but not on the notification - freeing up some space there.[/p]
+        Active/Inactive cats[p] You can deactivate a category by unchecking the check box next to them in the CATS editor. The inactive category will be shown on the charts but not on the notification - freeing up some space there.
+        Just like any other change in Cats editor, it requires tapping SAVE in order to be applied and remembered by the app.[/p]
 
-        Deleting cats[p] In order to delete a category, slide it off the screen in CATS editor and once you\'re done editing remember to press SAVE, otherwise the changes will be discarded. Deleted cats
-        are no longer visible on the charts nor in the CATS editor. The logs of activity related to them however, are not lost. Once the category is re-added, the logs will be visible on the charts again.[/p]
+        Deleting cats[p] In order to delete a category, slide it off the screen in CATS editor. Once you\'re done deleting unwanted categories, remember to press SAVE, otherwise the changes will be discarded. Deleted cats
+        are no longer visible on the charts nor in the CATS editor. The logs of activity related to them however, are not lost. Once the category is re-added, the logs will be visible on the charts again - it just has to have the exact same title.
+        The app remembers titles of the deleted categories and will suggest them as you enter a new title in the CATS editor.[/p]
 
         Reordering cats[p] To reorder categories, long press a category in the CATS editor and move it to it\'s new position on the list. The new order will also appear on the notification once you tap the SAVE button.[/p]
     </string>
@@ -74,6 +81,6 @@
 
         Deleting logs[p] Open LOGS editor, select a log on the list, tap downward facing arrow on top of the editor, tap delete. SAVE changes.[/p]
 
-        Changing logs[p] Open LOGS editor, select a log to change on the list, tap downward facing arrow on top of the editor, edit either category or start/end times, then tap CHANGE. Remember to tap SAVE once you\'re donw working with the editor.[/p]
+        Changing logs[p] Open LOGS editor, select a log to change on the list, tap downward facing arrow on top of the editor, edit either category or start/end times, then tap CHANGE. Remember to tap SAVE once you\'re done working with the editor.[/p]
     </string>
 </resources>
