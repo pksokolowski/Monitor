@@ -1,7 +1,8 @@
 package com.example.sokol.monitor;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +37,7 @@ import static android.support.v7.widget.helper.ItemTouchHelper.UP;
  * Created by Sokol on 23.03.2018.
  */
 
-public class CatsDialogFragment extends DialogFragment {
+public class CatsDialogFragment extends DialogFragment implements SingleInstanceDialog {
 
     OnNeedUserInterfaceUpdate mCallback;
 
@@ -230,5 +231,13 @@ public class CatsDialogFragment extends DialogFragment {
         };
 
         return simpleCallback;
+    }
+
+    @Override
+    public void showIfNotVisibleAlready(FragmentManager fragmentManager) {
+        Fragment prev = fragmentManager.findFragmentByTag("CATS");
+        if(prev != null) return;
+        CatsDialogFragment eventLoadSave = new CatsDialogFragment();
+        eventLoadSave.show(fragmentManager, "CATS");
     }
 }

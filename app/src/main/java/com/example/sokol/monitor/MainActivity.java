@@ -1,5 +1,6 @@
 package com.example.sokol.monitor;
 
+import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -72,12 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        int command = intent.getIntExtra(MainActivity.EXTRA_COMMAND_TO_EXECUTE_UPON_START, COMMAND_DO_NOTHING);
-        switch (command){
-            case COMMAND_DISPLAY_CATS_DIALOG:
-                showCatsDialog();
-                break;
-        }
+        int command = handleIntent(intent);
 
         getFragmentManager().beginTransaction().replace(R.id.settings_frame, new SettingsFragment())
                 .commit();
@@ -185,18 +181,34 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         scrollToXY(0, 0);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+
+    private int handleIntent(Intent intent) {
+        int command = intent.getIntExtra(MainActivity.EXTRA_COMMAND_TO_EXECUTE_UPON_START, COMMAND_DO_NOTHING);
+        switch (command){
+            case COMMAND_DISPLAY_CATS_DIALOG:
+                showCatsDialog();
+                break;
+        }
+        return command;
+    }
+
     private void setRangePickerToMatchSpinner(DateRangePicker rangePicker) {
         rangePicker.setRange(getSpinnersLowerTimeBound(), getSpinnersUpperTimeBound());
     }
 
     private void showCatsDialog() {
-        CatsDialogFragment eventLoadSave = new CatsDialogFragment();
-        eventLoadSave.show(getFragmentManager(), "event loadsave");
+        SingleInstanceDialog catsDialog = new CatsDialogFragment();
+        catsDialog.showIfNotVisibleAlready(getFragmentManager());
     }
 
     private void showLogsDialog() {
-        LogsDialogFragment logsViewer = new LogsDialogFragment();
-        logsViewer.show(getFragmentManager(), "logs viewer");
+        SingleInstanceDialog logsViewer = new LogsDialogFragment();
+        logsViewer.showIfNotVisibleAlready(getFragmentManager());
     }
 
     public static void startMe(Context context, int command){

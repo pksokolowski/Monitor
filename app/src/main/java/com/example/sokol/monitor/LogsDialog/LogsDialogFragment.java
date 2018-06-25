@@ -3,6 +3,8 @@ package com.example.sokol.monitor.LogsDialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import com.example.sokol.monitor.Help.HelpProvider;
 import com.example.sokol.monitor.LogsProvider;
 import com.example.sokol.monitor.OnNeedUserInterfaceUpdate;
 import com.example.sokol.monitor.R;
+import com.example.sokol.monitor.SingleInstanceDialog;
 import com.example.sokol.monitor.TimeHelper;
 
 import java.util.ArrayList;
@@ -37,7 +40,7 @@ import java.util.List;
 import java.util.Set;
 
 public class LogsDialogFragment extends DialogFragment
-        implements LogsAdapter.OnItemSelectedListener, DialogInterface.OnClickListener {
+        implements LogsAdapter.OnItemSelectedListener, DialogInterface.OnClickListener, SingleInstanceDialog {
 
     OnNeedUserInterfaceUpdate mCallback;
     LogsProvider mDataProvider;
@@ -389,5 +392,13 @@ public class LogsDialogFragment extends DialogFragment
             Toast.makeText(getContext(), sb.toString(), Toast.LENGTH_LONG).show();
         }
         return false;
+    }
+
+    @Override
+    public void showIfNotVisibleAlready(FragmentManager fragmentManager) {
+        Fragment prev = fragmentManager.findFragmentByTag("LOGS");
+        if(prev != null) return;
+        LogsDialogFragment eventLoadSave = new LogsDialogFragment();
+        eventLoadSave.show(fragmentManager, "LOGS");
     }
 }
