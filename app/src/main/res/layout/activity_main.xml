@@ -43,7 +43,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.sokol.monitor.Graphs.SlupkowySimpleGraph
+    <com.example.sokol.monitor.Graphs.BarSimpleGraphView
         android:id="@+id/slupkowySimpleGraph"
         android:layout_width="0dp"
         android:layout_height="80dp"
@@ -55,7 +55,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/range_picker" />
 
-    <com.example.sokol.monitor.Graphs.DistributionTimeSlupkowySimpleGraph2
+    <com.example.sokol.monitor.Graphs.DistributionTimeBarSimpleGraph
         android:id="@+id/distributionSimpleGraph"
         android:layout_width="0dp"
         android:layout_height="80dp"
@@ -67,7 +67,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/slupkowySimpleGraph" />
 
-    <com.example.sokol.monitor.Graphs.DistributionTimeSlupkowySimpleGraph2
+    <com.example.sokol.monitor.Graphs.DistributionTimeBarSimpleGraph
         android:id="@+id/distributionSimpleGraphWeekly"
         android:layout_width="0dp"
         android:layout_height="80dp"

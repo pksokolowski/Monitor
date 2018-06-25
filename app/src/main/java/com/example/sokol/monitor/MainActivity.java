@@ -1,6 +1,5 @@
 package com.example.sokol.monitor;
 
-import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +16,9 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 
 import com.example.sokol.monitor.DateTimePicker.DateRangePicker;
-import com.example.sokol.monitor.Graphs.DistributionTimeSlupkowySimpleGraph2;
+import com.example.sokol.monitor.Graphs.DistributionTimeBarSimpleGraph;
 import com.example.sokol.monitor.Graphs.PieChart;
-import com.example.sokol.monitor.Graphs.SlupkowySimpleGraph;
+import com.example.sokol.monitor.Graphs.BarSimpleGraphView;
 import com.example.sokol.monitor.Graphs.TextualData;
 import com.example.sokol.monitor.Help.HelpProvider;
 import com.example.sokol.monitor.LogsDialog.Log;
@@ -125,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         final PieChart pie = findViewById(R.id.pie);
         pie.setOnSliceSelectedListener(new PieChart.OnSliceSelected() {
             @Override
-            public void OnSliceSelected(PieChart.Datum datumOrNull) {
+            public void onSliceSelected(PieChart.Datum datumOrNull) {
                 if (datumOrNull == null) {
                     updateSelectedInfo(mSelector.getLogsForAllNonDeletedCats(MainActivity.this, getLowerTimeBoundForData(), getUpperTimeBoundForData()));
                     mPieChartsLastTouchedID = -1;
@@ -213,7 +212,6 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
 
     public static void startMe(Context context, int command){
         Intent intent = new Intent(context, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         if(command != COMMAND_DO_NOTHING)
             intent.putExtra(EXTRA_COMMAND_TO_EXECUTE_UPON_START, command);
         context.startActivity(intent);
@@ -359,13 +357,13 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     private void updateSelectedInfo(LogsData data) {
         PeriodicDistro perio = new PeriodicDistro(data, getUpperTimeBoundForData()>=TimeHelper.now());
 
-        SlupkowySimpleGraph graphSlup = findViewById(R.id.slupkowySimpleGraph);
+        BarSimpleGraphView graphSlup = findViewById(R.id.slupkowySimpleGraph);
         graphSlup.setData(getString(R.string.graph_title_recent_days), perio.mDaily);
 
-        DistributionTimeSlupkowySimpleGraph2 distrGraph = findViewById(R.id.distributionSimpleGraph);
+        DistributionTimeBarSimpleGraph distrGraph = findViewById(R.id.distributionSimpleGraph);
         distrGraph.setData(getString(R.string.graph_title_24h_distribution), perio.mHourly, 24, 6);
 
-        DistributionTimeSlupkowySimpleGraph2 distrGraphWeekly = findViewById(R.id.distributionSimpleGraphWeekly);
+        DistributionTimeBarSimpleGraph distrGraphWeekly = findViewById(R.id.distributionSimpleGraphWeekly);
         distrGraphWeekly.setData(getString(R.string.graph_title_weekly_distribution), perio.mWeekly, 7, 1);
 
         TextualData textuals = findViewById(R.id.textuals);

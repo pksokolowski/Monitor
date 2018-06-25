@@ -9,11 +9,11 @@ import android.view.View;
 import com.example.sokol.monitor.R;
 
 class FixedTabsPagerAdapter extends FragmentPagerAdapter {
-    public FixedTabsPagerAdapter(FragmentManager fm, Context context) {
+    FixedTabsPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         mContext = context;
     }
-    Context mContext;
+    private Context mContext;
 
     @Override
     public int getCount() {

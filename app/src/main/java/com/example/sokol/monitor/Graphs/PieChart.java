@@ -245,11 +245,11 @@ public class PieChart extends View {
                 if (touchedIndex == mLastIndexTouched)
                 {
                     mLastIndexTouched = -1;
-                    mListener.OnSliceSelected(null);
+                    mListener.onSliceSelected(null);
                 }
                 else {
                     mLastIndexTouched = touchedIndex;
-                    mListener.OnSliceSelected(mData.get(touchedIndex));
+                    mListener.onSliceSelected(mData.get(touchedIndex));
                 }
                 invalidate();
                 break;
@@ -297,7 +297,7 @@ public class PieChart extends View {
     }
 
     public interface OnSliceSelected {
-        void OnSliceSelected(@Nullable Datum datumOrNull);
+        void onSliceSelected(@Nullable Datum datumOrNull);
     }
 
     OnSliceSelected mListener;

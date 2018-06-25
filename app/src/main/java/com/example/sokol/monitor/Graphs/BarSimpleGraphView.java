@@ -10,16 +10,16 @@ import android.view.MotionEvent;
 
 import com.example.sokol.monitor.TimeHelper;
 
-public class SlupkowySimpleGraph extends SimpleGraphView {
+public class BarSimpleGraphView extends SimpleGraphView {
     Paint ThickPaint = null;
     Paint rulerPaint = null;
 
-    public SlupkowySimpleGraph(Context context) {
+    public BarSimpleGraphView(Context context) {
         super(context);
         preparePaints();
     }
 
-    public SlupkowySimpleGraph(Context context, @Nullable AttributeSet attrs) {
+    public BarSimpleGraphView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         preparePaints();
     }
@@ -37,9 +37,9 @@ public class SlupkowySimpleGraph extends SimpleGraphView {
 
     @Override
     protected void SpecialMeasurements(float width, float height) {
-        // ustawiam Thickness słupków :
-        float grubość_słupka = (width / (float) mMax_Entries) * 0.9f;
-        ThickPaint.setStrokeWidth(Math.max(1, grubość_słupka));
+        // setting bar thickness:
+        float barThickness = (width / (float) mMax_Entries) * 0.9f;
+        ThickPaint.setStrokeWidth(Math.max(1, barThickness));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SlupkowySimpleGraph extends SimpleGraphView {
 
         float maxVal = -1;
         int max_index = -1;
-        // maluję:
+        // drawing
         for (int i = 0, len = mData.length; i < len; i++) {
             if(mData[i] > maxVal) {maxVal = mData[i]; max_index = i;}
 
@@ -67,7 +67,7 @@ public class SlupkowySimpleGraph extends SimpleGraphView {
 
         // ruler
         if(touchYRuler > y - maxVal){
-            // ustal wartość dla tej wysokości
+            // calculate value at this level and display in HH:MM format
             float percentageOfMax = ( y - touchYRuler) / maxVal;
             long correspondingTime = (long)(percentageOfMax * (float)mDataLong[max_index]);
 
@@ -76,8 +76,6 @@ public class SlupkowySimpleGraph extends SimpleGraphView {
         }
     }
 
-    // wartość -1 oznacza brak linii odniesienia na wykresie. Klikając na wykres zmieniasz miejsce
-    // prze przebiega, zmienna odnosi się do tej wysokosci.
     int touchYRuler = -1;
 
     @Override

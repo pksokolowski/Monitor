@@ -31,16 +31,15 @@ public class TextualData extends ConstraintLayout {
     public void setData(long[] daily_data) {
         long total_time = 0;
         long peak = 0;
-        for(int i =0; i< daily_data.length;i++){
-            long daily_datum = daily_data[i];
-            total_time+= daily_datum;
-            if(peak < daily_datum) peak = daily_datum;
+        for (long daily_datum : daily_data) {
+            total_time += daily_datum;
+            if (peak < daily_datum) peak = daily_datum;
         }
         long average = (long)((double)total_time/ (double)daily_data.length);
         long sum_of_diff_squares = 0;
-        for(int i = 0; i< daily_data.length;i++){
-            long diff = daily_data[i] - average;
-            sum_of_diff_squares += Math.pow(diff,2);
+        for (long aDaily_data : daily_data) {
+            long diff = aDaily_data - average;
+            sum_of_diff_squares += Math.pow(diff, 2);
         }
         long stdDeviation = (long)Math.sqrt(sum_of_diff_squares/daily_data.length);
 

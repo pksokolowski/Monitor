@@ -64,6 +64,8 @@ public class SimpleGraphView extends View
         paint.setColor(mMainColor);
 
         path = new Path();
+        
+        ta.recycle();
     }
 
     public void setData(String title, long[] data){
