@@ -1,12 +1,50 @@
 <resources>
     <string name="app_name">Monitor</string>
     <string name="main_button_edytuj_cats_title">Cats</string>
+    <string name="main_button_edytuj_logs_title">Logs</string>
     <string name="main_button_edytuj_selections_title">Selections</string>
+    <string name="main_message_no_data_to_show">No data to show</string>
+
     <string name="settings_show_notification_title">Show notification</string>
     <string name="settings_dark_theme_title">Dark Theme</string>
+    <string name="settings_help_title">Help</string>
+    <string name="settings_warning_disabling_notification">Disabling the notification will make it impossible to start/stop activity tracking. Do you wish to disable it?</string>
+
+    <string name="textual_data_total_time">Total time</string>
+    <string name="textual_data_peak_day">Peak day</string>
+    <string name="textual_data_standard_deviation">Standard deviation</string>
+    <string name="textual_data_average_daily">Average daily</string>
+
+    <string name="help_dialog_header">Help</string>
+
+    <string name="help_topic_getting_started">Getting Started</string>
+    <string name="help_topic_general">General</string>
+    <string name="help_topic_cats">CATS</string>
+    <string name="help_topic_logs">LOGS</string>
+
+    <string name="dialog_button_save">save</string>
+    <string name="dialog_button_cancel">cancel</string>
+    <string name="dialog_button_help">help</string>
+
+    <string name="logs_dialog_error_no_cat_selected">Select a category.</string>
+    <string name="logs_dialog_error_start_time_not_before_end_time">Start time must be before end time.</string>
+    <string name="logs_dialog_spinner_default_text">select a category...</string>
+
+    <string name="editor_layout_button_clear">clear</string>
+    <string name="editor_layout_button_change">change</string>
+    <string name="editor_layout_button_add">add</string>
+    <string name="editor_layout_button_delete">delete</string>
+
+    <string name="cats_dialog_hint_title">title</string>
+    <string name="cats_dialog_hint_initial">initial</string>
+
     <string name="graph_title_recent_days">in recent days</string>
     <string name="graph_title_24h_distribution">24 hours distribution</string>
     <string name="graph_title_weekly_distribution">days of week distribution</string>
+
+    <string name="confirmation_dialog_title">Confirmation required</string>
+    <string name="confirmation_dialog_negative_button">cancel</string>
+    <string name="confirmation_dialog_positive_button">confirm</string>
 
     <string-array name="spinner_titles">
         <item>custom</item>
@@ -83,4 +121,11 @@
 
         Changing logs[p] Open LOGS editor, select a log to change on the list, tap downward facing arrow on top of the editor, edit either category or start/end times, then tap CHANGE. Remember to tap SAVE once you\'re done working with the editor.[/p]
     </string>
+
+    <string name="notification_no_categories_message">tap to add categories</string>
+    <string name="notification_channel_sound_title">notification controls</string>
+    <string name="notification_channel_sound_description">The sole notification in this channel works as a remote and is the only mean of letting the app know when work starts/ends within a given category.</string>
+    <string name="notification_channel_silent_title">silent notification controls</string>
+    <string name="notification_channel_silent_description">The sole notification in this channel works as a remote and is the only mean of letting the app know when work starts/ends within a given category. This channel\'s notification should make no sound.</string>
+
 </resources>

@@ -53,7 +53,7 @@ public class SettingsFragment extends PreferenceFragment {
                 }
                 else{
                     // remove notification if user confirms it
-                    ConfirmationDialogFragment.ask(getActivity(),"Disabling the notification will make it impossible to start/stop activity tracking. Do you wish to disable it?",
+                    ConfirmationDialogFragment.ask(getActivity(),getString(R.string.settings_warning_disabling_notification),
                             new ConfirmationDialogFragment.OnConfirmationListener() {
                                 @Override
                                 public void onConfirmation() {
