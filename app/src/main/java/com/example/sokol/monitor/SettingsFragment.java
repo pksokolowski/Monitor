@@ -80,7 +80,7 @@ public class SettingsFragment extends PreferenceFragment {
                 ed.apply();
                 Intent i = getActivity().getApplicationContext().getPackageManager()
                         .getLaunchIntentForPackage(getActivity().getApplicationContext().getPackageName());
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                getActivity().finish();
                 startActivity(i);
                 return true;
             }
