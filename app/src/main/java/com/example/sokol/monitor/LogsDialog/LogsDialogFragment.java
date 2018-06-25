@@ -145,7 +145,7 @@ public class LogsDialogFragment extends DialogFragment
         editorStateManager = new EditorStateManager(getContext(), mEditorExpanderButton, mEditorLayout, mRecycler, mMyLayout);
 
         String[] spinnerOptions = new String[mCats.size() + 1];
-        spinnerOptions[0] = "select a category...";
+        spinnerOptions[0] = getString(R.string.logs_dialog_spinner_default_text);
         for (int i = 0; i < mCats.size(); i++) {
             spinnerOptions[i + 1] = mCats.get(i).getTitle();
         }
@@ -322,8 +322,8 @@ public class LogsDialogFragment extends DialogFragment
     }
 
     private void setAddDelButtonText() {
-        if (activeLog == null) mAddDelButton.setText("add");
-        else mAddDelButton.setText("delete");
+        if (activeLog == null) mAddDelButton.setText(R.string.editor_layout_button_add);
+        else mAddDelButton.setText(R.string.editor_layout_button_delete);
     }
 
     /**
@@ -368,11 +368,11 @@ public class LogsDialogFragment extends DialogFragment
         List<String> errors = new ArrayList<>();
 
         if (mCatSpinner.getSelectedItemPosition() == 0) {
-            errors.add("Select a category.");
+            errors.add(getString(R.string.logs_dialog_error_no_cat_selected));
         }
 
         if (mStartPicker.getValue() >= mEndPicker.getValue()) {
-            errors.add("Start time must be before end time.");
+            errors.add(getString(R.string.logs_dialog_error_start_time_not_before_end_time));
         }
 
         if (errors.size() == 0) return true;

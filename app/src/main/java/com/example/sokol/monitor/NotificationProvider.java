@@ -69,7 +69,7 @@ public class NotificationProvider extends BroadcastReceiver {
             RemoteViews button = new RemoteViews(context.getPackageName(), R.layout.button_view);
             if (darkTheme)
                 button.setInt(R.id.button, "setTextColor", context.getColor(R.color.dark_notification_text));
-            button.setTextViewText(R.id.button, "tap to add categories");
+            button.setTextViewText(R.id.button, context.getString(R.string.notification_no_categories_message));
             rv.addView(R.id.buttonHolder, button);
 
             Intent intent = new Intent(context, NotificationProvider.class)
@@ -201,8 +201,8 @@ public class NotificationProvider extends BroadcastReceiver {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "notification controls";
-            String description = "The sole notification in this channel works as a remote and is the only mean of letting the app know when work starts/ends within a given category.";
+            CharSequence name = context.getString(R.string.notification_channel_sound_title);
+            String description = context.getString(R.string.notification_channel_sound_description);
 
             AudioAttributes attributes = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION)
@@ -227,8 +227,8 @@ public class NotificationProvider extends BroadcastReceiver {
 
     private static void createSilentNotificationChannel(Context context){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "silent notification controls";
-            String description = "The sole notification in this channel works as a remote and is the only mean of letting the app know when work starts/ends within a given category. This channel's notification should make no sound.";
+            CharSequence name = context.getString(R.string.notification_channel_silent_title);
+            String description = context.getString(R.string.notification_channel_silent_description);
 
             int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID_NOTIFICATION_CONTROLS_SILENT, name, importance);

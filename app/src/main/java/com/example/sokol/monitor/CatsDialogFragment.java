@@ -114,7 +114,7 @@ public class CatsDialogFragment extends DialogFragment implements SingleInstance
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder//.setMessage("Edit event")
-                .setPositiveButton("save", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.dialog_button_save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // unless nothing is changed:
@@ -131,8 +131,8 @@ public class CatsDialogFragment extends DialogFragment implements SingleInstance
                         mCallback.onNeedUserInterfaceUpdate();
                     }
                 })
-                .setNegativeButton("cancel", null)
-                .setNeutralButton("help", null)
+                .setNegativeButton(R.string.dialog_button_cancel, null)
+                .setNeutralButton(R.string.dialog_button_help, null)
                 .setView(mView);
 
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(getSimpleCallback(adapter, suggestionsAdapter));

@@ -12,10 +12,10 @@ public class ConfirmationDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle("Confirmation required")
+                .setTitle(R.string.confirmation_dialog_title)
                 .setMessage(mMessage)
-                .setNegativeButton("cancel", null)
-                .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.confirmation_dialog_negative_button, null)
+                .setPositiveButton(R.string.confirmation_dialog_positive_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         fireOnConfirmationEvent();
@@ -29,7 +29,7 @@ public class ConfirmationDialogFragment extends DialogFragment {
         ConfirmationDialogFragment confirmation = new ConfirmationDialogFragment();
         confirmation.setMessage(message);
         confirmation.setOnConfirmationListener(listener);
-        confirmation.show(context.getFragmentManager(), "disable notification confirmation");
+        confirmation.show(context.getFragmentManager(), "confirmation dialog");
     }
 
     private String mMessage;

@@ -2,7 +2,6 @@
     android:id="@+id/button"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:text="TextView"
     android:textAppearance="?android:attr/textAppearanceLarge"
     android:layout_weight="1"
     style="?android:buttonBarButtonStyle"

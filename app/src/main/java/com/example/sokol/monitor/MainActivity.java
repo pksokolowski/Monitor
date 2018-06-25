@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         PieChart pie = findViewById(R.id.pie);
         List<PieChart.Datum> pieData = mSelector.convertLogsToCatSums(all_cats_data);
         pie.setData(pieData);
-        if(pieData.size() ==0) pie.setNoDataMessage("No data to show");
+        if(pieData.size() ==0) pie.setNoDataMessage(getString(R.string.main_message_no_data_to_show));
         updateSelectedInfo(all_cats_data);
 
         lastUpdateDay0Hour = TimeHelper.now();

@@ -39,13 +39,13 @@ class FixedTabsPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case HelpProvider.TOPIC_GETTING_STARTED:
-                return "Getting Started";
+                return mContext.getString(R.string.help_topic_getting_started);
             case HelpProvider.TOPIC_MAIN_ACTIVITY:
-                return "General";
+                return mContext.getString(R.string.help_topic_general);
             case HelpProvider.TOPIC_CATS:
-                return "CATS";
+                return mContext.getString(R.string.help_topic_cats);
             case HelpProvider.TOPIC_LOGS:
-                return "LOGS";
+                return mContext.getString(R.string.help_topic_logs);
         }
         return super.getPageTitle(position);
     }
