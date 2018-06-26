@@ -84,7 +84,8 @@
     </string>
     <string name="help_universal_cats">
         Categories[p]CATS stands for categories. They are basically the kinds of activities to track. Playing sports, Shopping, Running, Gaming - anything that takes time and you might want to know how much of your
-        time you spend on it.[/p]
+        time you spend on it.
+        On the list in the CATS editor, they appear in the following format: initial, title, active/inactive check box[/p]
 
         Cats editor[p] When you press the CATS button in the app, CATS editor will open up. In the editor you can add, reorder, delete and activate/deactivate categories. Any changes made require tapping SAVE button in order to be saved[/p]
 
