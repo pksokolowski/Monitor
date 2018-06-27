@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
             public void onRangeChanged(long start, long end) {
                 refreshAllGraphs();
                 spinner.setSelection(RANGE_CUSTOM);
+                mPieChartsLastTouchedID = -1;
             }
         });
 
