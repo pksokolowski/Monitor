@@ -24,4 +24,19 @@ public class SpinnerCatsHelper {
 
         return catsAdapter;
     }
+
+    public static CatData getCatForCurrentSpinnerSelection(Spinner spinner, List<CatData> cats) {
+        int selectedCatIndex = spinner.getSelectedItemPosition() -1;
+        if(selectedCatIndex == -1) return null;
+        return cats.get(selectedCatIndex);
+    }
+
+    public static int getSpinnerIndexForCatTitle(ArrayAdapter<String> adapter,  String title) {
+        for (int i = 0; i < adapter.getCount(); i++) {
+            if (title.equals(adapter.getItem(i))) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
