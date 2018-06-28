@@ -1,5 +1,7 @@
 package com.example.sokol.monitor.EasyLogsDialog;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,8 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.sokol.monitor.R;
+import com.example.sokol.monitor.SingleInstanceDialog;
 
-public class EasyUILogsFragment extends DialogFragment {
+public class EasyUILogsFragment extends DialogFragment{
     private View mView;
 
     @Nullable
@@ -21,5 +24,4 @@ public class EasyUILogsFragment extends DialogFragment {
 
         return mView;
     }
-
 }

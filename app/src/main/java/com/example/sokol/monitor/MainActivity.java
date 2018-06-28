@@ -16,6 +16,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 
 import com.example.sokol.monitor.DateTimePicker.DateRangePicker;
+import com.example.sokol.monitor.EasyLogsDialog.EasyUILogsFragment;
 import com.example.sokol.monitor.Graphs.DistributionTimeBarSimpleGraph;
 import com.example.sokol.monitor.Graphs.PieChart;
 import com.example.sokol.monitor.Graphs.BarSimpleGraphView;
@@ -207,8 +208,8 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     }
 
     private void showLogsDialog() {
-        SingleInstanceDialog logsViewer = new LogsDialogFragment();
-        logsViewer.showIfNotVisibleAlready(getFragmentManager());
+        EasyUILogsFragment logsDialog = new EasyUILogsFragment();
+        logsDialog.show(getSupportFragmentManager(), "LOGS");
     }
 
     public static void startMe(Context context, int command){
