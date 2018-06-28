@@ -123,15 +123,18 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
     public void onLogCreated(Log log) {
         mLogsAdapter.addALog(log);
         mRecycler.scrollToPosition(0);
+        mUserInterfaceUpdater.onNeedUserInterfaceUpdate();
     }
 
     @Override
     public void onLogDeleted(Log log, int i) {
         mLogsAdapter.remove(i);
+        mUserInterfaceUpdater.onNeedUserInterfaceUpdate();
     }
 
     @Override
     public void onLogChanged(int i) {
         mLogsAdapter.change(i);
+        mUserInterfaceUpdater.onNeedUserInterfaceUpdate();
     }
 }
