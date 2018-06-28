@@ -7,15 +7,19 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
+import android.support.v4.widget.ImageViewCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sokol.monitor.CatData;
 import com.example.sokol.monitor.DataBase.DbHelper;
+import com.example.sokol.monitor.Help.HelpProvider;
 import com.example.sokol.monitor.LogsDialog.Log;
 import com.example.sokol.monitor.OnNeedUserInterfaceUpdate;
 import com.example.sokol.monitor.R;
@@ -83,6 +87,14 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
         mTitle = mView.findViewById(R.id.easy_ui_title);
 
         mFab.setOnClickListener(this);
+
+        ImageButton helpImage = mView.findViewById(R.id.easy_ui_help_button);
+        helpImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HelpProvider.requestHelp((AppCompatActivity)getActivity(), HelpProvider.TOPIC_LOGS);
+            }
+        });
     }
 
     @Override
