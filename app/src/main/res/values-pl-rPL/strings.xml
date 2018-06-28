@@ -134,4 +134,10 @@
     <string name="notification_channel_silent_description">Notyfikacja pozwalająca sygnalizować rozpoczęcie i zakończenie aktywności w ramach danej kategorii. Konieczna dla działania aplikacji. Ten kanał nie powinien wydawać dźwięku.</string>
 
     <string name="pop_up_got_it">rozumiem</string>
+    <string name="easy_ui_logs_minihelp_category">dotnij rozwijalnej listy z dostępnymi kategoriami. Wybierz jedną z nich.</string>
+    <string name="easy_ui_logs_minihelp_start_time">wybierz czas rozpoczęcia aktywności. Dotknij czasu, godziny i minuty, aby zmienić czas. Możesz również zmienić datę, dotykając jej.</string>
+    <string name="easy_ui_logs_minihelp_end_time">wybierz czas zakończenia aktywności. Dotknij czasu, godziny i minuty, aby zmienić czas. Możesz również zmienić datę, dotykając jej.</string>
+    <string name="easy_ui_logs_tv_start_time">Początek:</string>
+    <string name="easy_ui_logs_tv_end_time">Koniec:</string>
+    <string name="easy_ui_logs_title">edytowanie…</string>
 </resources>
