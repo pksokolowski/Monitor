@@ -129,12 +129,19 @@
     <string name="notification_channel_silent_title">silent notification controls</string>
     <string name="notification_channel_silent_description">The sole notification in this channel works as a remote and is the only mean of letting the app know when work starts/ends within a given category. This channel\'s notification should make no sound.</string>
 
+    <string name="easy_ui_button_delete">delete</string>
+    <string name="easy_ui_button_save">save</string>
+    <string name="easy_ui_button_cancel">cancel</string>
+
     <string name="pop_up_got_it">got it</string>
+
     <string name="easy_ui_logs_minihelp_category">Tap on the category selection field, select category from the drop down list.</string>
     <string name="easy_ui_logs_minihelp_start_time">select time when the activity began. Touch time, hours and minutes, to change time. Tap date if you need to change it too.</string>
     <string name="easy_ui_logs_minihelp_end_time">select time when the activity ended. Touch time, hours and minutes, to change time. Tap date if you need to change it too.</string>
     <string name="easy_ui_logs_tv_start_time">Started at:</string>
     <string name="easy_ui_logs_tv_end_time">Ended at:</string>
     <string name="easy_ui_logs_title">editing…</string>
+
+
 
 </resources>

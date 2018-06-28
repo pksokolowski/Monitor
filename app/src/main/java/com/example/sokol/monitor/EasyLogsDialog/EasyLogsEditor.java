@@ -44,9 +44,9 @@ public class EasyLogsEditor extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(mView)
-                .setNeutralButton("delete", null)
-                .setPositiveButton("save", null)
-                .setNegativeButton("cancel", null);
+                .setNeutralButton(R.string.easy_ui_button_delete, null)
+                .setPositiveButton(R.string.easy_ui_button_save, null)
+                .setNegativeButton(R.string.easy_ui_button_cancel, null);
 
         return builder.create();
     }
