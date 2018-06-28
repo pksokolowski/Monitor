@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <com.example.sokol.monitor.DateTimePicker.DateTimePicker
-        android:id="@+id/dateTimePicker"
+        android:id="@+id/start_time_picker"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView6" />
 
     <com.example.sokol.monitor.DateTimePicker.DateTimePicker
-        android:id="@+id/dateTimePicker2"
+        android:id="@+id/end_time_picker"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -65,9 +65,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/dateTimePicker"
+        app:layout_constraintBottom_toBottomOf="@+id/start_time_picker"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/dateTimePicker"
+        app:layout_constraintTop_toTopOf="@+id/start_time_picker"
         app:srcCompat="@drawable/ic_help_outline_accent_24dp"
         app:message="@string/easy_ui_logs_minihelp_start_time"/>
 
@@ -76,9 +76,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/dateTimePicker2"
+        app:layout_constraintBottom_toBottomOf="@+id/end_time_picker"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/dateTimePicker2"
+        app:layout_constraintTop_toTopOf="@+id/end_time_picker"
         app:srcCompat="@drawable/ic_help_outline_accent_24dp"
         app:message="@string/easy_ui_logs_minihelp_end_time"/>
 

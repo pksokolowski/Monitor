@@ -230,13 +230,14 @@ public class DbHelper extends SQLiteOpenHelper {
         long numOFRowsAffected = sDataBase.update(Contract.categories.TABLE_NAME, cv, whereClause, whereArgs);
     }
 
-    public void pushLog(long catID, long startTime, long endTime) {
+    public long pushLog(long catID, long startTime, long endTime) {
         loadWritableDatabaseIfNotLoadedAlready();
         ContentValues cv = new ContentValues();
         cv.put(Contract.logs.COLUMN_NAME_START_TIME, startTime);
         cv.put(Contract.logs.COLUMN_NAME_END_TIME, endTime);
         cv.put(Contract.logs.COLUMN_NAME_CAT, catID);
         long newRowId = sDataBase.insert(Contract.logs.TABLE_NAME, null, cv);
+        return newRowId;
     }
 
     public void changeLog(long logID, long catID, long startTime, long endTime){
