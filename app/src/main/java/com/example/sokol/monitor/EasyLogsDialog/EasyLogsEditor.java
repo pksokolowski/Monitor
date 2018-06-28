@@ -22,17 +22,19 @@ public class EasyLogsEditor extends DialogFragment {
         void onLogCreated(Log log);
         void onLogDeleted(Log log, int i);
         void onLogChanged(Log log, int i);
-        void onCancelled(Log log);
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        mView = inflater.inflate(R.layout.easy_ui_dialog, null);
+        mView = inflater.inflate(R.layout.easy_ui_logs_editor, null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setView(mView);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setView(mView)
+                .setNeutralButton("delete", null)
+                .setPositiveButton("save", null)
+                .setNegativeButton("cancel", null);
 
         return builder.create();
     }

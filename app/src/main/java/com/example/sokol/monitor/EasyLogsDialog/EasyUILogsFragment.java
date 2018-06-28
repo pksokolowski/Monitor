@@ -119,10 +119,4 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
     public void onLogChanged(Log log, int i) {
         mLogsAdapter.change(i);
     }
-
-    @Override
-    public void onCancelled(Log log) {
-
-    }
-
 }
