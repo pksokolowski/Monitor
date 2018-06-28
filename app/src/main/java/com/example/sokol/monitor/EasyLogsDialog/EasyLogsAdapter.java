@@ -17,7 +17,6 @@ import java.util.List;
 public class EasyLogsAdapter extends RecyclerView.Adapter<EasyLogsAdapter.ViewHolder> {
 
     private List<Log> mItems;
-    private int lastItemTouched = -1;
 
     public EasyLogsAdapter(List<Log> data_to_show) {
         mItems = data_to_show;
@@ -37,8 +36,6 @@ public class EasyLogsAdapter extends RecyclerView.Adapter<EasyLogsAdapter.ViewHo
         holder.durationview.setText(log.getDurationString());
         holder.startTimeView.setText(log.getStartTimeString());
 
-        holder.layout.setSelected(position == lastItemTouched);
-
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,13 +43,6 @@ public class EasyLogsAdapter extends RecyclerView.Adapter<EasyLogsAdapter.ViewHo
 
                 int adapterPos = holder.getAdapterPosition();
                 fireItemSelectedEvent(adapterPos, mItems.get(adapterPos));
-
-                // select item in a visible way
-                if (adapterPos == lastItemTouched) return;
-                int oldSelection = lastItemTouched;
-                lastItemTouched = adapterPos;
-                notifyItemChanged(adapterPos);
-                if (oldSelection != -1) notifyItemChanged(oldSelection);
             }
         });
     }

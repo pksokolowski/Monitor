@@ -23,14 +23,14 @@
             android:text="Logs"
             android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/help_button"
+            app:layout_constraintEnd_toStartOf="@+id/easy_ui_help_button"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Title" />
 
         <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/help_button"
+            android:id="@+id/easy_ui_help_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -47,14 +47,15 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/top_layout">
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/easy_ui_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:paddingBottom="40dp"/>
+            android:paddingBottom="16dp"/>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/easy_ui_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
