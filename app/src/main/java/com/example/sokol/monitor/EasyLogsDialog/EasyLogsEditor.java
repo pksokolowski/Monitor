@@ -126,6 +126,7 @@ public class EasyLogsEditor extends DialogFragment implements Dialog.OnClickList
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
         // deleting log
+        if(mLog == null) return;
         DbHelper db = DbHelper.getInstance(getActivity());
         db.deleteLog(mLog.getID());
         if(mListener == null) return;
