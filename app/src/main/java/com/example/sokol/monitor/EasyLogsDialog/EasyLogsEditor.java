@@ -6,13 +6,23 @@ import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
+import com.example.sokol.monitor.CatData;
 import com.example.sokol.monitor.LogsDialog.Log;
 import com.example.sokol.monitor.R;
+
+import java.util.List;
 
 public class EasyLogsEditor extends DialogFragment {
     private View mView;
     private Log mLog;
+    private List<CatData> mCats;
+    private ArrayAdapter<String> mCatsAdapter;
+
+    public void setCats(List<CatData> cats){
+        mCats = cats;
+    }
 
     public void setOnInteractionEndedListener(OnInteractionEnded listener){
         mListener = listener;
@@ -29,6 +39,8 @@ public class EasyLogsEditor extends DialogFragment {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         mView = inflater.inflate(R.layout.easy_ui_logs_editor, null);
+
+        mCatsAdapter = SpinnerCatsHelper.setupSpinner(mCats, mView, R.id.spinner);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(mView)

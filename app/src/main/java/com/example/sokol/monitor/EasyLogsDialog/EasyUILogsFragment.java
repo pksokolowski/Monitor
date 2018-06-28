@@ -100,6 +100,7 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
 
     private void displayEditor(Log log, int i){
         EasyLogsEditor editor = new EasyLogsEditor();
+        editor.setCats(mCats);
         editor.show(getActivity().getSupportFragmentManager(), "LOGS editor");
     }
 
