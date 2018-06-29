@@ -6,8 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/title"
+        android:inputType="textCapWords"
+        android:nextFocusDown="@id/initial"
+        android:imeOptions="actionNext"
         android:hint="@string/easy_ui_cats_hint_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -21,6 +24,7 @@
 
     <EditText
         android:id="@+id/initial"
+        android:inputType="textCapWords"
         android:hint="@string/easy_ui_cats_hint_initial"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
