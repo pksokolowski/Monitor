@@ -58,9 +58,7 @@
         Witaj![p]Monitor pomoże ci obserwować jak spędzasz czas, w podziale na kategorie aktywności.[/p]
 
         Przygotowanie[p] Dodaj kategorie aktywności, np. Nauka, Bieganie, Gotowanie, Media społecznościowe. Dla każdej kategorii zdefiniuj nazwę skrótową/symbol, najlepiej inicjał lub pojedynczą emotkę.
-        Ta skrócona nazwa/inicjał będzie wyświetlana na notyfikacji, dlatego warto by była jednoliterowa. Przyciskiem CATS w aplikacji otwórz interface dodawania i edycji kategorii aktywności.
-        W pierwszym polu wpisz tytuł kategorii, np. Bieganie, w kolejnym inicjał, np. B lub pasującą emotkę. Zatwierdź przyciskiem z plusem, znajdującym się zaraz obok pól tekstowych. Powtórz powyższe czynności z kolejną kategorią, a gdy
-        dodasz już wszystkie, na których ci zależy, przyciśnij ZAPISZ - to kluczowe, bo nic nie zostanie zapisane bez twojej zgody.[/p]
+        Ta skrócona nazwa/inicjał będzie wyświetlana na notyfikacji, dlatego warto by była jednoliterowa. Przyciskiem CATS w aplikacji otwórz interface dodawania i edycji kategorii aktywności.[/p]
 
         Używanie aplikacji[p] Po dodaniu kategorii i ich inicjałów, możesz zamknąć aplikację i zacząć jej używać. Kiedy zaczniesz robić coś, co mieści się w którejś ze zdefiniowanych uprzednio kategorii,
         na notyfikacji dotknij inicjał przypisany do tej kategorii. Gdy przerwiesz aktywność, dotknij ten inicjał jeszcze raz, aby przerwać naliczanie czasu - powstanie log aktywności, zawierający
@@ -85,27 +83,25 @@
         Kategorie aktywności[p]CATS, od angielskiego categories, to rodzaje aktywności, dla których mierzony jest czas na nie poświęcany. Przykładowo mogą to być: Bieganie, Nauka, Oglądanie telewizji, Czytanie.
         Na liście w edytorze kategorii występują one w formacie: inicjał, pełna nazwa, aktywna/nieaktywna.[/p]
 
-        Edytor kategorii[p] Przycisk CATS w aplikacji otwiera edytor kategorii. Służy on dodawaniu, usuwaniu i aktywacji/dezaktywacji kategorii aktywności. Wszelkie zmiany dokonane w edytorze wymagają późniejszego
-        zatwierdzenia przyciskiem ZAPISZ.[/p]
+        Edytor kategorii[p] Przycisk CATS w aplikacji otwiera edytor kategorii. Służy on dodawaniu, usuwaniu i aktywacji/dezaktywacji kategorii aktywności.[/p]
 
-        Dodawanie kategorii[p] W edytorze kategorii, w polu na samej górze po lewej wpisz tytuł nowej kategorii aktywności. W polu obok inicjał dla kategorii - choć technicznie możliwe jest wpisanie więcej niż jedej litery,
-        o ile to możliwe warto ograniczyć się do pojedynczego znaku, można też użyć emotki. To co wpiszesz w polu \"inicjał\" pojawi się potem na notyfikacji. Po dodaniu tytułu i inicjału, dotknij przycisku z plusem, zaraz obok pól tekstowych.
-        Kategoria zostanie wówczas dodana do listy. Powtarzaj powyższe aby dodać kolejne kategorie. Gdy skończysz, dotknij przycisku ZAPISZ.[/p]
+        Dodawanie kategorii[p] W edytorze kategorii, naciśnij okrągły przycisk z plusem. Pojawi się nowe okienko. W nim wpisz nazwę nowej kategorii a w kolejnym polu tekstowym inicjał dla tej kategorii - choć technicznie możliwe jest wpisanie więcej niż jedej litery,
+        o ile to możliwe warto ograniczyć się do pojedynczego znaku, można też użyć emotki. To co wpiszesz w polu \"inicjał\" pojawi się potem na notyfikacji. Po dodaniu tytułu i inicjału, naciśnij przycisk ZAPISZ. Powtarzaj powyższe aby dodać kolejne kategorie.[/p]
 
         Inicjały[p] Inicjał w nomenklaturze aplikacji to skrócona nazwa kategorii, najlepiej pojedynczy znak. Inicjały są wyświetlane na notyfikacji, gdzie służą jako przyciski załączające i wyłączające liczenie czasu poświęcanego na
         kategorię, do której zostały przypisane. Gdy rozpoczynasz aktywność w danej kategorii, dotknij jej inicjał na notyfikacji. Gdy przerwiesz, dotknij tego inicjału ponownie.[/p]
 
-        Zmiana inicjału[p] Aby zmienić inicjał istniejącej kategorii, zdecydowanie przesuń tę kategorię poza ekran a następnie dodaj ją ponownie, z nowym inicjałem. Pamiętaj by nacisnąć ZAPISZ gdy skończysz.[/p]
+        Zmiana inicjału[p] Aby zmienić inicjał istniejącej kategorii, dotknij tej kategorii na liście w edytorze kategorii, zmień tekst w polu z inicjałem na nowy i dotknij przycisku ZAPISZ.[/p]
 
         Kategorie aktywne i nieaktywne[p] Możesz dezaktywować kategorię. W tym celu na liście istniejących kategorii dotknij pole wyboru (odznacz je, i analogicznie przy aktywacji zaznacz) po prawej stronie na wysokości kategorii, którą pragniesz dezaktywować.
-        Nieaktywne kategorie nie wyświetlają się na notyfikacji, ale dane z nimi związane są nadal wyświetlane na wykresach. Jak każda zmiana dokonana w edytorze kategorii, tak i ta wymaga zapisania przyciskiem ZAPISZ, aby weszła w życie.[/p]
+        Nieaktywne kategorie nie wyświetlają się na notyfikacji, ale dane z nimi związane są nadal wyświetlane na wykresach.[/p]
 
-        Usuwanie kategorii[p] Aby usunąć kategorię, zdecydowanie przesuń ją poza ekran. Pamiętaj o zapisaniu zmian przyciskiem ZAPISZ. Usunięte kategorie nie są reprezentowane ani na wykresach w aplikacji, ani na notyfikacji, ani na liście
+        Usuwanie kategorii[p] Aby usunąć kategorię, dotknij jej na liście w edytorze kategorii a następnie naciśnij przycisk USUŃ. Usunięte kategorie nie są reprezentowane ani na wykresach w aplikacji, ani na notyfikacji, ani na liście
         istniejących kategorii. Logi aktywności w ich ramach nie są jednak kasowane, więc po ponownym dodaniu takiej kategorii (o takim samym tytule) dane zostaną przywrócone i pojawią się na wykresach. Aplikacja pamięta
         tytuły usuniętych kategorii i podpowiada je przy tworzeniu nowych kategorii.[/p]
 
-        Zmiana kolejności[p] Aby zmienić kolejność, w jakiej inicjały kategorii występują na notyfikacji, na liście w edytorze kategorii dotknij i przytrzymaj przez chwilę wybraną kategorię, a następnie przesuń ją na nową pozycję na liście.
-        Kolejność na notyfikacji jest taka sama, jak na liście. Pamiętaj o zapisaniu zmian przyciskiem ZAPISZ, gdy skończysz.[/p]
+        Zmiana kolejności[p] Aby zmienić kolejność, w jakiej inicjały kategorii występują na notyfikacji, na liście w edytorze kategorii dotknij, i trzymaj przyciśnięty, uchwyt znajdujący się koło danej kategorii, a następnie przesuń ją na nową pozycję na liście.
+        Kolejność na notyfikacji jest taka sama, jak na liście.[/p]
     </string>
     <string name="help_universal_logs">
         Logi[p] Pojedynczy log zawiera informacje o czasach rozpoczęcia i zakończenia aktywności oraz kategorii tej aktywności.
