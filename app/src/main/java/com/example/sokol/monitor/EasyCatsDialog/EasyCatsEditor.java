@@ -92,20 +92,24 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
 
     private boolean isInputCorrect() {
         int errorCounter = 0;
-        String title = mTitleEdit.getText().toString();
-        String initial = mInitialEdit.getText().toString();
 
-        if(title.length() == 0) {
-            errorCounter +=1;
-            mTitleEdit.setError(getString(R.string.cats_dialog_error_no_title));
-        } else if(mCat == null && mNonDeletedCatsTitles.contains(title)){
-            errorCounter +=1;
-            mTitleEdit.setError(getString(R.string.cats_dialog_error_title_is_taken));
-        }
+        CatData provisionalCat = makeCat();
 
-        if(initial.length() == 0){
+        // order matters, first the initial, because the last one to call requestFocus will get it.
+        // and initial is less important than potential title errors.
+        if(provisionalCat.getInitial().length() == 0){
             errorCounter+=1;
             mInitialEdit.setError(getString(R.string.cats_dialog_error_no_initial));
+            mInitialEdit.requestFocus();
+        }
+        if(provisionalCat.getTitle().length() == 0) {
+            errorCounter +=1;
+            mTitleEdit.setError(getString(R.string.cats_dialog_error_no_title));
+            mTitleEdit.requestFocus();
+        } else if(mCat == null && mNonDeletedCatsTitles.contains(provisionalCat.getTitle())){
+            errorCounter +=1;
+            mTitleEdit.setError(getString(R.string.cats_dialog_error_title_is_taken));
+            mTitleEdit.requestFocus();
         }
 
         if (errorCounter == 0) return true;
@@ -115,8 +119,8 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
 
     private CatData makeCat(){
         long ID = -1;
-        String title = mTitleEdit.getText().toString();
-        String initial = mInitialEdit.getText().toString();
+        String title = mTitleEdit.getText().toString().trim();
+        String initial = mInitialEdit.getText().toString().trim();
         int status = mActiveEdit.isChecked() ? CatData.CATEGORY_STATUS_ACTIVE : CatData.CATEGORY_STATUS_INACTIVE;
         if(mCat != null){
             ID = mCat.getID();

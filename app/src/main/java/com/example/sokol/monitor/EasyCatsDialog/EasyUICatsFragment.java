@@ -156,6 +156,9 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
         long catID = db.addCatIfAbsentUpdateOtherwise(cat, mCatsAdapter.getItemCount());
         CatData newCat = new CatData(catID, cat.getTitle(), cat.getInitial(), cat.getStatus());
         mCatsAdapter.addACat(newCat);
+        NotificationProvider.showNotificationIfEnabled(getActivity(), true);
+        // let mainactivity know cats have changed
+        mUserInterfaceUpdater.onNeedUserInterfaceUpdate();
     }
 
     @Override
