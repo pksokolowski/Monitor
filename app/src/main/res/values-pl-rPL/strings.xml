@@ -154,4 +154,5 @@
     <string name="easy_ui_cats_title">Kategorie</string>
     <string name="cats_dialog_error_no_title">Nadaj kategorii nazwę.</string>
     <string name="cats_dialog_error_no_initial">Przypisz inicjał lub emotkę.</string>
+    <string name="cats_dialog_error_title_is_taken">Kategoria już istnieje.</string>
 </resources>

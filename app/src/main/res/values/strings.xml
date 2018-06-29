@@ -152,6 +152,7 @@
     <string name="easy_ui_cats_title">Categories</string>
     <string name="cats_dialog_error_no_title">Give the category a title.</string>
     <string name="cats_dialog_error_no_initial">Choose an initial or an emoji.</string>
+    <string name="cats_dialog_error_title_is_taken">Category already exists.</string>
 
 
 </resources>

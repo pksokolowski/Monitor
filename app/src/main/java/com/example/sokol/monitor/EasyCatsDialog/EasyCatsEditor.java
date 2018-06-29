@@ -83,6 +83,7 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
 
         if (mCat != null) {
             mTitleEdit.setText(mCat.getTitle());
+            mInitialEdit.setText(mCat.getInitial());
             // since cat title is unique for each cat, it can't be changed
             // on an existing cat
             mTitleEdit.setEnabled(false);
@@ -90,25 +91,24 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
     }
 
     private boolean isInputCorrect() {
-        ErrorMessageConcatenator errors = new ErrorMessageConcatenator();
-
+        int errorCounter = 0;
         String title = mTitleEdit.getText().toString();
         String initial = mInitialEdit.getText().toString();
 
         if(title.length() == 0) {
-            errors.add(getString(R.string.cats_dialog_error_no_title));
+            errorCounter +=1;
             mTitleEdit.setError(getString(R.string.cats_dialog_error_no_title));
-        } else {
-            // TODO: 29.06.2018 check if the cat already exists and is nonDeleted
-            // best ask Fragment...
+        } else if(mCat == null && mNonDeletedCatsTitles.contains(title)){
+            errorCounter +=1;
+            mTitleEdit.setError(getString(R.string.cats_dialog_error_title_is_taken));
         }
 
         if(initial.length() == 0){
-            errors.add(getString(R.string.cats_dialog_error_no_initial));
+            errorCounter+=1;
             mInitialEdit.setError(getString(R.string.cats_dialog_error_no_initial));
         }
 
-        if (errors.size() == 0) return true;
+        if (errorCounter == 0) return true;
 
         return false;
     }
