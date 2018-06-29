@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 
 import com.example.sokol.monitor.DateTimePicker.DateRangePicker;
+import com.example.sokol.monitor.EasyCatsDialog.EasyUICatsFragment;
 import com.example.sokol.monitor.EasyLogsDialog.EasyUILogsFragment;
 import com.example.sokol.monitor.Graphs.DistributionTimeBarSimpleGraph;
 import com.example.sokol.monitor.Graphs.PieChart;
@@ -203,8 +205,13 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     }
 
     private void showCatsDialog() {
-        SingleInstanceDialog catsDialog = new CatsDialogFragment();
-        catsDialog.showIfNotVisibleAlready(getFragmentManager());
+//        SingleInstanceDialog catsDialog = new CatsDialogFragment();
+//        catsDialog.showIfNotVisibleAlready(getFragmentManager());
+
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("CATS");
+        if(prev != null) return;
+        EasyUICatsFragment cats = new EasyUICatsFragment();
+        cats.show(getSupportFragmentManager(), "CATS");
     }
 
     private void showLogsDialog() {

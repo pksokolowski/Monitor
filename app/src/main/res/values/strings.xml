@@ -149,5 +149,7 @@
     <string name="easy_ui_cats_hint_initial">initial or emoji</string>
     <string name="easy_ui_cats_hint_title">Title of the category</string>
 
+    <string name="easy_ui_cats_title">Categories</string>
+
 
 </resources>

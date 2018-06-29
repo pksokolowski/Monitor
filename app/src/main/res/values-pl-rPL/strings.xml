@@ -150,4 +150,6 @@
     <string name="easy_ui_cats_show_on_notification">Pokaż na notyfikacji</string>
     <string name="easy_ui_cats_hint_initial">Inicjał lub emotka</string>
     <string name="easy_ui_cats_hint_title">Nazwa kategorii</string>
+
+    <string name="easy_ui_cats_title">Kategorie</string>
 </resources>
