@@ -83,7 +83,7 @@
     </string>
     <string name="help_universal_cats">
         Kategorie aktywności[p]CATS, od angielskiego categories, to rodzaje aktywności, dla których mierzony jest czas na nie poświęcany. Przykładowo mogą to być: Bieganie, Nauka, Oglądanie telewizji, Czytanie.
-        Na liście w edytorze kategorii występują one w formacie: inicjał, tytuł, aktywna/nieaktywna.[/p]
+        Na liście w edytorze kategorii występują one w formacie: inicjał, pełna nazwa, aktywna/nieaktywna.[/p]
 
         Edytor kategorii[p] Przycisk CATS w aplikacji otwiera edytor kategorii. Służy on dodawaniu, usuwaniu i aktywacji/dezaktywacji kategorii aktywności. Wszelkie zmiany dokonane w edytorze wymagają późniejszego
         zatwierdzenia przyciskiem ZAPISZ.[/p]
@@ -143,4 +143,11 @@
     <string name="easy_ui_logs_tv_start_time">Początek:</string>
     <string name="easy_ui_logs_tv_end_time">Koniec:</string>
     <string name="easy_ui_logs_title">Logi</string>
+
+    <string name="easy_ui_cats_minihelp_title">Nazwij kategorię aktywności. Przykładowo: Bieganie, Nauka, Zakupy.</string>
+    <string name="easy_ui_cats_minihelp_initial">Przypisz iniciał lub emotikon tej kategorii. Będzie on wyświetlany na notyfikacji, gdzie jego naciśnięcie rozpocznie/przerwie naliczanie czasu spędzonego na tej kategorii aktywności - będzie działać podobnie do przycisku stopera.</string>
+    <string name="easy_ui_cats_minihelp_active">Jeżeli jest zaznaczone, inicjał tej kategorii - przypisany powyżej - będzie obecny na notyfikacji, służąc za przycisk start/stop naliczania czasu dla tej kategorii. Możesz odznaczyć to pole, aby tymczasowo kategoria nie występowała na notyfikacji.</string>
+    <string name="easy_ui_cats_show_on_notification">Pokaż na notyfikacji</string>
+    <string name="easy_ui_cats_hint_initial">Inicjał lub emotka</string>
+    <string name="easy_ui_cats_hint_title">Nazwa kategorii</string>
 </resources>
