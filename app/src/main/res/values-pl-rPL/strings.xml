@@ -142,4 +142,5 @@
     <string name="easy_ui_logs_minihelp_end_time">Wybierz czas zakończenia aktywności. Dotknij czasu, godziny i minuty, aby zmienić czas. Możesz również zmienić datę, dotykając jej.</string>
     <string name="easy_ui_logs_tv_start_time">Początek:</string>
     <string name="easy_ui_logs_tv_end_time">Koniec:</string>
+    <string name="easy_ui_logs_title">Logi</string>
 </resources>

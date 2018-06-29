@@ -34,7 +34,6 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
     private EasyLogsAdapter mLogsAdapter;
     private RecyclerView mRecycler;
     private FloatingActionButton mFab;
-    private ImageButton mHelpButton;
     private TextView mTitle;
 
     OnNeedUserInterfaceUpdate mUserInterfaceUpdater;
@@ -83,12 +82,12 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
     private void setupUIElements(){
         mRecycler = mView.findViewById(R.id.easy_ui_recycler);
         mFab = mView.findViewById(R.id.easy_ui_fab);
-        mHelpButton = mView.findViewById(R.id.easy_ui_help_button);
         mTitle = mView.findViewById(R.id.easy_ui_title);
 
+        mTitle.setText(R.string.easy_ui_logs_title);
         mFab.setOnClickListener(this);
 
-        ImageButton helpImage = mView.findViewById(R.id.easy_ui_help_button);
+        ImageView helpImage = mView.findViewById(R.id.easy_ui_help);
         helpImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

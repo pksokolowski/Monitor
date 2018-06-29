@@ -140,7 +140,7 @@
     <string name="easy_ui_logs_minihelp_end_time">Select time when the activity ended. Touch time, hours and minutes, to change time. Tap date if you need to change it too.</string>
     <string name="easy_ui_logs_tv_start_time">Started at:</string>
     <string name="easy_ui_logs_tv_end_time">Ended at:</string>
-
+    <string name="easy_ui_logs_title">Logs</string>
 
 
 </resources>
