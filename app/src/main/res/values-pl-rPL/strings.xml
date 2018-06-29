@@ -113,18 +113,16 @@
         Na liście w edytorze logów występują one w formacie: czas trwania, tytuł kategorii, czas i data rozpoczęcia.[/p]
 
         Edytor logów[p] Przycisk LOGS w aplikacji otwiera edytor logów. Służy on usuwaniu, edycji i dodawaniu logów. Jeżeli zapomnisz załączyć liczenie czasu rozpoczynając aktywność, albo omyłkowo zostawisz je włączone za długo, nie ma
-        problemu by dodać brakujący log czy zmienić czas rozpoczęcia czy zakończenia istniejącego logu, jak również kategorię, do jakiej należy. Na samej górze okienka edytora logów znajduje się podłużny przycisk ze strzałką w dół. Jego
-        naciśnięcie opuści narzędzia edycyjne. Wszelkie zmiany dokonane przy ich pomocy należy później zatwierdzić przyciskiem ZAPISZ na dole okienka edytora.[/p]
+        problemu by dodać brakujący log czy zmienić czas rozpoczęcia czy zakończenia istniejącego logu, jak również kategorię, do jakiej należy.[/p]
 
-        Dodawanie logów[p] Otwórz edytor logów przyciskiem LOGS w aplikacji. Dotknij przycisku ze strzałką w dół, w górnej części okienka edytora. Wybierz kategorię z listy znajdującej się na samej górze okienka.
-        wybierz czas/datę rozpoczęcia dotykając czasu/daty pod wybraną kategorią. Analogicznie postąp z czasem/datą zakończenia aktywności. Następnie dotknij przycisk DODAJ. Nowy log pojawi się na liście poniżej. Aby zapisać zmiany, użyj przycisku ZAPISZ.[/p]
+        Dodawanie logów[p] Otwórz edytor logów przyciskiem LOGS w aplikacji. Naciśnij okrągły przycisk z plusem, w dolnej części ekranu. Wybierz kategorię z rozwijalnej listy.
+        Wybierz czas/datę rozpoczęcia dotykając czasu/daty pod wybraną kategorią. Analogicznie postąp z czasem/datą zakończenia aktywności. Następnie dotknij przycisku ZAPISZ.[/p]
 
-        Usuwanie logów[p] Otwórz edytor logów przyciskiem LOGS w aplikacji. Znajdź log, który chcesz usunąć, na liście i dotknij go, co spowoduje jego zaznaczenie. Dotknij przycisku ze strzałką w dół, w górnej części okienka edytora. Dotknij przycisk USUŃ.
-        Aby zmiana została zapamiętana, dotknij przycisku ZAPISZ.[/p]
+        Usuwanie logów[p] Otwórz edytor logów przyciskiem LOGS w aplikacji. Dotknij loga, którego zamierzasz usunąć. Naciśnij USUŃ.[/p]
 
-        Edycja logów[p] Otwórz edytor logów przyciskiem LOGS w aplikacji. Znajdź log, który chcesz edytować, na liście i dotknij go, co spowoduje jego zaznaczenie. Dotknij przycisku ze strzałką w dół, w górnej części okienka edytora. Możesz zmienić kategorię
-        wybierając inną z rozwijalnej listy na samej górze; możesz zmienić czas i/lub datę rozpoczęcia dotykając czasu/daty po lewej stronie i analogicznie po prawej stronie postąpić z czasem i/lub datą zakończenia aktywności.
-        Po wprowadzeniu tych zmian, naciśnij przycisk "ZMIEŃ" - na liście pojawi się poprawiona wersja loga. Aby zachować zmiany na stałe, naciśnij ZAPISZ.[/p]
+        Edycja logów[p] Otwórz edytor logów przyciskiem LOGS w aplikacji. Znajdź log, który chcesz edytować, na liście i dotknij go. Możesz zmienić kategorię
+        wybierając inną z rozwijalnej listy. Możesz zmienić czas i/lub datę rozpoczęcia i zakończenia dotykając czasu/daty.
+        Po wprowadzeniu zmian, naciśnij przycisk "ZAPISZ".[/p]
     </string>
 
     <string name="notification_no_categories_message">dotknij by dodać kategorie</string>

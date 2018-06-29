@@ -113,14 +113,14 @@
         and generates a log of activity which is then saved to the database. Therefore you only see logs appearing in LOGS editor after the activity is finished.
         On the list in the LOGS editor, they appear in the following format: duration, category title, start time and date.[/p]
 
-        Logs editor[p] Tapping LOGS in the app will open up LOGS editor. This powerful tool allows you to change, delete and add logs of activity. Forgot to start? Left it on overnight by mistake? You can reverse any of these common
-        errors. On top of the editor there is a button with an arrow. Press it to drop down the editing tools.[/p]
+        Logs editor[p] Tapping LOGS in the app will open up LOGS editor. This simple, yet powerful, tool allows you to change, delete and add logs of activity. Forgot to start? Left it on overnight by mistake? You can reverse any of these common
+        errors.[/p]
 
-        Adding logs[p] Open LOGS editor, tap on the downward facing arrow on top of the editor, select category then immediately below it select start time(on the left hand side) and the end time(right hand side). Press ADD button. Remember to tap SAVE once you\'re done adding[/p]
+        Adding logs[p] Open LOGS editor, tap the round plus button, select category then select start time and the end time. Press SAVE button.[/p]
 
-        Deleting logs[p] Open LOGS editor, select a log on the list, tap downward facing arrow on top of the editor, tap delete. SAVE changes.[/p]
+        Deleting logs[p] Open LOGS editor, tap the log you wish to remove and press delete.[/p]
 
-        Changing logs[p] Open LOGS editor, select a log to change on the list, tap downward facing arrow on top of the editor, edit either category or start/end times, then tap CHANGE. Remember to tap SAVE once you\'re done working with the editor.[/p]
+        Changing logs[p] Open LOGS editor, tap the log, you wish to change, on the list. Edit either category or start/end times, then tap SAVE.[/p]
     </string>
 
     <string name="notification_no_categories_message">tap to add categories</string>
