@@ -149,7 +149,9 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
 
     @Override
     public void onCatChackerChange(CatData cat, int i) {
-        saveDataToDb();
+        DbHelper db = DbHelper.getInstance(getActivity());
+        db.changeCategory(cat);
+        letUserKnow();
     }
 
     // callbacks from EasyCatsEditor
@@ -165,13 +167,17 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
     @Override
     public void onCatDeleted(CatData cat, int i) {
         mCatsAdapter.remove(i);
-        saveDataToDb();
+        DbHelper db = DbHelper.getInstance(getActivity());
+        db.deleteCategory(cat);
+        letUserKnow();
     }
 
     @Override
     public void onCatChanged(int i, CatData replacementCat) {
         mCatsAdapter.replace(i, replacementCat);
-        saveDataToDb();
+        DbHelper db = DbHelper.getInstance(getActivity());
+        db.changeCategory(replacementCat);
+        letUserKnow();
     }
 
     /**
@@ -179,13 +185,6 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
      * and in the database.
      * Notification is always shown to let the user know, their changes took effect.
      */
-    private void saveDataToDb(){
-        // save cats to db
-        DbHelper db = DbHelper.getInstance(getActivity());
-        db.pushCategories(mCatsAdapter.getAllCats());
-        // update the notification:
-        letUserKnow();
-    }
 
     private void letUserKnow() {
         NotificationProvider.showNotificationIfEnabled(getActivity(), true);

@@ -192,7 +192,28 @@ public class DbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public int swapCategories(long a, long b) {
+    public void changeCategory(CatData cat){
+        updateCategory(cat, findCatIndexAmongUndeleted(cat));
+    }
+
+    public void deleteCategory(CatData cat){
+        // create a "deleted" copy of the cat
+        CatData deleted_cat = new CatData(cat.getID(), cat.getTitle(), cat.getInitial(), CatData.CATEGORY_STATUS_DELETED);
+        // update the cat to deleted status in db
+        updateCategory(deleted_cat, findCatIndexAmongUndeleted(cat));
+    }
+
+    private int findCatIndexAmongUndeleted(CatData cat){
+        List<CatData> dbCats = getCategories(CatData.CATEGORY_STATUS_INACTIVE);
+        int index = -1;
+        for (int i = 0; i < dbCats.size(); i++){
+            long catID = dbCats.get(i).getID();
+            if(catID == cat.getID()){ index = i; break;}
+        }
+        return index;
+    }
+
+    public boolean swapCategories(long a, long b) {
         List<CatData> dbCats = getCategories(CatData.CATEGORY_STATUS_INACTIVE);
         int index_a = -1;
         int index_b = -1;
@@ -202,13 +223,13 @@ public class DbHelper extends SQLiteOpenHelper {
             if(catID == b) index_b = i;
         }
 
-        if(index_a == -1 || index_b == -1) return 1;
+        if(index_a == -1 || index_b == -1) return false;
 
         // perform swap
         updateCategory(dbCats.get(index_a), index_b);
         updateCategory(dbCats.get(index_b), index_a);
 
-        return 0;
+        return true;
     }
 
 
