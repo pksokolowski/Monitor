@@ -13,40 +13,56 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sokol.monitor.CatData;
 import com.example.sokol.monitor.DataBase.DbHelper;
 import com.example.sokol.monitor.Help.HelpProvider;
-import com.example.sokol.monitor.LogsDialog.Log;
+import com.example.sokol.monitor.NotificationProvider;
 import com.example.sokol.monitor.OnNeedUserInterfaceUpdate;
 import com.example.sokol.monitor.R;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
-public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapter.OnItemSelectedListener, View.OnClickListener, OnStartDragListener {
+public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapter.OnItemSelectedListener, View.OnClickListener, OnReorderDragListener, OnCatCheckedChange, EasyCatsEditor.OnInteractionEnded {
     private View mView;
 
     private List<CatData> mCats;
+    List<String> mDeletedCats;
     private EasyCatsAdapter mCatsAdapter;
     private RecyclerView mRecycler;
     private FloatingActionButton mFab;
     private TextView mTitle;
 
     private ItemTouchHelper mItemTouchHelper;
-    private ArrayAdapter<String> mDeletedCatsAdapter;
 
     OnNeedUserInterfaceUpdate mUserInterfaceUpdater;
+
+    private void loadCatsData(){
+        mCats = new ArrayList<>();
+        List<CatData> Allcats = null;
+        mDeletedCats = new ArrayList<>();
+        // load categories from the database
+        DbHelper db = DbHelper.getInstance(getActivity());
+        Allcats = db.getCategories(CatData.CATEGORY_STATUS_DELETED);
+        if (Allcats == null) Allcats = new ArrayList<>();
+
+        // extract only Inactive+
+        for (int i = 0; i < Allcats.size(); i++) {
+            CatData cat = Allcats.get(i);
+            if (cat.getStatus() >= CatData.CATEGORY_STATUS_INACTIVE) {
+                mCats.add(cat);
+            } else {
+                mDeletedCats.add(cat.getTitle());
+            }
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
-        // This makes sure that the container activity has implemented
-        // the required interfaces. If not, it throws an exception
         try {
             mUserInterfaceUpdater = (OnNeedUserInterfaceUpdate) context;
         } catch (ClassCastException e) {
@@ -62,9 +78,8 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
         LayoutInflater inflater = getActivity().getLayoutInflater();
         mView = inflater.inflate(R.layout.easy_ui_dialog, null);
 
-        // obtain a list of categories
-        mCats = DbHelper.getInstance(mView.getContext()).getCategories(CatData.CATEGORY_STATUS_INACTIVE);
-        mCatsAdapter = new EasyCatsAdapter(mCats, this);
+        loadCatsData();
+        mCatsAdapter = new EasyCatsAdapter(mCats, this, this);
 
         setupUIElements();
 
@@ -87,7 +102,7 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
         mTitle.setText(R.string.easy_ui_cats_title);
         mFab.setOnClickListener(this);
 
-        mItemTouchHelper = SimpleCallbackHelper.attachSimpleItemTouchHelper(mRecycler, mCatsAdapter, mDeletedCatsAdapter);
+        mItemTouchHelper = SimpleCallbackHelper.attachSimpleItemTouchHelper(mRecycler, mCatsAdapter);
 
         ImageView helpImage = mView.findViewById(R.id.easy_ui_help);
         helpImage.setOnClickListener(new View.OnClickListener() {
@@ -112,12 +127,62 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
     }
 
     private void displayEditor(CatData cat, int i){
-
+        EasyCatsEditor editor = new EasyCatsEditor();
+        editor.setCat(cat, i);
+        editor.setDeletedCats(mDeletedCats.toArray(new CatData[mDeletedCats.size()]));
+        editor.setOnInteractionEndedListener(this);
+        editor.show(getActivity().getSupportFragmentManager(), "CATS editor");
     }
 
     @Override
-    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+    public void onStartReorderDrag(RecyclerView.ViewHolder viewHolder) {
         // dragging the cat in the recycler
         mItemTouchHelper.startDrag(viewHolder);
     }
+
+    @Override
+    public void onEndReorderDrag(CatData cat, int i) {
+        saveDataToDb();
+    }
+
+    @Override
+    public void onCatChackerChange(CatData cat, int i) {
+        saveDataToDb();
+    }
+
+    // callbacks from EasyCatsEditor
+    @Override
+    public void onCatCreated(CatData cat) {
+        mCatsAdapter.addACat(cat);
+        saveDataToDb();
+    }
+
+    @Override
+    public void onCatDeleted(CatData cat, int i) {
+        mCatsAdapter.remove(i);
+        saveDataToDb();
+    }
+
+    @Override
+    public void onCatChanged(int i, String catTitle) {
+        mCatsAdapter.change(i);
+    }
+
+    /**
+     * This method saves (to the database) the differences between the data in mCatsAdapter
+     * and in the database.
+     * Notification is always shown to let the user know, their changes took effect.
+     */
+    private void saveDataToDb(){
+        // unless nothing is changed:
+        if (!mCatsAdapter.isDataChanged()) return;
+        // save cats to db
+        DbHelper db = DbHelper.getInstance(getActivity());
+        db.pushCategories(mCatsAdapter.getAllCats());
+        // update the notification:
+        NotificationProvider.showNotificationIfEnabled(getActivity(), true);
+        // let mainactivity know cats have changed
+        mUserInterfaceUpdater.onNeedUserInterfaceUpdate();
+    }
+
 }

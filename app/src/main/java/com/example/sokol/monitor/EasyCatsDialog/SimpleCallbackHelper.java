@@ -13,14 +13,14 @@ import static android.support.v7.widget.helper.ItemTouchHelper.UP;
 
 public class SimpleCallbackHelper {
 
-    public static ItemTouchHelper attachSimpleItemTouchHelper(RecyclerView recycler, final EasyCatsAdapter adapter, final ArrayAdapter<String> suggestionsAdapter){
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(getSimpleCallback(adapter, suggestionsAdapter));
+    public static ItemTouchHelper attachSimpleItemTouchHelper(RecyclerView recycler, final EasyCatsAdapter adapter){
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(getSimpleCallback(adapter));
         itemTouchHelper.attachToRecyclerView(recycler);
 
         return itemTouchHelper;
     }
 
-    private static ItemTouchHelper.SimpleCallback getSimpleCallback(EasyCatsAdapter adapter, final ArrayAdapter<String> suggestionsAdapter)
+    private static ItemTouchHelper.SimpleCallback getSimpleCallback(EasyCatsAdapter adapter)
     {
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(UP | DOWN, LEFT | RIGHT) {
             @Override
@@ -36,15 +36,6 @@ public class SimpleCallbackHelper {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                int pos = viewHolder.getAdapterPosition();
-
-                if (direction == LEFT || direction == RIGHT) {
-                    // add to suggested cats:
-                    suggestionsAdapter.add(adapter.getCatAt(pos).getTitle());
-
-                    // remove
-                    adapter.remove(pos);
-                }
             }
 
             @Override

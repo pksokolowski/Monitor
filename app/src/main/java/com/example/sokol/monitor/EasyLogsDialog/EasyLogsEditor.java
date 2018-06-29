@@ -13,12 +13,12 @@ import android.widget.Spinner;
 import com.example.sokol.monitor.CatData;
 import com.example.sokol.monitor.DataBase.DbHelper;
 import com.example.sokol.monitor.DateTimePicker.DateTimePicker;
+import com.example.sokol.monitor.ErrorMessageConcatenator;
 import com.example.sokol.monitor.LogsDialog.Log;
 import com.example.sokol.monitor.PopUpMessage;
 import com.example.sokol.monitor.R;
 import com.example.sokol.monitor.TimeHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EasyLogsEditor extends DialogFragment implements Dialog.OnClickListener, View.OnClickListener {

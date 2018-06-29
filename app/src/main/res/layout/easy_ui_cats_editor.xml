@@ -33,13 +33,14 @@
 
     <CheckBox
         android:id="@+id/active"
-        android:text="@string/easy_ui_cats_show_on_notification"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
+        android:checked="true"
+        android:text="@string/easy_ui_cats_show_on_notification"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/help_active"
         app:layout_constraintStart_toStartOf="parent"

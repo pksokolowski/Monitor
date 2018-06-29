@@ -29,13 +29,15 @@ public class EasyCatsAdapter extends RecyclerView.Adapter<EasyCatsAdapter.ItemVi
         return mWasDataChanged;
     }
 
-    private OnStartDragListener mStartDragListener;
+    private OnReorderDragListener mStartDragListener;
+    private OnCatCheckedChange mCatCheckedChangeListener;
 
     private boolean mWasDataChanged = false;
 
-    public EasyCatsAdapter(List<CatData> data_to_show, OnStartDragListener dragListener){
+    public EasyCatsAdapter(List<CatData> data_to_show, OnReorderDragListener dragListener, OnCatCheckedChange catCheckedChangeListener){
         mItems = data_to_show;
         mStartDragListener = dragListener;
+        mCatCheckedChangeListener = catCheckedChangeListener;
     }
 
     public void addACat(CatData cat) {
@@ -81,6 +83,7 @@ public class EasyCatsAdapter extends RecyclerView.Adapter<EasyCatsAdapter.ItemVi
                     kitten.setStatus(CatData.CATEGORY_STATUS_INACTIVE);
                 }
                 mWasDataChanged = true;
+                mCatCheckedChangeListener.onCatChackerChange(kitten, holder.getAdapterPosition());
             }
         });
 
@@ -98,7 +101,7 @@ public class EasyCatsAdapter extends RecyclerView.Adapter<EasyCatsAdapter.ItemVi
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    mStartDragListener.onStartDrag(holder);
+                    mStartDragListener.onStartReorderDrag(holder);
                 }
                 return false;
             }
@@ -123,12 +126,17 @@ public class EasyCatsAdapter extends RecyclerView.Adapter<EasyCatsAdapter.ItemVi
         }
         notifyItemMoved(fromPos, toPos);
         mWasDataChanged = true;
+        mStartDragListener.onEndReorderDrag(mItems.get(toPos), toPos);
     }
 
     public void remove(int pos){
         mItems.remove(pos);
         notifyItemRemoved(pos);
         mWasDataChanged = true;
+    }
+
+    public void change(int pos){
+        notifyItemChanged(pos);
     }
 
     public List<CatData> getAllCats() {

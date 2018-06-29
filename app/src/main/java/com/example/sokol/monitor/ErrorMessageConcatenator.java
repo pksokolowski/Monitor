@@ -1,4 +1,4 @@
-package com.example.sokol.monitor.EasyLogsDialog;
+package com.example.sokol.monitor;
 
 import java.util.ArrayList;
 import java.util.List;
