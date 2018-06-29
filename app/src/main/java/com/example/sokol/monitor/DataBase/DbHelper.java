@@ -192,6 +192,25 @@ public class DbHelper extends SQLiteOpenHelper {
         }
     }
 
+    public int swapCategories(long a, long b) {
+        List<CatData> dbCats = getCategories(CatData.CATEGORY_STATUS_INACTIVE);
+        int index_a = -1;
+        int index_b = -1;
+        for (int i = 0; i < dbCats.size(); i++){
+            long catID = dbCats.get(i).getID();
+            if(catID == a) index_a = i;
+            if(catID == b) index_b = i;
+        }
+
+        if(index_a == -1 || index_b == -1) return 1;
+
+        // perform swap
+        updateCategory(dbCats.get(index_a), index_b);
+        updateCategory(dbCats.get(index_b), index_a);
+
+        return 0;
+    }
+
 
     /**
      * Saves a new category to db.

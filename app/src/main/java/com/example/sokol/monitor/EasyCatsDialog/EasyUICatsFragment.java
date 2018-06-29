@@ -140,8 +140,11 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
     }
 
     @Override
-    public void onEndReorderDrag(CatData cat, int i) {
-        saveDataToDb();
+    public void onEndReorderDrag(long catA_ID, long catB_ID) {
+        DbHelper db = DbHelper.getInstance(getActivity());
+        db.swapCategories(catA_ID, catB_ID);
+
+        letUserKnow();
     }
 
     @Override
@@ -156,9 +159,7 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
         long catID = db.addCatIfAbsentUpdateOtherwise(cat, mCatsAdapter.getItemCount());
         CatData newCat = new CatData(catID, cat.getTitle(), cat.getInitial(), cat.getStatus());
         mCatsAdapter.addACat(newCat);
-        NotificationProvider.showNotificationIfEnabled(getActivity(), true);
-        // let mainactivity know cats have changed
-        mUserInterfaceUpdater.onNeedUserInterfaceUpdate();
+        letUserKnow();
     }
 
     @Override
@@ -183,6 +184,10 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
         DbHelper db = DbHelper.getInstance(getActivity());
         db.pushCategories(mCatsAdapter.getAllCats());
         // update the notification:
+        letUserKnow();
+    }
+
+    private void letUserKnow() {
         NotificationProvider.showNotificationIfEnabled(getActivity(), true);
         // let mainactivity know cats have changed
         mUserInterfaceUpdater.onNeedUserInterfaceUpdate();

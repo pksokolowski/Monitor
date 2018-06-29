@@ -117,7 +117,7 @@ public class EasyCatsAdapter extends RecyclerView.Adapter<EasyCatsAdapter.ItemVi
             }
         }
         notifyItemMoved(fromPos, toPos);
-        mStartDragListener.onEndReorderDrag(mItems.get(toPos), toPos);
+        mStartDragListener.onEndReorderDrag(mItems.get(fromPos).getID(), mItems.get(toPos).getID());
     }
 
     public void remove(int pos){
