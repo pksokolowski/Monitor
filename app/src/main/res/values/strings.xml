@@ -151,6 +151,7 @@
     <string name="cats_dialog_error_no_title">Give the category a title.</string>
     <string name="cats_dialog_error_no_initial">Choose an initial or an emoji.</string>
     <string name="cats_dialog_error_title_is_taken">Category already exists.</string>
+    <string name="cats_dialog_error_long_initial">Consider using a single letter or a single emoji.</string>
 
 
 </resources>

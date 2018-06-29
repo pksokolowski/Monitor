@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -16,7 +18,7 @@ import com.example.sokol.monitor.R;
 
 import java.util.List;
 
-public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickListener, View.OnClickListener {
+public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickListener, View.OnClickListener, TextWatcher {
     private View mView;
 
     private CatData mCat;
@@ -88,6 +90,9 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
             // on an existing cat
             mTitleEdit.setEnabled(false);
         }
+
+        // remind user that initial should be short.
+        mInitialEdit.addTextChangedListener(this);
     }
 
     private boolean isInputCorrect() {
@@ -150,5 +155,24 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
             mListener.onCatChanged(mCatIndex, makeCat());
         }
         dismiss();
+    }
+
+    // TextWatcher for the mInitialEdit EditText. Guarding against too long initials.
+    // but not forbidding them. Just letting the user know.
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        if(charSequence.length() > 1){
+            mInitialEdit.setError(getString(R.string.cats_dialog_error_long_initial));
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
     }
 }
