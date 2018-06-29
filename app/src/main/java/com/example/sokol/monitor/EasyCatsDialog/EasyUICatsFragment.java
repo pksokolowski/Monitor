@@ -128,8 +128,7 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
 
     private void displayEditor(CatData cat, int i){
         EasyCatsEditor editor = new EasyCatsEditor();
-        editor.setCat(cat, i);
-        editor.setDeletedCats(mDeletedCats.toArray(new String[mDeletedCats.size()]));
+        editor.setData(cat, i, mDeletedCats, ToCatArrayHelper.getTitlesOfNonDeletedCats(mCatsAdapter.getAllCats()));
         editor.setOnInteractionEndedListener(this);
         editor.show(getActivity().getSupportFragmentManager(), "CATS editor");
     }

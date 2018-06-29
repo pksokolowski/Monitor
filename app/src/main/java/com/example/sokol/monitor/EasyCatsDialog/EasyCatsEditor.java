@@ -28,13 +28,11 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
     private EditText mInitialEdit;
     private CheckBox mActiveEdit;
 
-    public void setDeletedCats(String[] deletedCats){
-        mDeletedCatsTitles = deletedCats;
-    }
-
-    public void setCat(CatData cat, int i) {
-        mCat = cat;
-        mCatIndex = i;
+    public void setData(CatData catToEdit, int indexOfThecat, List<String> titlesOfDeletedCats, List<String> titlesOfNonDeletedCats){
+        mCat = catToEdit;
+        mCatIndex = indexOfThecat;
+        mDeletedCatsTitles = ToCatArrayHelper.getArray(titlesOfDeletedCats);
+        mNonDeletedCatsTitles = titlesOfNonDeletedCats;
     }
 
     public void setOnInteractionEndedListener(OnInteractionEnded listener) {
