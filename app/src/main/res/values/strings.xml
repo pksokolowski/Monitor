@@ -150,6 +150,8 @@
     <string name="easy_ui_cats_hint_title">Title of the category</string>
 
     <string name="easy_ui_cats_title">Categories</string>
+    <string name="cats_dialog_error_no_title">Give the category a title.</string>
+    <string name="cats_dialog_error_no_initial">Choose an initial or an emoji.</string>
 
 
 </resources>

@@ -22,7 +22,7 @@ public class SimpleCallbackHelper {
 
     private static ItemTouchHelper.SimpleCallback getSimpleCallback(EasyCatsAdapter adapter)
     {
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(UP | DOWN, LEFT | RIGHT) {
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(UP | DOWN, 0) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 final int fromPos = viewHolder.getAdapterPosition();
@@ -37,6 +37,8 @@ public class SimpleCallbackHelper {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
             }
+
+
 
             @Override
             public boolean isLongPressDragEnabled() {

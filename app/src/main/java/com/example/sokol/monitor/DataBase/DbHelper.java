@@ -199,7 +199,7 @@ public class DbHelper extends SQLiteOpenHelper {
      * @param cat       the category to save
      * @param order_num the number of it on the list, ordering number.
      */
-    public long addCategory(CatData cat, int order_num) {
+    private long addCategory(CatData cat, int order_num) {
         loadWritableDatabaseIfNotLoadedAlready();
         ContentValues cv = new ContentValues();
         cv.put(Contract.categories.COLUMN_NAME_TITLE, cat.getTitle());
@@ -207,6 +207,27 @@ public class DbHelper extends SQLiteOpenHelper {
         cv.put(Contract.categories.COLUMN_NAME_ORDER_NUMBER, order_num);
         cv.put(Contract.categories.COLUMN_NAME_STATUS, cat.getStatus());
         return sDataBase.insert(Contract.categories.TABLE_NAME, null, cv);
+    }
+
+    /**
+     * use this method to safely add a new category to the database.
+     * It first checks if the cat already exists, and if so, it replaces the old data and returns
+     * the ID of the changed cat. If the cat is new, it creates a new entry and returns it's ID.
+     *
+     * @param cat
+     * @param order_num
+     * @return ID of either a newly created category or of the old category that had to be changed.
+     */
+    public long addCatIfAbsentUpdateOtherwise(CatData cat, int order_num){
+        List<CatData> dbCats = getCategories(CatData.CATEGORY_STATUS_DELETED);
+        for(CatData dbCat : dbCats){
+            if(cat.getTitle().equals(dbCat.getTitle())){
+                long ID = dbCat.getID();
+                updateCategory(cat, order_num);
+                return ID;
+            }
+        }
+        return addCategory(cat, order_num);
     }
 
     /**

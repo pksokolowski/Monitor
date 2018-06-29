@@ -25,14 +25,8 @@ public class EasyCatsAdapter extends RecyclerView.Adapter<EasyCatsAdapter.ItemVi
     // this list holds the data.
     private List<CatData> mItems;
 
-    public boolean isDataChanged() {
-        return mWasDataChanged;
-    }
-
     private OnReorderDragListener mStartDragListener;
     private OnCatCheckedChange mCatCheckedChangeListener;
-
-    private boolean mWasDataChanged = false;
 
     public EasyCatsAdapter(List<CatData> data_to_show, OnReorderDragListener dragListener, OnCatCheckedChange catCheckedChangeListener){
         mItems = data_to_show;
@@ -52,7 +46,6 @@ public class EasyCatsAdapter extends RecyclerView.Adapter<EasyCatsAdapter.ItemVi
 
         mItems.add(cat);
         notifyItemInserted(mItems.size() - 1);
-        mWasDataChanged = true;
     }
 
     public CatData getCatAt(int pos){
@@ -82,7 +75,6 @@ public class EasyCatsAdapter extends RecyclerView.Adapter<EasyCatsAdapter.ItemVi
                 }else{
                     kitten.setStatus(CatData.CATEGORY_STATUS_INACTIVE);
                 }
-                mWasDataChanged = true;
                 mCatCheckedChangeListener.onCatChackerChange(kitten, holder.getAdapterPosition());
             }
         });
@@ -125,17 +117,20 @@ public class EasyCatsAdapter extends RecyclerView.Adapter<EasyCatsAdapter.ItemVi
             }
         }
         notifyItemMoved(fromPos, toPos);
-        mWasDataChanged = true;
         mStartDragListener.onEndReorderDrag(mItems.get(toPos), toPos);
     }
 
     public void remove(int pos){
         mItems.remove(pos);
         notifyItemRemoved(pos);
-        mWasDataChanged = true;
     }
 
     public void change(int pos){
+        notifyItemChanged(pos);
+    }
+
+    public void replace(int pos, CatData cat){
+        mItems.set(pos, cat);
         notifyItemChanged(pos);
     }
 

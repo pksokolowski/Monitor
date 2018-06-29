@@ -129,7 +129,7 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
     private void displayEditor(CatData cat, int i){
         EasyCatsEditor editor = new EasyCatsEditor();
         editor.setCat(cat, i);
-        editor.setDeletedCats(mDeletedCats.toArray(new CatData[mDeletedCats.size()]));
+        editor.setDeletedCats(mDeletedCats.toArray(new String[mDeletedCats.size()]));
         editor.setOnInteractionEndedListener(this);
         editor.show(getActivity().getSupportFragmentManager(), "CATS editor");
     }
@@ -154,7 +154,7 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
     @Override
     public void onCatCreated(CatData cat) {
         DbHelper db = DbHelper.getInstance(getActivity());
-        long catID = db.addCategory(cat, mCatsAdapter.getItemCount());
+        long catID = db.addCatIfAbsentUpdateOtherwise(cat, mCatsAdapter.getItemCount());
         CatData newCat = new CatData(catID, cat.getTitle(), cat.getInitial(), cat.getStatus());
         mCatsAdapter.addACat(newCat);
     }
@@ -166,8 +166,8 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
     }
 
     @Override
-    public void onCatChanged(int i, String catTitle) {
-        mCatsAdapter.change(i);
+    public void onCatChanged(int i, CatData replacementCat) {
+        mCatsAdapter.replace(i, replacementCat);
         saveDataToDb();
     }
 
@@ -177,8 +177,6 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
      * Notification is always shown to let the user know, their changes took effect.
      */
     private void saveDataToDb(){
-        // unless nothing is changed:
-        if (!mCatsAdapter.isDataChanged()) return;
         // save cats to db
         DbHelper db = DbHelper.getInstance(getActivity());
         db.pushCategories(mCatsAdapter.getAllCats());

@@ -7,26 +7,29 @@ import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import com.example.sokol.monitor.CatData;
 import com.example.sokol.monitor.ErrorMessageConcatenator;
-import com.example.sokol.monitor.PopUpMessage;
 import com.example.sokol.monitor.R;
+
+import java.util.List;
 
 public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickListener, View.OnClickListener {
     private View mView;
 
     private CatData mCat;
     private int mCatIndex;
-    private CatData[] mDeletedCats;
+    private String[] mDeletedCatsTitles;
+    private List<String> mNonDeletedCatsTitles;
 
-    private EditText mTitleEdit;
+    private AutoCompleteTextView mTitleEdit;
     private EditText mInitialEdit;
     private CheckBox mActiveEdit;
 
-    public void setDeletedCats(CatData[] deletedCats){
-        mDeletedCats = deletedCats;
+    public void setDeletedCats(String[] deletedCats){
+        mDeletedCatsTitles = deletedCats;
     }
 
     public void setCat(CatData cat, int i) {
@@ -42,7 +45,7 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
     public interface OnInteractionEnded {
         void onCatCreated(CatData cat);
         void onCatDeleted(CatData cat, int i);
-        void onCatChanged(int i, String catTitle);
+        void onCatChanged(int i, CatData replacementCat);
     }
 
     @Override
@@ -69,6 +72,12 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(this);
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        // close keyboard:
+    }
+
     private void setupUI() {
         mTitleEdit = mView.findViewById(R.id.title);
         mInitialEdit = mView.findViewById(R.id.initial);
@@ -82,20 +91,40 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
         }
     }
 
-    private boolean isInputCorrect(boolean showErrorMessages) {
+    private boolean isInputCorrect() {
         ErrorMessageConcatenator errors = new ErrorMessageConcatenator();
 
+        String title = mTitleEdit.getText().toString();
+        String initial = mInitialEdit.getText().toString();
+
+        if(title.length() == 0) {
+            errors.add(getString(R.string.cats_dialog_error_no_title));
+            mTitleEdit.setError(getString(R.string.cats_dialog_error_no_title));
+        } else {
+            // TODO: 29.06.2018 check if the cat already exists and is nonDeleted
+            // best ask Fragment...
+        }
+
+        if(initial.length() == 0){
+            errors.add(getString(R.string.cats_dialog_error_no_initial));
+            mInitialEdit.setError(getString(R.string.cats_dialog_error_no_initial));
+        }
 
         if (errors.size() == 0) return true;
 
-        if (showErrorMessages) {
-            PopUpMessage.pop(getActivity(), errors.getMultilineErrorsString());
-        }
         return false;
     }
 
-    private void applyInputToACat(CatData cat) {
-
+    private CatData makeCat(){
+        long ID = -1;
+        String title = mTitleEdit.getText().toString();
+        String initial = mInitialEdit.getText().toString();
+        int status = mActiveEdit.isChecked() ? CatData.CATEGORY_STATUS_ACTIVE : CatData.CATEGORY_STATUS_INACTIVE;
+        if(mCat != null){
+            ID = mCat.getID();
+            title = mCat.getTitle();
+        }
+        return new CatData(ID, title, initial, status);
     }
 
     @Override
@@ -108,12 +137,16 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
     @Override
     public void onClick(View view) {
         // check data validity
+        if(!isInputCorrect()) return;
 
         // save
         if(mCat == null){
             // creating a new cat
+            mListener.onCatCreated(makeCat());
         }else{
             // changing an existing cat
+            mListener.onCatChanged(mCatIndex, makeCat());
         }
+        dismiss();
     }
 }
