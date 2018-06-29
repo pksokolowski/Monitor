@@ -7,22 +7,12 @@ import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Spinner;
-
 import com.example.sokol.monitor.CatData;
-import com.example.sokol.monitor.DataBase.DbHelper;
-import com.example.sokol.monitor.DateTimePicker.DateTimePicker;
 import com.example.sokol.monitor.ErrorMessageConcatenator;
-import com.example.sokol.monitor.LogsDialog.Log;
 import com.example.sokol.monitor.PopUpMessage;
 import com.example.sokol.monitor.R;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickListener, View.OnClickListener {
     private View mView;
@@ -85,6 +75,7 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
         mActiveEdit = mView.findViewById(R.id.active);
 
         if (mCat != null) {
+            mTitleEdit.setText(mCat.getTitle());
             // since cat title is unique for each cat, it can't be changed
             // on an existing cat
             mTitleEdit.setEnabled(false);
@@ -103,18 +94,26 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
         return false;
     }
 
-    private void applyInputToACat(Log log) {
+    private void applyInputToACat(CatData cat) {
 
     }
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
         // deleting cat
-
+        if(mCat == null) return;
+        mListener.onCatDeleted(mCat, mCatIndex);
     }
 
     @Override
     public void onClick(View view) {
+        // check data validity
+
         // save
+        if(mCat == null){
+            // creating a new cat
+        }else{
+            // changing an existing cat
+        }
     }
 }

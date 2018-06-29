@@ -199,14 +199,14 @@ public class DbHelper extends SQLiteOpenHelper {
      * @param cat       the category to save
      * @param order_num the number of it on the list, ordering number.
      */
-    private void addCategory(CatData cat, int order_num) {
+    public long addCategory(CatData cat, int order_num) {
         loadWritableDatabaseIfNotLoadedAlready();
         ContentValues cv = new ContentValues();
         cv.put(Contract.categories.COLUMN_NAME_TITLE, cat.getTitle());
         cv.put(Contract.categories.COLUMN_NAME_INITIAL, cat.getInitial());
         cv.put(Contract.categories.COLUMN_NAME_ORDER_NUMBER, order_num);
         cv.put(Contract.categories.COLUMN_NAME_STATUS, cat.getStatus());
-        long newRowId = sDataBase.insert(Contract.categories.TABLE_NAME, null, cv);
+        return sDataBase.insert(Contract.categories.TABLE_NAME, null, cv);
     }
 
     /**

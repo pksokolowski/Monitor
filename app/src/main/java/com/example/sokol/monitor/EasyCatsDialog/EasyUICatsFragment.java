@@ -153,8 +153,10 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
     // callbacks from EasyCatsEditor
     @Override
     public void onCatCreated(CatData cat) {
-        mCatsAdapter.addACat(cat);
-        saveDataToDb();
+        DbHelper db = DbHelper.getInstance(getActivity());
+        long catID = db.addCategory(cat, mCatsAdapter.getItemCount());
+        CatData newCat = new CatData(catID, cat.getTitle(), cat.getInitial(), cat.getStatus());
+        mCatsAdapter.addACat(newCat);
     }
 
     @Override
@@ -166,6 +168,7 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
     @Override
     public void onCatChanged(int i, String catTitle) {
         mCatsAdapter.change(i);
+        saveDataToDb();
     }
 
     /**
