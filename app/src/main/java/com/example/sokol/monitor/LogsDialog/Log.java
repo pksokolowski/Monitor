@@ -10,6 +10,7 @@ import com.example.sokol.monitor.TimeHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Log {
     private long id;
@@ -102,5 +103,23 @@ public class Log {
 
     private static Log getLogAtI(int i, LogsData data, String initial, String title) {
         return new Log(data.getIDat(i), initial, title, data.getStartTimes()[i], data.getEndTimes()[i]);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Log log = (Log) o;
+        return id == log.id &&
+                startTime == log.startTime &&
+                endTime == log.endTime &&
+                Objects.equals(catInitial, log.catInitial) &&
+                Objects.equals(catTitle, log.catTitle);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, catInitial, catTitle, startTime, endTime);
     }
 }
