@@ -140,57 +140,6 @@ public class DbHelper extends SQLiteOpenHelper {
         return cats;
     }
 
-    /**
-     * saves/updates cats in db.
-     *
-     * @param cats list of cats from the cats editor
-     */
-    public void pushCategories(List<CatData> cats) {
-        List<CatData> dbCats = getCategories(CatData.CATEGORY_STATUS_DELETED);
-
-        // put cats as they are in db into hashmap
-        HashMap<String, CatData> h_dbCats = new HashMap<>();
-        // also store indexes for quick comparisons
-        HashMap<String, Integer> h_db_ordernum = new HashMap<>();
-        for (int i = 0; i < dbCats.size(); i++) {
-            CatData cat = dbCats.get(i);
-            if (h_dbCats.containsKey(cat.getTitle())) continue;
-            h_dbCats.put(cat.getTitle(), cat);
-            h_db_ordernum.put(cat.getTitle(), i);
-        }
-        // put new state of cats into a hashmap
-        HashMap<String, CatData> h_cats = new HashMap<>();
-        for (CatData cat : cats) {
-            if (h_cats.containsKey(cat.getTitle())) continue;
-            h_cats.put(cat.getTitle(), cat);
-        }
-
-        for (int i = 0; i < cats.size(); i++) {
-            CatData cat = cats.get(i);
-            CatData dbCat = h_dbCats.get(cat.getTitle());
-            if (dbCat == null) {
-                // nowy kot, dodaj do db
-                addCategory(cat, i);
-            } else if (!cat.equals(dbCat) || h_db_ordernum.get(cat.getTitle()) != i) {
-                // zmieniony kot, zaktualizuj kota w db:
-                updateCategory(cat, i);
-
-            }
-        }
-
-        // look for deleted ones: those who are in dbCats but no longer returned in cats.
-        // update such to have -1, or "deleted", status
-        for (int i = 0; i < dbCats.size(); i++) {
-            CatData cat = dbCats.get(i);
-            if (cat.getStatus() > CatData.CATEGORY_STATUS_DELETED && !h_cats.containsKey(cat.getTitle())) {
-                // create a "deleted" copy of the cat
-                CatData deleted_cat = new CatData(cat.getID(), cat.getTitle(), cat.getInitial(), CatData.CATEGORY_STATUS_DELETED);
-                // update the cat to deleted status in db
-                updateCategory(deleted_cat, i);
-            }
-        }
-    }
-
     public void changeCategory(CatData cat){
         updateCategory(cat, findCatOrderNum(cat));
     }

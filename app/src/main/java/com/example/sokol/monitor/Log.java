@@ -1,12 +1,8 @@
-package com.example.sokol.monitor.LogsDialog;
+package com.example.sokol.monitor;
 
 import android.content.Context;
 
-import com.example.sokol.monitor.CatData;
-import com.example.sokol.monitor.CatNameToIDHelper;
 import com.example.sokol.monitor.DataBase.DbHelper;
-import com.example.sokol.monitor.LogsData;
-import com.example.sokol.monitor.TimeHelper;
 
 import java.util.ArrayList;
 import java.util.List;

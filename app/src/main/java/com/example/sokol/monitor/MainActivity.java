@@ -24,8 +24,6 @@ import com.example.sokol.monitor.Graphs.PieChart;
 import com.example.sokol.monitor.Graphs.BarSimpleGraphView;
 import com.example.sokol.monitor.Graphs.TextualData;
 import com.example.sokol.monitor.Help.HelpProvider;
-import com.example.sokol.monitor.LogsDialog.Log;
-import com.example.sokol.monitor.LogsDialog.LogsDialogFragment;
 
 import java.util.List;
 
@@ -205,9 +203,6 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     }
 
     private void showCatsDialog() {
-//        SingleInstanceDialog catsDialog = new CatsDialogFragment();
-//        catsDialog.showIfNotVisibleAlready(getFragmentManager());
-
         Fragment prev = getSupportFragmentManager().findFragmentByTag("CATS");
         if(prev != null) return;
         EasyUICatsFragment cats = new EasyUICatsFragment();
