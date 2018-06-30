@@ -166,7 +166,11 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        if(charSequence.length() > 1){
+        // get length in characters as discernible by the user, counting emojis as
+        // a single character.
+        int codePoints = (int) charSequence.toString().codePoints().count();
+
+        if(codePoints > 1){
             mInitialEdit.setError(getString(R.string.cats_dialog_error_long_initial));
         }
     }
