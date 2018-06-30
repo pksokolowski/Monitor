@@ -110,14 +110,15 @@ public class EasyCatsAdapter extends RecyclerView.Adapter<EasyCatsAdapter.ItemVi
         if (fromPos < toPos) {
             for (int i = fromPos; i < toPos; i++) {
                 Collections.swap(mItems, i, i + 1);
+                mStartDragListener.onEndReorderDrag(mItems.get(i).getID(), mItems.get(i+1).getID());
             }
         } else {
             for (int i = fromPos; i > toPos; i--) {
                 Collections.swap(mItems, i, i - 1);
+                mStartDragListener.onEndReorderDrag(mItems.get(i).getID(), mItems.get(i-1).getID());
             }
         }
         notifyItemMoved(fromPos, toPos);
-        mStartDragListener.onEndReorderDrag(mItems.get(fromPos).getID(), mItems.get(toPos).getID());
     }
 
     public void remove(int pos){
