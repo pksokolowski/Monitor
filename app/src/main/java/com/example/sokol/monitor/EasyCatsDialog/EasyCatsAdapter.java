@@ -34,7 +34,7 @@ public class EasyCatsAdapter extends RecyclerView.Adapter<EasyCatsAdapter.ItemVi
         mCatCheckedChangeListener = catCheckedChangeListener;
     }
 
-    public void addACat(CatData cat) {
+    public void addACat(CatData cat, int index) {
         // search for collisions:
         for(int i =0; i<mItems.size();i++){
             CatData c = mItems.get(i);
@@ -44,8 +44,8 @@ public class EasyCatsAdapter extends RecyclerView.Adapter<EasyCatsAdapter.ItemVi
             }
         }
 
-        mItems.add(cat);
-        notifyItemInserted(mItems.size() - 1);
+        mItems.add(index, cat);
+        notifyItemInserted(index);
     }
 
     public CatData getCatAt(int pos){

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.example.sokol.monitor.CatData;
@@ -91,7 +90,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * pobiera wszystkie istniejące kategorie z bazy danych, ale tylko od min_status wzwyż.
+     * obtains all categories, with status at min_status or higher, from the database.
      */
     public List<CatData> getCategories(int min_status) {
         loadWritableDatabaseIfNotLoadedAlready();
@@ -193,18 +192,18 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public void changeCategory(CatData cat){
-        updateCategory(cat, findCatIndexAmongUndeleted(cat));
+        updateCategory(cat, findCatOrderNum(cat));
     }
 
     public void deleteCategory(CatData cat){
         // create a "deleted" copy of the cat
         CatData deleted_cat = new CatData(cat.getID(), cat.getTitle(), cat.getInitial(), CatData.CATEGORY_STATUS_DELETED);
         // update the cat to deleted status in db
-        updateCategory(deleted_cat, findCatIndexAmongUndeleted(cat));
+        updateCategory(deleted_cat, findCatOrderNum(cat));
     }
 
-    private int findCatIndexAmongUndeleted(CatData cat){
-        List<CatData> dbCats = getCategories(CatData.CATEGORY_STATUS_INACTIVE);
+    private int findCatOrderNum(CatData cat){
+        List<CatData> dbCats = getCategories(CatData.CATEGORY_STATUS_DELETED);
         int index = -1;
         for (int i = 0; i < dbCats.size(); i++){
             long catID = dbCats.get(i).getID();
@@ -255,19 +254,55 @@ public class DbHelper extends SQLiteOpenHelper {
      * the ID of the changed cat. If the cat is new, it creates a new entry and returns it's ID.
      *
      * @param cat
-     * @param order_num
      * @return ID of either a newly created category or of the old category that had to be changed.
      */
-    public long addCatIfAbsentUpdateOtherwise(CatData cat, int order_num){
+    public AdditionResult addCatIfAbsentUpdateOtherwise(CatData cat){
         List<CatData> dbCats = getCategories(CatData.CATEGORY_STATUS_DELETED);
-        for(CatData dbCat : dbCats){
-            if(cat.getTitle().equals(dbCat.getTitle())){
+        int dbCatsSize = dbCats.size();
+        int nonDeletedCatsBeforeThisOne = 0;
+        for (int i = 0; i < dbCatsSize; i++) {
+            CatData dbCat = dbCats.get(i);
+            if(dbCat.getStatus() > CatData.CATEGORY_STATUS_DELETED){
+                nonDeletedCatsBeforeThisOne +=1;
+            }
+            if (cat.getTitle().equals(dbCat.getTitle())) {
                 long ID = dbCat.getID();
-                updateCategory(cat, order_num);
-                return ID;
+                updateCategory(cat, i);
+                return new AdditionResult(cat, ID, i, nonDeletedCatsBeforeThisOne);
             }
         }
-        return addCategory(cat, order_num);
+        long ID = addCategory(cat, dbCatsSize);
+        return new AdditionResult(cat, ID, dbCatsSize, nonDeletedCatsBeforeThisOne);
+    }
+
+    public class AdditionResult {
+        long mID;
+        int mOrderNum;
+        CatData mCat;
+        int mOrderNumAmongNonDeletedCats;
+
+        public int getmOrderNumAmongNonDeletedCats() {
+            return mOrderNumAmongNonDeletedCats;
+        }
+
+        public long getmID() {
+            return mID;
+        }
+
+        public int getmOrderNum() {
+            return mOrderNum;
+        }
+
+        public CatData getCatWithAssignedID() {
+            return mCat;
+        }
+
+        public AdditionResult(CatData cat, long ID, int order_num, int orderNumAmongNonDeletedCats){
+            mID = ID;
+            mOrderNum = order_num;
+            mOrderNumAmongNonDeletedCats = orderNumAmongNonDeletedCats;
+            mCat = new CatData(ID, cat.getTitle(), cat.getInitial(), cat.getStatus());
+        }
     }
 
     /**

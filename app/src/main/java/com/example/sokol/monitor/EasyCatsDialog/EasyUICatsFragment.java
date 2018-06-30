@@ -158,9 +158,8 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
     @Override
     public void onCatCreated(CatData cat) {
         DbHelper db = DbHelper.getInstance(getActivity());
-        long catID = db.addCatIfAbsentUpdateOtherwise(cat, mCatsAdapter.getItemCount());
-        CatData newCat = new CatData(catID, cat.getTitle(), cat.getInitial(), cat.getStatus());
-        mCatsAdapter.addACat(newCat);
+        DbHelper.AdditionResult result = db.addCatIfAbsentUpdateOtherwise(cat);
+        mCatsAdapter.addACat(result.getCatWithAssignedID(), result.getmOrderNumAmongNonDeletedCats());
         letUserKnow();
     }
 
