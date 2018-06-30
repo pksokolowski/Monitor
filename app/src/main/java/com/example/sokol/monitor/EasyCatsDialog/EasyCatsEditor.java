@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -89,6 +90,11 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
             // since cat title is unique for each cat, it can't be changed
             // on an existing cat
             mTitleEdit.setEnabled(false);
+        } else{
+            // setup adapter with autocomplete suggestions for the title editText:
+            final ArrayAdapter<String> suggestionsAdapter = new ArrayAdapter<>(getActivity(),
+                    android.R.layout.simple_dropdown_item_1line, mDeletedCatsTitles);
+            mTitleEdit.setAdapter(suggestionsAdapter);
         }
 
         // remind user that initial should be short.

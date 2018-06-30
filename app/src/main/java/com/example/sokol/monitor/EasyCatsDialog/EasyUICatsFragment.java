@@ -160,6 +160,8 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
         DbHelper db = DbHelper.getInstance(getActivity());
         DbHelper.AdditionResult result = db.addCatIfAbsentUpdateOtherwise(cat);
         mCatsAdapter.addACat(result.getCatWithAssignedID(), result.getmOrderNumAmongNonDeletedCats());
+        // no longer suggest title of this cat in editor, as it is already created again
+        if(mDeletedCats.contains(cat.getTitle())) mDeletedCats.remove(cat.getTitle());
         letUserKnow();
     }
 
@@ -168,6 +170,8 @@ public class EasyUICatsFragment extends DialogFragment implements EasyCatsAdapte
         mCatsAdapter.remove(i);
         DbHelper db = DbHelper.getInstance(getActivity());
         db.deleteCategory(cat);
+        // add to deleted cat titles, for suggestions.
+        mDeletedCats.add(cat.getTitle());
         letUserKnow();
     }
 
