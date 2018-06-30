@@ -17,6 +17,7 @@ import com.example.sokol.monitor.CatData;
 import com.example.sokol.monitor.ErrorMessageConcatenator;
 import com.example.sokol.monitor.R;
 
+import java.text.BreakIterator;
 import java.util.List;
 
 public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickListener, View.OnClickListener, TextWatcher {
@@ -175,9 +176,9 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         // get length in characters as discernible by the user, counting emojis as
         // a single character.
-        int codePoints = (int) charSequence.toString().codePoints().count();
+        int graphemesCount = getGraphemeLength(charSequence.toString());
 
-        if(codePoints > 1){
+        if(graphemesCount > 1){
             mInitialEdit.setError(getString(R.string.cats_dialog_error_long_initial));
         }
     }
@@ -185,5 +186,15 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
     @Override
     public void afterTextChanged(Editable editable) {
 
+    }
+
+    private int getGraphemeLength(String s){
+        android.icu.text.BreakIterator it = android.icu.text.BreakIterator.getCharacterInstance();
+        it.setText(s);
+        int count = 0;
+        while(it.next() != android.icu.text.BreakIterator.DONE){
+            count++;
+        }
+        return count;
     }
 }
