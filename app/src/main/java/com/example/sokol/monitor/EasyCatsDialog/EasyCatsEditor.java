@@ -87,6 +87,7 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
         if (mCat != null) {
             mTitleEdit.setText(mCat.getTitle());
             mInitialEdit.setText(mCat.getInitial());
+            mActiveEdit.setChecked(mCat.getStatus() == CatData.CATEGORY_STATUS_ACTIVE);
             // since cat title is unique for each cat, it can't be changed
             // on an existing cat
             mTitleEdit.setEnabled(false);
