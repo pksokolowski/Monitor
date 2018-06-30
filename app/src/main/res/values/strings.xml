@@ -141,7 +141,7 @@
     <string name="easy_ui_logs_title">Logs</string>
 
     <string name="easy_ui_cats_minihelp_title">Name the category of activity. For example: Running, Studying, Reading, Training.</string>
-    <string name="easy_ui_cats_minihelp_initial">Assign an initial or an emote to the category. It will be displayed on the notification, where you will be tapping it to start/stop counting time spent on the category of activity - much like a stopwatch button.</string>
+    <string name="easy_ui_cats_minihelp_initial">Assign an initial or an emoji to the category. It will be displayed on the notification, where you will be tapping it to start/stop counting time spent on the category of activity - much like a stopwatch button.</string>
     <string name="easy_ui_cats_minihelp_active">If checked, the category\'s initial, as defined above, will appear on the notification as a start/stop button. You can uncheck it to temporarily hide the category from the notification.</string>
     <string name="easy_ui_cats_show_on_notification">Show on notification</string>
     <string name="easy_ui_cats_hint_initial">initial or emoji</string>
