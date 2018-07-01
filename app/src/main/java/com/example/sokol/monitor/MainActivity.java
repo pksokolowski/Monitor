@@ -240,6 +240,11 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         // jeżeli jest ustawione RANGE_TODAY_ONLY, i w międzyczasie zapisano jakiś work, to  też refresh.
         if (shouldUpdateDisplayedData()) {
             refreshAllGraphs();
+            // set spinner selection to something meaningful, like "yesterday" or "custom".
+            // custom is safer, as it doesn't do anything other than changing the value, so no tricks are required
+            // to prevent double-refresh here.
+            Spinner spinner = findViewById(R.id.spinner);
+            spinner.setSelection(RANGE_CUSTOM);
         }
 
         registerReceiver(mMainActivityReceiver, new IntentFilter(ACTION_SAVED_NEW_DATA));
