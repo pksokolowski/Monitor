@@ -378,6 +378,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     public void onNeedUserInterfaceUpdate() {
         mSelector = new LogsSelector(MainActivity.this);
         refreshAllGraphs();
+        mPieChartsLastTouchedID = -1;
     }
 
     @Override
