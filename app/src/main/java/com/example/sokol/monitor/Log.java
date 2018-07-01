@@ -54,7 +54,12 @@ public class Log {
     }
 
     public String getDurationString() {
-        return TimeHelper.getDuration(this.getDuration());
+        long duration = getDuration();
+        if(duration >= TimeHelper.DAY_LEN_IN_MILLIS){
+            // display duration in hours only
+            return TimeHelper.getHoursCount(duration);
+        }
+        return TimeHelper.getDuration(duration);
     }
 
     public String getStartTimeString() {
