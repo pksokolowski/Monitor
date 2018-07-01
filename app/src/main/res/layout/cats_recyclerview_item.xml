@@ -13,7 +13,7 @@
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toEndOf="@+id/initial"
         app:layout_constraintTop_toTopOf="@+id/initial"
-        tools:text="TextView" />
+        tools:text="Category" />
 
     <TextView
         android:id="@+id/initial"
@@ -24,7 +24,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/drag_handle"
         app:layout_constraintStart_toEndOf="@+id/drag_handle"
         app:layout_constraintTop_toTopOf="@+id/drag_handle"
-        tools:text="TextView" />
+        android:minEms="1"
+        tools:text="C" />
 
     <CheckBox
         android:id="@+id/status"

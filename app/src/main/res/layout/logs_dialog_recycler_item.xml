@@ -24,12 +24,10 @@
         android:layout_marginStart="8dp"
         android:ellipsize="end"
         android:maxLines="1"
-        tools:text="K"
-        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/start_time"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/duration"
-        app:layout_constraintTop_toTopOf="@+id/duration" />
+        app:layout_constraintStart_toEndOf="@+id/category_initial"
+        app:layout_constraintTop_toTopOf="@+id/duration"
+        tools:text="Category" />
 
     <TextView
         android:id="@+id/duration"
@@ -44,5 +42,17 @@
         tools:text="0:00"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/category_initial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        tools:text="C"
+        android:minEms="1"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/duration"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

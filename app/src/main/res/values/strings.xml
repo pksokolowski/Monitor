@@ -109,7 +109,7 @@
         Logs[p] Logs of activity are saved instances of time spent on activity of a given category. For example when you start activity in Running category, by pressing R on the notification,
         the app saves the start time. Once you tap on the R again, to finish the activity, the app reaches back to the saved start data
         and generates a log of activity which is then saved to the database. Therefore you only see logs appearing in LOGS editor after the activity is finished.
-        On the list in the LOGS editor, they appear in the following format: duration, category title, start time and date.[/p]
+        On the list in the LOGS editor, they appear in the following format: duration, initial, title, start time and date.[/p]
 
         Logs editor[p] Tapping LOGS in the app will open up LOGS editor. This simple, yet powerful, tool allows you to change, delete and add logs of activity. Forgot to start? Left it on overnight by mistake? You can reverse any of these common
         errors.[/p]

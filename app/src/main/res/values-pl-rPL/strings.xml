@@ -106,7 +106,7 @@
     <string name="help_universal_logs">
         Logi[p] Pojedynczy log zawiera informacje o czasach rozpoczęcia i zakończenia aktywności oraz kategorii tej aktywności.
         Log jest tworzony po zakończeniu aktywności - gdy zasygnalizujesz jej przerwanie dotykając ponownie inicjału danej kategorii. Aplikacja zapamiętuje czas poświęcony na poszczególne kategorie właśnie w postaci zbioru logów.
-        Na liście w edytorze logów występują one w formacie: czas trwania, tytuł kategorii, czas i data rozpoczęcia.[/p]
+        Na liście w edytorze logów występują one w formacie: czas trwania, inicjał, tytuł, czas i data rozpoczęcia.[/p]
 
         Edytor logów[p] Przycisk LOGS w aplikacji otwiera edytor logów. Służy on usuwaniu, edycji i dodawaniu logów. Jeżeli zapomnisz załączyć liczenie czasu rozpoczynając aktywność, albo omyłkowo zostawisz je włączone za długo, nie ma
         problemu by dodać brakujący log czy zmienić czas rozpoczęcia czy zakończenia istniejącego logu, jak również kategorię, do jakiej należy.[/p]

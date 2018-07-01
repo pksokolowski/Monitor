@@ -32,8 +32,9 @@ public class EasyLogsAdapter extends RecyclerView.Adapter<EasyLogsAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Log log = mItems.get(position);
 
-        holder.initialView.setText(log.getCatTitle());
         holder.durationview.setText(log.getDurationString());
+        holder.initialView.setText(log.getCatInitial());
+        holder.titleView.setText(log.getCatTitle());
         holder.startTimeView.setText(log.getStartTimeString());
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
@@ -85,15 +86,17 @@ public class EasyLogsAdapter extends RecyclerView.Adapter<EasyLogsAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView initialView;
         public TextView durationview;
+        public TextView initialView;
+        public TextView titleView;
         public TextView startTimeView;
         public ConstraintLayout layout;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            initialView = itemView.findViewById(R.id.category_displayed_identifier);
             durationview = itemView.findViewById(R.id.duration);
+            initialView = itemView.findViewById(R.id.category_initial);
+            titleView = itemView.findViewById(R.id.category_displayed_identifier);
             startTimeView = itemView.findViewById(R.id.start_time);
             layout = itemView.findViewById(R.id.item);
         }
