@@ -162,7 +162,7 @@ public class PieChart extends View {
             Datum datum = mData.get(i);
             mFill.setColor(mColors[i]);
             if (i== mLastIndexTouched) {
-                mFill.setColor(pressColor(mColors[i]));
+                mFill.setColor(pressColor(mColors, i));
             }
             //mText.setColor(mColors[mAngles.length-i-1]);
             canvas.drawArc(mRectF, segStartPoint, mAngles[i], true, mFill);
@@ -209,7 +209,8 @@ public class PieChart extends View {
         return colors;
     }
 
-    private int pressColor(int color) {
+    private int pressColor(int[] colors, int i) {
+        int color = colors[colors.length-1-i];
         int result = Color.argb(255,
                 colorSwapper(Color.red(color)),
                 colorSwapper(Color.green(color)),
