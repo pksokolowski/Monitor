@@ -3,6 +3,7 @@
     <attr name="importantTextViewColor" format="reference|color" />
     <attr name="chartsMainColor" format="reference|color" />
     <attr name="listItemBackground" format="integer" />
+    <attr name="settingsIconsColor" format="reference|color" />
 
     <declare-styleable name="MiniHelp">
         <attr name="message" format="string"/>

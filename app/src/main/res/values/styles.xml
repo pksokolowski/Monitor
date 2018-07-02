@@ -11,6 +11,7 @@
         <item name="android:buttonStyle">@style/LightButton</item>
         <item name="chartsMainColor">#999999</item>
         <item name="listItemBackground">@drawable/list_item_bg</item>
+        <item name="settingsIconsColor">#757575</item>
     </style>
 
     <style name="DarkMaterial" parent="@android:style/Theme.Material.NoActionBar">
@@ -24,6 +25,7 @@
 
         <item name="android:buttonStyle">@style/DarkButton</item>
         <item name="listItemBackground">@drawable/list_item_bg_dark</item>
+        <item name="settingsIconsColor">#a1a1a1</item>
     </style>
 
     <style name="Dark" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar">

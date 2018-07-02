@@ -3,13 +3,16 @@
     <SwitchPreference
         android:key="setting_show_notification"
         android:title="@string/settings_show_notification_title"
-        android:defaultValue="true"/>
+        android:defaultValue="true"
+        android:icon="@drawable/ic_settings_notification_24dp"/>
 
     <SwitchPreference
         android:key="setting_dark_theme"
         android:title="@string/settings_dark_theme_title"
-        android:defaultValue="false"/>
+        android:defaultValue="false"
+        android:icon="@drawable/ic_settings_theme"/>
 
     <Preference android:title="@string/settings_help_title"
-        android:key="help"/>
+        android:key="help"
+        android:icon="@drawable/ic_help_outline_accent_24dp"/>
 </PreferenceScreen>
