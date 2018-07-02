@@ -17,18 +17,18 @@ import java.util.Random;
 public class PieChart extends View {
 
     // paints
-    Paint mStroke;
-    Paint mFill;
-    Paint mText;
-    Paint mNoDataText;
+    private Paint mStroke;
+    private Paint mFill;
+    private Paint mText;
+    private Paint mNoDataText;
 
-    List<Datum> mData;
-    float[] mPercentages;
-    float[] mAngles;
+    private List<Datum> mData;
+    private float[] mPercentages;
+    private float[] mAngles;
 
-    Random rnd;
-    RectF mRectF;
-    int[] mColors;
+    private Random rnd;
+    private RectF mRectF;
+    private int[] mColors;
 
     private int mLastIndexTouched = -1;
 
@@ -65,6 +65,7 @@ public class PieChart extends View {
         mText = new Paint();
         mText.setColor(Color.WHITE);
         mText.setTextSize(text_size_in_pixels);
+        mText.setTextAlign(Paint.Align.CENTER);
 
         mNoDataText = new Paint();
         mNoDataText.setColor(Color.BLACK);
@@ -166,10 +167,12 @@ public class PieChart extends View {
             }
             //mText.setColor(mColors[mAngles.length-i-1]);
             canvas.drawArc(mRectF, segStartPoint, mAngles[i], true, mFill);
+
+            // drawing text on slice
             float textAngle = segStartPoint + (mAngles[i] / 2);
             canvas.drawText(datum.title,
                     XProjectedAtAngle(textAngle, radius * 0.7f, radius),
-                    YProjectedAtAngle(textAngle, radius * 0.7f, radius),
+                    YProjectedAtAngle(textAngle, radius * 0.7f, radius) - ((mText.descent() + mText.ascent()) / 2),
                     mText);
 
             segStartPoint += mAngles[i];
@@ -229,6 +232,10 @@ public class PieChart extends View {
     private static float YProjectedAtAngle(float angle, float radius, float Yorigin) {
         return Yorigin + radius * (float) Math.sin(Math.toRadians(angle));
     }
+
+//    private static float DistanceBetweenProjectedPoints(float angleA, float angleB, float radius, float originX, float originY){
+//        float x1 = XProjectedAtAngle()
+//    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
