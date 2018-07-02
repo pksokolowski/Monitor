@@ -123,4 +123,9 @@ public class Log {
 
         return Objects.hash(id, catInitial, catTitle, startTime, endTime);
     }
+
+    public static Log fetchLogWithId(Context context, long id) {
+        DbHelper db = DbHelper.getInstance(context);
+        return db.getLogById(id);
+    }
 }

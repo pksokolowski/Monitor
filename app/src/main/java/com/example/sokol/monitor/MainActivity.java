@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
 
 
     static final String EXTRA_COMMAND_TO_EXECUTE_UPON_START = "com.example.sokolrandomstringppp.Monitor.MainActivity.command_to_execute_upon_start";
+    static final String FRAGMENT_TAG_LOGS = "LOGS";
+    static final String FRAGMENT_TAG_CATS = "CATS";
     public static final int COMMAND_DO_NOTHING = 0;
     public static final int COMMAND_DISPLAY_CATS_DIALOG = 1;
 
@@ -203,15 +205,15 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     }
 
     private void showCatsDialog() {
-        Fragment prev = getSupportFragmentManager().findFragmentByTag("CATS");
+        Fragment prev = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_CATS);
         if(prev != null) return;
         EasyUICatsFragment cats = new EasyUICatsFragment();
-        cats.show(getSupportFragmentManager(), "CATS");
+        cats.show(getSupportFragmentManager(), FRAGMENT_TAG_CATS);
     }
 
     private void showLogsDialog() {
         EasyUILogsFragment logsDialog = new EasyUILogsFragment();
-        logsDialog.show(getSupportFragmentManager(), "LOGS");
+        logsDialog.show(getSupportFragmentManager(), FRAGMENT_TAG_LOGS);
     }
 
     public static void startMe(Context context, int command){
@@ -268,6 +270,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     }
 
     public static final String ACTION_SAVED_NEW_DATA = "com.example.sokolrandomstringppp.monitor.SAVED_NEW_DATA";
+    public static final String EXTRA_NEW_LOG_ID = "com.example.sokolrandomstringppp.monitor.NEW_LOG_ID";
 
     BroadcastReceiver mMainActivityReceiver = new BroadcastReceiver() {
         @Override
@@ -278,6 +281,13 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
                     if (shouldUpdateDisplayedData()) {
                         refreshAllGraphs();
                     }
+                    // if LOGS viewer is opened, let it know if there is a new LOG
+                    Fragment prev = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_LOGS);
+                    if(prev == null) break;
+                    long newLogID = intent.getExtras().getLong(EXTRA_NEW_LOG_ID, -1);
+                    if(newLogID == -1) break;
+                    EasyUILogsFragment logsFragment = (EasyUILogsFragment) prev;
+                    logsFragment.includeNewLogCreatedElsewhere(newLogID);
                     break;
             }
         }

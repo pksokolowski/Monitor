@@ -108,11 +108,37 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
     }
 
     private void displayEditor(Log log, int i){
+        lastLogIndexUserInteractedWith = i;
         EasyLogsEditor editor = new EasyLogsEditor();
-        editor.setLog(log, i);
+        editor.setLog(log);
         editor.setCats(mCats);
         editor.setOnInteractionEndedListener(this);
         editor.show(getActivity().getSupportFragmentManager(), "LOGS editor");
+    }
+
+    public void includeNewLogCreatedElsewhere(long ID){
+        // get the log
+        Log log = Log.fetchLogWithId(getActivity(), ID);
+
+        if(log == null) return;
+        // add the log
+        mLogsAdapter.addALog(log);
+        mRecycler.scrollToPosition(0);
+        lastLogIndexUserInteractedWith += 1;
+    }
+
+    private int lastLogIndexUserInteractedWith = -1;
+    private int getLogIndex(long logID){
+        if(logID == mLogsAdapter.getLogAt(lastLogIndexUserInteractedWith).getID()){
+            return lastLogIndexUserInteractedWith;
+        }
+        for(int i = 0; i< mLogsAdapter.getItemCount(); i++){
+            long ID = mLogsAdapter.getLogAt(i).getID();
+            if(logID == ID){
+                return i;
+            }
+        }
+        return -1;
     }
 
     // callbacks from EasyLogsEditor
@@ -124,14 +150,14 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
     }
 
     @Override
-    public void onLogDeleted(Log log, int i) {
-        mLogsAdapter.remove(i);
+    public void onLogDeleted(long logID) {
+        mLogsAdapter.remove(getLogIndex(logID));
         mUserInterfaceUpdater.onNeedUserInterfaceUpdate();
     }
 
     @Override
-    public void onLogChanged(int i) {
-        mLogsAdapter.change(i);
+    public void onLogChanged(long logID) {
+        mLogsAdapter.change(getLogIndex(logID));
         mUserInterfaceUpdater.onNeedUserInterfaceUpdate();
     }
 }

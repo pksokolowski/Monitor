@@ -26,8 +26,8 @@ public class EasyLogsEditor extends DialogFragment implements Dialog.OnClickList
     private Log mLog;
     // index of the log, for example in recyclerViews adapter.
     // this is kept to make sure the owner class get's back the right index along with the log.
-    private int mLogIndex;
     private List<CatData> mCats;
+    private long mLogID = -1;
     private ArrayAdapter<String> mCatsAdapter;
 
     private Spinner mSpinner;
@@ -38,9 +38,10 @@ public class EasyLogsEditor extends DialogFragment implements Dialog.OnClickList
         mCats = cats;
     }
 
-    public void setLog(Log log, int i){
+    public void setLog(Log log){
         mLog = log;
-        mLogIndex = i;
+        if(mLog == null) return;
+        mLogID = log.getID();
     }
 
     public void setOnInteractionEndedListener(OnInteractionEnded listener){
@@ -50,8 +51,8 @@ public class EasyLogsEditor extends DialogFragment implements Dialog.OnClickList
 
     public interface OnInteractionEnded{
         void onLogCreated(Log log);
-        void onLogDeleted(Log log, int i);
-        void onLogChanged(int i);
+        void onLogDeleted(long logID);
+        void onLogChanged(long logID);
     }
 
     @Override
@@ -128,9 +129,9 @@ public class EasyLogsEditor extends DialogFragment implements Dialog.OnClickList
         // deleting log
         if(mLog == null) return;
         DbHelper db = DbHelper.getInstance(getActivity());
-        db.deleteLog(mLog.getID());
+        db.deleteLog(mLogID);
         if(mListener == null) return;
-        mListener.onLogDeleted(mLog, mLogIndex);
+        mListener.onLogDeleted(mLogID);
     }
 
     @Override
@@ -153,10 +154,10 @@ public class EasyLogsEditor extends DialogFragment implements Dialog.OnClickList
         }else {
             // change existing
             applyInputToALog(mLog);
-            db.changeLog(mLog.getID(), cat.getID(), start, end);
+            db.changeLog(mLogID, cat.getID(), start, end);
             dismiss();
             if (mListener == null) return;
-            mListener.onLogChanged(mLogIndex);
+            mListener.onLogChanged(mLogID);
         }
     }
 }

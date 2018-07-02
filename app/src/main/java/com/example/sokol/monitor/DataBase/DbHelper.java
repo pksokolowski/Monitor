@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
 import com.example.sokol.monitor.CatData;
+import com.example.sokol.monitor.Log;
 import com.example.sokol.monitor.LogsData;
 
 import java.util.ArrayList;
@@ -296,6 +297,30 @@ public class DbHelper extends SQLiteOpenHelper {
                 String.valueOf(logID)
         };
         long numOFRowsAffected = sDataBase.update(Contract.logs.TABLE_NAME, cv, whereClause, whereArgs);
+    }
+
+    public Log getLogById(long ID){
+        loadWritableDatabaseIfNotLoadedAlready();
+        String query = "SELECT * FROM "+ Contract.logs.TABLE_NAME + " JOIN "+Contract.categories.TABLE_NAME+" ON "+Contract.logs.COLUMN_NAME_CAT + " = "+ Contract.categories.TABLE_NAME+"."+Contract.categories._ID+
+                " WHERE " + Contract.logs.TABLE_NAME +"."+ Contract.logs._ID+ " =?";
+
+        Cursor cursor = sDataBase.rawQuery(query, new String[]{ String.valueOf(ID)});
+        Log log = null;
+
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                log = new Log(
+                        cursor.getLong(cursor.getColumnIndex(Contract.logs._ID)),
+                        cursor.getString(cursor.getColumnIndex(Contract.categories.COLUMN_NAME_INITIAL)),
+                        cursor.getString(cursor.getColumnIndex(Contract.categories.COLUMN_NAME_TITLE)),
+                        cursor.getLong(cursor.getColumnIndex(Contract.logs.COLUMN_NAME_START_TIME)),
+                        cursor.getLong(cursor.getColumnIndex(Contract.logs.COLUMN_NAME_END_TIME))
+                );
+            }
+        }
+
+        cursor.close();
+        return log;
     }
 
     public void deleteLog(long logID){

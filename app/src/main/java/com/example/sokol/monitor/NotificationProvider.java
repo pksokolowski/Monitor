@@ -179,9 +179,12 @@ public class NotificationProvider extends BroadcastReceiver {
                     // work was going on, now stopped.
                     long endTime = Calendar.getInstance().getTimeInMillis();
                     DbHelper db = DbHelper.getInstance(context);
-                    db.pushLog(catID, starTime, endTime);
+                    long logID = db.pushLog(catID, starTime, endTime);
                     showNotificationIfEnabled(context, true);
-                    context.sendBroadcast(new Intent(MainActivity.ACTION_SAVED_NEW_DATA));
+
+                    Intent freshData = new Intent(MainActivity.ACTION_SAVED_NEW_DATA);
+                    freshData.putExtra(MainActivity.EXTRA_NEW_LOG_ID, logID);
+                    context.sendBroadcast(freshData);
                 } else {
                     // no work going on here, start it:
                     WorkInProgressManager.startNow(context, catID);
