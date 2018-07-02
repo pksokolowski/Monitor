@@ -157,7 +157,7 @@ public class PieChart extends View {
         if (mData == null || mData.size() == 0) { drawNoDataMessage(canvas); return; }
 
         float radius = getHeight() / 2f;
-        float segStartPoint = STARTING_ANGLE;
+        float segStartAngle = STARTING_ANGLE;
 
         for (int i = 0; i < mAngles.length; i++) {
             Datum datum = mData.get(i);
@@ -166,16 +166,12 @@ public class PieChart extends View {
                 mFill.setColor(pressColor(mColors, i));
             }
             //mText.setColor(mColors[mAngles.length-i-1]);
-            canvas.drawArc(mRectF, segStartPoint, mAngles[i], true, mFill);
+            canvas.drawArc(mRectF, segStartAngle, mAngles[i], true, mFill);
 
             // drawing text on slice
-            float textAngle = segStartPoint + (mAngles[i] / 2);
-            canvas.drawText(datum.title,
-                    XProjectedAtAngle(textAngle, radius * 0.7f, radius),
-                    YProjectedAtAngle(textAngle, radius * 0.7f, radius) - ((mText.descent() + mText.ascent()) / 2),
-                    mText);
+            drawTextIfThereIsSpaceEnough(canvas, segStartAngle, mAngles[i], radius, datum.title);
 
-            segStartPoint += mAngles[i];
+            segStartAngle += mAngles[i];
         }
     }
 
@@ -233,9 +229,27 @@ public class PieChart extends View {
         return Yorigin + radius * (float) Math.sin(Math.toRadians(angle));
     }
 
-//    private static float DistanceBetweenProjectedPoints(float angleA, float angleB, float radius, float originX, float originY){
-//        float x1 = XProjectedAtAngle()
-//    }
+    private static float getDistance(float x1, float y1, float x2, float y2) {
+        return (float) Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+    }
+
+    private void drawTextIfThereIsSpaceEnough(Canvas canvas, float startAngle, float endAngle, float radius, String textToDraw) {
+        float textRadius = radius * 0.7f;
+        float halfFontHeight = ((mText.descent() + mText.ascent()) / 2);
+
+        if (endAngle - startAngle < 90) {
+            float distance = getDistance(
+                    XProjectedAtAngle(startAngle, textRadius, radius), YProjectedAtAngle(startAngle, textRadius, radius) - halfFontHeight,
+                    XProjectedAtAngle(endAngle, textRadius, radius), YProjectedAtAngle(endAngle, textRadius, radius) - halfFontHeight);
+            if (distance <= mText.getTextSize()) return;
+        }
+
+        float textAngle = startAngle + (endAngle / 2);
+        canvas.drawText(textToDraw,
+                XProjectedAtAngle(textAngle, textRadius, radius),
+                YProjectedAtAngle(textAngle, textRadius, radius) - halfFontHeight,
+                mText);
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
