@@ -389,9 +389,13 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     }
 
     private void updateSelectedInfo(LogsData data) {
-        long lowerBound = getLowerTimeBoundForData();
-        long upperBound = getUpperTimeBoundForData();
-        PeriodicDistro perio = new PeriodicDistro(data, upperBound >= TimeHelper.now(), lowerBound, upperBound);
+        // new behavior
+//        long lowerBound = getLowerTimeBoundForData();
+//        long upperBound = getUpperTimeBoundForData();
+//        PeriodicDistro perio = new PeriodicDistro(data, upperBound >= TimeHelper.now(), lowerBound, upperBound);
+
+        // old behavior:
+        PeriodicDistro perio = new PeriodicDistro(data, getUpperTimeBoundForData() >= TimeHelper.now());
 
         mBarSimpleGraphView.setData(getString(R.string.graph_title_recent_days), perio.mDaily);
         m24hDistributionChart.setData(getString(R.string.graph_title_24h_distribution), perio.mHourly, 24, 6);

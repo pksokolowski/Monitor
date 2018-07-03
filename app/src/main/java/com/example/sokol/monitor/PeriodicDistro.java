@@ -18,6 +18,10 @@ public class PeriodicDistro {
     // reusable calendar object
     private Calendar mCalendar = Calendar.getInstance();
 
+    public PeriodicDistro(LogsData data, boolean includeToday){
+        this(data, includeToday, -1, -1);
+    }
+
     public PeriodicDistro(LogsData data, boolean includeToday, long dailyStart, long dailyEnd) {
         long rangeStart = data.getRangeStartDay0Hour();
         long weekStart = data.getRangeStartMonday(rangeStart);
@@ -31,6 +35,11 @@ public class PeriodicDistro {
         }
 
         if (includeToday) today0Hour += TimeHelper.DAY_LEN_IN_MILLIS;
+
+        if(dailyStart == -1 || dailyEnd == -1){
+            dailyStart = rangeStart;
+            dailyEnd = today0Hour;
+        }
 
         mHourly = getDistribution(data, rangeStart, TimeHelper.MINUTE_LEN_IN_MILLIS * 5, rangeStart + TimeHelper.DAY_LEN_IN_MILLIS, today0Hour, false);
         //mDaily = getDistribution(data, rangeStart, TimeHelper.DAY_LEN_IN_MILLIS, today0Hour, today0Hour, false);
