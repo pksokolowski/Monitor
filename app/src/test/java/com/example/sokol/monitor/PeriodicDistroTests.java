@@ -24,6 +24,10 @@ public class PeriodicDistroTests {
     }
 
     @Test
+    public void isDailyOKWithExtendedRange(){
+
+    }
+    @Test
     public void isWeeklyCorrect_forCrossPeriodLogs() {
         long day = TimeHelper.DAY_LEN_IN_MILLIS;
         long hour = TimeHelper.MINUTE_LEN_IN_MILLIS*60;
@@ -32,9 +36,9 @@ public class PeriodicDistroTests {
         long[] starts = new long[]{0, day, day-halfHour};
         long[] ends   = new long[]{hour, day+hour, day+halfHour};
         long[] catIDs   = new long[]{0, 0, 0};
-        long[] desired_output = new long[]{0, hour+halfHour, hour+halfHour, 0, 0, 0, 0};
+        long[] desired_output = new long[]{hour+halfHour, hour+halfHour, 0, 0, 0, 0, 0};
 
-        pushAllLogsInTime(day, starts, ends);
+        snapToAMonday(starts, ends);
         PeriodicDistro pDistro = getPeriodicDistroObject(day, starts, ends, catIDs);
 
         assertArrayEquals(desired_output, pDistro.mWeekly);
@@ -54,9 +58,9 @@ public class PeriodicDistroTests {
         long[] starts = new long[]{day-halfHour, day, 0};
         long[] ends   = new long[]{day+halfHour, day+hour, hour};
         long[] catIDs   = new long[]{0, 0, 0};
-        long[] desired_output = new long[]{0, hour+halfHour, hour+halfHour, 0, 0, 0, 0};
+        long[] desired_output = new long[]{hour+halfHour, hour+halfHour, 0, 0, 0, 0, 0};
 
-        pushAllLogsInTime(day, starts, ends);
+        snapToAMonday(starts, ends);
         PeriodicDistro pDistro = getPeriodicDistroObject(day, starts, ends, catIDs);
 
         assertArrayEquals(desired_output, pDistro.mWeekly);
@@ -64,12 +68,25 @@ public class PeriodicDistroTests {
 
     private PeriodicDistro getPeriodicDistroObject(long day, long[] starts, long[] ends, long[] catIDs) {
         LogsData logs = new LogsData(starts, ends, ends, catIDs);
-        return new PeriodicDistro(logs, false);
+        long lastEnd = -1;
+        for(int i = 0; i< ends.length; i++){
+            if(ends[i]> lastEnd) lastEnd = ends[i];
+        }
+        return new PeriodicDistro(logs, false, logs.getRangeStartDay0Hour(), lastEnd);
     }
 
     private void pushAllLogsInTime(long day, long[] starts, long[] ends) {
         // push all logs a bit into the future, to stay more true to life
         long zeroDay = TimeHelper.get0HourNdaysAgo(0)-day*3;
+        for(int i=0; i< starts.length;i++){
+            starts[i]+= zeroDay;
+            ends[i]+=zeroDay;
+        }
+    }
+
+    private void snapToAMonday(long[] starts, long[] ends) {
+        // push all logs a bit into the future, to stay more true to life
+        long zeroDay = TimeHelper.getLastMonday0HourSinceGivenMoment(TimeHelper.get0HourNdaysAgo(40));
         for(int i=0; i< starts.length;i++){
             starts[i]+= zeroDay;
             ends[i]+=zeroDay;
