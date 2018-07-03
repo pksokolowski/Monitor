@@ -169,7 +169,7 @@ public class PieChart extends View {
             canvas.drawArc(mRectF, segStartAngle, mAngles[i], true, mFill);
 
             // drawing text on slice
-            drawTextIfThereIsSpaceEnough(canvas, segStartAngle, mAngles[i], radius, datum.title);
+            drawTextIfThereIsSpaceEnough(canvas, segStartAngle, segStartAngle + mAngles[i], radius, datum.title);
 
             segStartAngle += mAngles[i];
         }
@@ -244,7 +244,7 @@ public class PieChart extends View {
             if (distance <= mText.getTextSize()) return;
         }
 
-        float textAngle = startAngle + (endAngle / 2);
+        float textAngle = startAngle + ((endAngle-startAngle) / 2);
         canvas.drawText(textToDraw,
                 XProjectedAtAngle(textAngle, textRadius, radius),
                 YProjectedAtAngle(textAngle, textRadius, radius) - halfFontHeight,
