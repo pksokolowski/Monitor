@@ -52,8 +52,27 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     private long lastUpdateDay0Hour = 0;
     private long lastSavedEntryNumber = 0;
 
+    // UI
+    private PieChart mPieChart;
+    private Spinner mSpinner;
+    private DateRangePicker mDateRangePicker;
+    private BarSimpleGraphView mBarSimpleGraphView;
+    private DistributionTimeBarSimpleGraph m24hDistributionChart;
+    private DistributionTimeBarSimpleGraph mWeeklyDistributionChart;
+    private TextualData mTextualData;
+
     // fixes
     int SpinnerUses = 0;
+
+    private void setupUIReferences(){
+        mPieChart = findViewById(R.id.pie);
+        mSpinner = findViewById(R.id.spinner);
+        mDateRangePicker = findViewById(R.id.range_picker);
+        mBarSimpleGraphView= findViewById(R.id.slupkowySimpleGraph);
+        m24hDistributionChart = findViewById(R.id.distributionSimpleGraph);
+        mWeeklyDistributionChart = findViewById(R.id.distributionSimpleGraphWeekly);
+        mTextualData = findViewById(R.id.textuals);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupUIReferences();
 
         Intent intent = getIntent();
         int command = handleIntent(intent);
@@ -124,8 +144,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         // a layer of abstraction, just to keep things tidy here.
         mSelector = new LogsSelector(this);
 
-        final PieChart pie = findViewById(R.id.pie);
-        pie.setOnSliceSelectedListener(new PieChart.OnSliceSelected() {
+        mPieChart.setOnSliceSelectedListener(new PieChart.OnSliceSelected() {
             @Override
             public void onSliceSelected(PieChart.Datum datumOrNull) {
                 if (datumOrNull == null) {
@@ -139,36 +158,33 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
             }
         });
 
-        final Spinner spinner = findViewById(R.id.spinner);
-        final DateRangePicker rangePicker = findViewById(R.id.range_picker);
-
         // set default range for data shown
         if (TimeHelper.isToday(firstRunTime)) {
-            spinner.setSelection(RANGE_TODAY_ONLY);
+            mSpinner.setSelection(RANGE_TODAY_ONLY);
         } else {
-            spinner.setSelection(RANGE_3_MONTHS);
+            mSpinner.setSelection(RANGE_3_MONTHS);
         }
-        setRangePickerToMatchSpinner(rangePicker);
+        setRangePickerToMatchSpinner(mDateRangePicker);
 
         refreshAllGraphs();
 
-        rangePicker.setOnRangeChangedListener(new DateRangePicker.OnRangeChangedListener() {
+        mDateRangePicker.setOnRangeChangedListener(new DateRangePicker.OnRangeChangedListener() {
             @Override
             public void onRangeChanged(long start, long end) {
                 refreshAllGraphs();
-                spinner.setSelection(RANGE_CUSTOM);
+                mSpinner.setSelection(RANGE_CUSTOM);
                 mPieChartsLastTouchedID = -1;
             }
         });
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 // if spinner is set tu "custom", do nothing
                 if(i==RANGE_CUSTOM) return;
                 if (SpinnerUses++ >0) {
                     // set value in the range picker
-                    setRangePickerToMatchSpinner(rangePicker);
+                    setRangePickerToMatchSpinner(mDateRangePicker);
                     refreshAllGraphs();
                 }
                 // bugfix: so after changing data time range it will still recognize change
@@ -224,11 +240,16 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     }
 
     private void refreshAllGraphs() {
+        // if new day, update range selection to match same range selection.
+        if(isNewDayNow()){
+            if(mSpinner.getSelectedItemPosition() != RANGE_CUSTOM) {
+                setRangePickerToMatchSpinner(mDateRangePicker);
+            }
+        }
         LogsData all_cats_data = mSelector.getLogsForAllNonDeletedCats(this, getLowerTimeBoundForData(), getUpperTimeBoundForData());
-        PieChart pie = findViewById(R.id.pie);
         List<PieChart.Datum> pieData = mSelector.convertLogsToCatSums(all_cats_data);
-        pie.setData(pieData);
-        if(pieData.size() ==0) pie.setNoDataMessage(getString(R.string.main_message_no_data_to_show));
+        mPieChart.setData(pieData);
+        if(pieData.size() ==0) mPieChart.setNoDataMessage(getString(R.string.main_message_no_data_to_show));
         updateSelectedInfo(all_cats_data);
 
         lastUpdateDay0Hour = TimeHelper.now();
@@ -241,20 +262,19 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         // jeżeli ostatni refresh był nie-dzisiaj : refresh.
         // jeżeli jest ustawione RANGE_TODAY_ONLY, i w międzyczasie zapisano jakiś work, to  też refresh.
         if (shouldUpdateDisplayedData()) {
-            refreshAllGraphs();
-            // set spinner selection to something meaningful, like "yesterday" or "custom".
-            // custom is safer, as it doesn't do anything other than changing the value, so no tricks are required
-            // to prevent double-refresh here.
-            Spinner spinner = findViewById(R.id.spinner);
-            spinner.setSelection(RANGE_CUSTOM);
+              refreshAllGraphs();
         }
 
         registerReceiver(mMainActivityReceiver, new IntentFilter(ACTION_SAVED_NEW_DATA));
     }
 
     private boolean shouldUpdateDisplayedData() {
-        return (TimeHelper.get0HourTimeOfAGivenDay(lastUpdateDay0Hour) != TimeHelper.get0HourNdaysAgo(0) ||
+        return (isNewDayNow() ||
                 isTodayInRangeSelected() && WorkInProgressManager.getCounter(this) > lastSavedEntryNumber);
+    }
+
+    private boolean isNewDayNow(){
+        return TimeHelper.get0HourTimeOfAGivenDay(lastUpdateDay0Hour) != TimeHelper.get0HourNdaysAgo(0);
     }
 
     private boolean isTodayInRangeSelected(){
@@ -306,8 +326,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     }
 
     private long getSpinnersLowerTimeBound(){
-        Spinner spinner = findViewById(R.id.spinner);
-        int item_selected = spinner.getSelectedItemPosition();
+        int item_selected = mSpinner.getSelectedItemPosition();
         if (item_selected == -1) return 0;
 
         switch (item_selected) {
@@ -329,8 +348,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     }
 
     private long getSpinnersUpperTimeBound(){
-        Spinner spinner = findViewById(R.id.spinner);
-        int item_selected = spinner.getSelectedItemPosition();
+        int item_selected = mSpinner.getSelectedItemPosition();
         if (item_selected == -1) return 0;
 
         // two possible options:
@@ -356,18 +374,15 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     }
 
     private long getLowerTimeBoundForData() {
-        DateRangePicker rangePicker = findViewById(R.id.range_picker);
-        return rangePicker.getStartValue();
+        return mDateRangePicker.getStartValue();
     }
 
     private long getUpperTimeBoundForData() {
-        DateRangePicker rangePicker = findViewById(R.id.range_picker);
-        return rangePicker.getEndValue()+TimeHelper.DAY_LEN_IN_MILLIS;
+        return mDateRangePicker.getEndValue()+TimeHelper.DAY_LEN_IN_MILLIS;
     }
 
     private int getRangeSelection() {
-        Spinner spinner = findViewById(R.id.spinner);
-        int item_selected = spinner.getSelectedItemPosition();
+        int item_selected = mSpinner.getSelectedItemPosition();
         if (item_selected == -1) return RANGE_UNKNOWN;
 
         return item_selected;
@@ -376,17 +391,10 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     private void updateSelectedInfo(LogsData data) {
         PeriodicDistro perio = new PeriodicDistro(data, getUpperTimeBoundForData()>=TimeHelper.now());
 
-        BarSimpleGraphView graphSlup = findViewById(R.id.slupkowySimpleGraph);
-        graphSlup.setData(getString(R.string.graph_title_recent_days), perio.mDaily);
-
-        DistributionTimeBarSimpleGraph distrGraph = findViewById(R.id.distributionSimpleGraph);
-        distrGraph.setData(getString(R.string.graph_title_24h_distribution), perio.mHourly, 24, 6);
-
-        DistributionTimeBarSimpleGraph distrGraphWeekly = findViewById(R.id.distributionSimpleGraphWeekly);
-        distrGraphWeekly.setData(getString(R.string.graph_title_weekly_distribution), perio.mWeekly, 7, 1);
-
-        TextualData textuals = findViewById(R.id.textuals);
-        textuals.setData(perio.mDaily);
+        mBarSimpleGraphView.setData(getString(R.string.graph_title_recent_days), perio.mDaily);
+        m24hDistributionChart.setData(getString(R.string.graph_title_24h_distribution), perio.mHourly, 24, 6);
+        mWeeklyDistributionChart.setData(getString(R.string.graph_title_weekly_distribution), perio.mWeekly, 7, 1);
+        mTextualData.setData(perio.mDaily);
     }
 
     @Override
