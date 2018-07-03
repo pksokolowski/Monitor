@@ -1,5 +1,6 @@
 package com.example.sokol.monitor;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashSet;
 
@@ -32,8 +33,40 @@ public class PeriodicDistro {
         if (includeToday) today0Hour += TimeHelper.DAY_LEN_IN_MILLIS;
 
         mHourly = getDistribution(data, rangeStart, TimeHelper.MINUTE_LEN_IN_MILLIS * 5, rangeStart + TimeHelper.DAY_LEN_IN_MILLIS, today0Hour, false);
-        mDaily = getDistribution(data, rangeStart, TimeHelper.DAY_LEN_IN_MILLIS, today0Hour, today0Hour, false);
+        //mDaily = getDistribution(data, rangeStart, TimeHelper.DAY_LEN_IN_MILLIS, today0Hour, today0Hour, false);
+        mDaily = getDaily(data, rangeStart, today0Hour);
         mWeekly = getDistribution(data, weekStart, TimeHelper.DAY_LEN_IN_MILLIS, weekStart + TimeHelper.WEEK_LEN_IN_MILLIS, today0Hour, true);
+    }
+
+    private long[] getDaily(LogsData data, long rangeStart, long rangeEnd){
+        long rangeLen = rangeEnd - rangeStart;
+        final long DAY_LEN = TimeHelper.DAY_LEN_IN_MILLIS;
+        int N = (int)(rangeLen / DAY_LEN);
+        long[] days = new long[N];
+
+        long[] startTimes = data.getStartTimes();
+        long[] endTimes = data.getEndTimes();
+
+        for (int i =0; i<data.getLength(); i++) {
+            long start = Math.max(rangeStart, startTimes[i]) - rangeStart;
+            long end = Math.min(rangeEnd, endTimes[i]) - rangeStart;
+            long durationLeft = end - start;
+            if(durationLeft <= 0) continue;
+
+            for (int d = (int) (start / DAY_LEN); d < days.length; d++) {
+                long dayStart = d * DAY_LEN;
+                long dayEnd = dayStart + DAY_LEN;
+                if (end <= dayEnd) {
+                    days[d] += durationLeft;
+                    break;
+                } else {
+                    long thatDaysWork = dayEnd - Math.max(dayStart, start);
+                    days[d] += thatDaysWork;
+                    durationLeft -= thatDaysWork;
+                }
+            }
+        }
+        return  days;
     }
 
     private long[] getDistribution(LogsData data, long rangeStart, long period, long rangeEnd, long dropDataLaterThan, boolean takeAveragePerPeriod) {
