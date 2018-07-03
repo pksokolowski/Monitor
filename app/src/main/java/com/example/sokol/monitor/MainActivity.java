@@ -334,22 +334,22 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         if (item_selected == -1) return 0;
 
         // two possible options:
+        long yesterday = TimeHelper.get0HourNdaysAgo(1);
         long today = TimeHelper.get0HourNdaysAgo(0);
-        long tomorrow = TimeHelper.get0HourNdaysAgo(-1);
 
         switch (item_selected) {
             case RANGE_ALL_TIME:
-                return today;
+                return yesterday;
             case RANGE_3_MONTHS:
-                return today;
+                return yesterday;
             case RANGE_MONTH:
-                return today;
+                return yesterday;
             case RANGE_WEEK:
-                return today;
+                return yesterday;
             case RANGE_DAY:
-                return today;
+                return yesterday;
             case RANGE_TODAY_ONLY:
-                return tomorrow;
+                return today;
         }
 
         return 0;
@@ -362,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
 
     private long getUpperTimeBoundForData() {
         DateRangePicker rangePicker = findViewById(R.id.range_picker);
-        return rangePicker.getEndValue();
+        return rangePicker.getEndValue()+TimeHelper.DAY_LEN_IN_MILLIS;
     }
 
     private int getRangeSelection() {

@@ -69,9 +69,7 @@
         kategorii reprezentowanej przez ten kawałek są wyświetlane poniżej, na pozostałych wykresach i wśród statystyk.[/p]
 
         Zakres czasowy[p] Wyświetlane na wykresach dane dotyczą wybranego zakresu czasu. Pod wykresem kołowym, po prawej stronie znajdują się kontrolki pozwalające wybrać ten zakres. Górna stanowi rozwijalną listę
-        gotowych pozycji, np. dzisiaj, wczoraj, 7 ubiegłych dni; poniżej zaś znajdują się dwie daty, początku i końca zakresu odpowiednio. Dotknięcie ich powoduje wyświetlenie okienka wyboru konkretnej daty. O czym warto pamiętać,
-        to że daty są traktowane jako godzina 00:00 danego dnia, a więc początek zakresu jest traktowany włącznie, a dzień, do którego odnosi się data końca zakresu, jest wyłączony z zakresu.
-        Większość pozycji z listy predefiniowanych zakresów nie obejmuje dnia aktualnego, dzieje się tak dlatego, by nie porównywać dni pełnych z trwającym, np. w jego połowie.[/p]
+        gotowych pozycji, np. dzisiaj, wczoraj, 7 ubiegłych dni; poniżej zaś znajdują się dwie daty, początku i końca zakresu odpowiednio. Dotknięcie ich powoduje wyświetlenie okienka wyboru konkretnej daty.[/p]
 
         Wykres dzienny[p] Drugi od góry wykres, po wykresie kołowym, prezentuje czas aktywności w kolejnych dniach, w ramach wybranego zakresu. Jednakże wykres ten rozpocznie wyświetlanie od pierwszego dnia z jakąkolwiek
         aktywnością, pomijając puste dni wcześniejsze. Jest to wykres z założenia pokazujący relacje między dziennymi czasami aktywności wizualnie, niemniej dla wygody posiada też funkcję wyświetlenia pojedynczej

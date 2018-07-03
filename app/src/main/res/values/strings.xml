@@ -69,10 +69,8 @@
         Pie chart[p]The grand pie chart is not just for show. You can tap any slice on it, thus selecting it. Once you do, only the data regarding that slice - the category of activity it represents,
         will be displayed on the other charts and in the stats below. When the chart shows a no-data message - it means there is no data to be shown in the selected date range.[/p]
 
-        Date range[p]Data displayed on app\'s charts is bound by the range selected. By default the range is set to \"today only\" on the first day the app is being used, and \"3 months\" later on.
-        It\'s important to realize that the range is inclusive at the start but exclusive at the end. It is because date selected means 00:00 time of day on that date. You can change the range either by using predefined
-        values in the spinner under the pie chart (most of which don\'t include the current day - this is to ensure comparing apples to apples, rather than a full previous day to say 10 first hours of the current one),
-        or by tapping dates below the spinner. In order to encompass the current day, set the end of the range to the beginning of the next day.[/p]
+        Date range[p]Data displayed on app\'s charts is bound by the range selected. By default the range is set to \"today only\" on the first day the app is being used, and \"3 months\" later on. You can change the range either by using predefined
+        values in the drop down list under the pie chart or by tapping on a start or end date and changing it manually.[/p]
 
         Recent days chart[p] The second chart, under the pie, represents activity time on consecutive days within the range selected. It will, however, trim the past and start with the first day in range where there was any logged activity.
         Values are by design relative, just for visual comparison, but for convenience a scale replacement is available: tap at a given level within the graph and a horizontal line will appear along with a value in hours:minutes format
