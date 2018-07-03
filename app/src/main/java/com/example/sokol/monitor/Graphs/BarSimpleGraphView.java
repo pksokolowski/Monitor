@@ -58,6 +58,7 @@ public class BarSimpleGraphView extends SimpleGraphView {
         // drawing
         for (int i = 0, len = mData.length; i < len; i++) {
             if(mData[i] > maxVal) {maxVal = mData[i]; max_index = i;}
+            if(mData[i] == 0) continue;
 
             float calculated_x = my_minX + modified_x_per_entry * i;
             float calculated_y = y - mData[i];
