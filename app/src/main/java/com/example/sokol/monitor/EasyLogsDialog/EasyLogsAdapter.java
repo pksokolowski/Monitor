@@ -85,6 +85,12 @@ public class EasyLogsAdapter extends RecyclerView.Adapter<EasyLogsAdapter.ViewHo
         notifyItemInserted(pos);
     }
 
+    public void addLogs(List<Log> logs) {
+        int pos = 0;
+        mItems.addAll(pos, logs);
+        notifyItemRangeInserted(pos, logs.size());
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView durationview;
         public TextView initialView;

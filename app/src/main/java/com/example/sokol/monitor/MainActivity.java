@@ -304,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
                     long newLogID = intent.getExtras().getLong(EXTRA_NEW_LOG_ID, -1);
                     if(newLogID == -1) break;
                     EasyUILogsFragment logsFragment = (EasyUILogsFragment) prev;
-                    logsFragment.includeNewLogCreatedElsewhere(newLogID);
+                    logsFragment.includeLogCreatedElsewhere(newLogID);
                     break;
             }
         }

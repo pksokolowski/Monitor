@@ -36,6 +36,10 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
 
     OnNeedUserInterfaceUpdate mUserInterfaceUpdater;
 
+    // this helps recognize whether an onResume is the fragment being created or coming
+    // back to foreground.
+    boolean isFirstOnResume = true;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -64,7 +68,6 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
         mCats = db.getCategories(CatData.CATEGORY_STATUS_INACTIVE);
 
         List<Log> data = db.getLogsLaterThan(-1);
-        Collections.reverse(data);
         mLogsAdapter = new EasyLogsAdapter(data);
 
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -117,7 +120,7 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
         editor.show(getActivity().getSupportFragmentManager(), "LOGS editor");
     }
 
-    public void includeNewLogCreatedElsewhere(long ID){
+    public void includeLogCreatedElsewhere(long ID){
         // get the log
         Log log = Log.fetchLogWithId(getActivity(), ID);
 
@@ -126,6 +129,24 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
         mLogsAdapter.addALog(log);
         mRecycler.scrollToPosition(0);
         lastLogIndexUserInteractedWith += 1;
+    }
+
+    private void includeLogsOnResume() {
+        // fetch any logs later than the last known
+        int knownLogsCount = mLogsAdapter.getItemCount();
+        long lastKnownLogID =  -1;
+        if(knownLogsCount> 0){
+            lastKnownLogID = mLogsAdapter.getLogAt(0).getID();
+        }
+        DbHelper db = DbHelper.getInstance(getActivity());
+        List<Log> newLogs = db.getLogsLaterThan(lastKnownLogID);
+
+        if(newLogs.size() == 0) return;
+
+        mLogsAdapter.addLogs(newLogs);
+        mRecycler.scrollToPosition(0);
+
+        lastLogIndexUserInteractedWith += newLogs.size();
     }
 
     private int lastLogIndexUserInteractedWith = -1;
@@ -140,6 +161,18 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
             }
         }
         return -1;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // on resume, unless it's just after being
+        if (!isFirstOnResume) {
+            includeLogsOnResume();
+        }
+
+        isFirstOnResume = false;
     }
 
     // callbacks from EasyLogsEditor

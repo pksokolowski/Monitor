@@ -342,6 +342,9 @@ public class DbHelper extends SQLiteOpenHelper {
         return log;
     }
 
+    /**
+     * retrieves a descending (with regard to ID) List of Log object with ID greater than specified.
+     */
     public List<Log> getLogsLaterThan(long ID) {
         loadWritableDatabaseIfNotLoadedAlready();
 
