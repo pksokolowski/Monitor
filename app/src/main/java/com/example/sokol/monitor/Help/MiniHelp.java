@@ -44,8 +44,8 @@ public class MiniHelp extends FrameLayout implements View.OnTouchListener {
     private void setup(Context context) {
         inflate(context, R.layout.help_mini, this);
 
-        ImageView image = findViewById(R.id.imageView);
-        image.setOnTouchListener(this);
+        FrameLayout frameLayout = findViewById(R.id.help_mini_frame);
+        frameLayout.setOnTouchListener(this);
     }
 
     @Override
