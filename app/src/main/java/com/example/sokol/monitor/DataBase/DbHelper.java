@@ -299,12 +299,33 @@ public class DbHelper extends SQLiteOpenHelper {
         long numOFRowsAffected = sDataBase.update(Contract.logs.TABLE_NAME, cv, whereClause, whereArgs);
     }
 
-    public Log getLogById(long ID){
+    public Log getLogById(long ID) {
         loadWritableDatabaseIfNotLoadedAlready();
-        String query = "SELECT * FROM "+ Contract.logs.TABLE_NAME + " JOIN "+Contract.categories.TABLE_NAME+" ON "+Contract.logs.COLUMN_NAME_CAT + " = "+ Contract.categories.TABLE_NAME+"."+Contract.categories._ID+
-                " WHERE " + Contract.logs.TABLE_NAME +"."+ Contract.logs._ID+ " =?";
 
-        Cursor cursor = sDataBase.rawQuery(query, new String[]{ String.valueOf(ID)});
+        String[] projection = {
+                Contract.logs.TABLE_NAME+"."+Contract.logs._ID,
+                Contract.logs.COLUMN_NAME_START_TIME,
+                Contract.logs.COLUMN_NAME_END_TIME,
+                Contract.categories.COLUMN_NAME_TITLE,
+                Contract.categories.COLUMN_NAME_INITIAL
+        };
+
+        String fromClause = Contract.logs.TABLE_NAME + " JOIN "+Contract.categories.TABLE_NAME+" ON "+Contract.logs.COLUMN_NAME_CAT + " = "+ Contract.categories.TABLE_NAME+"."+Contract.categories._ID;
+
+        String whereClause =  Contract.logs.TABLE_NAME +"."+ Contract.logs._ID+ " =?";
+
+        String[] whereArgs = new String[]{ String.valueOf(ID) };
+
+        Cursor cursor = sDataBase.query(
+                fromClause,
+                projection,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+
         Log log = null;
 
         if (cursor.getCount() > 0) {
