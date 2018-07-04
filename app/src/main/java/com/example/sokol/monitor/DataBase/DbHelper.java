@@ -303,18 +303,18 @@ public class DbHelper extends SQLiteOpenHelper {
         loadWritableDatabaseIfNotLoadedAlready();
 
         String[] projection = {
-                Contract.logs.TABLE_NAME+"."+Contract.logs._ID,
+                Contract.logs.TABLE_NAME + "." + Contract.logs._ID,
                 Contract.logs.COLUMN_NAME_START_TIME,
                 Contract.logs.COLUMN_NAME_END_TIME,
                 Contract.categories.COLUMN_NAME_TITLE,
                 Contract.categories.COLUMN_NAME_INITIAL
         };
 
-        String fromClause = Contract.logs.TABLE_NAME + " JOIN "+Contract.categories.TABLE_NAME+" ON "+Contract.logs.COLUMN_NAME_CAT + " = "+ Contract.categories.TABLE_NAME+"."+Contract.categories._ID;
+        String fromClause = Contract.logs.TABLE_NAME + " JOIN " + Contract.categories.TABLE_NAME + " ON " + Contract.logs.COLUMN_NAME_CAT + " = " + Contract.categories.TABLE_NAME + "." + Contract.categories._ID;
 
-        String whereClause =  Contract.logs.TABLE_NAME +"."+ Contract.logs._ID+ " =?";
+        String whereClause = Contract.logs.TABLE_NAME + "." + Contract.logs._ID + " =?";
 
-        String[] whereArgs = new String[]{ String.valueOf(ID) };
+        String[] whereArgs = new String[]{String.valueOf(ID)};
 
         Cursor cursor = sDataBase.query(
                 fromClause,
@@ -328,20 +328,62 @@ public class DbHelper extends SQLiteOpenHelper {
 
         Log log = null;
 
-        if (cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                log = new Log(
-                        cursor.getLong(cursor.getColumnIndex(Contract.logs._ID)),
-                        cursor.getString(cursor.getColumnIndex(Contract.categories.COLUMN_NAME_INITIAL)),
-                        cursor.getString(cursor.getColumnIndex(Contract.categories.COLUMN_NAME_TITLE)),
-                        cursor.getLong(cursor.getColumnIndex(Contract.logs.COLUMN_NAME_START_TIME)),
-                        cursor.getLong(cursor.getColumnIndex(Contract.logs.COLUMN_NAME_END_TIME))
-                );
-            }
+        while (cursor.moveToNext()) {
+            log = new Log(
+                    cursor.getLong(cursor.getColumnIndex(Contract.logs._ID)),
+                    cursor.getString(cursor.getColumnIndex(Contract.categories.COLUMN_NAME_INITIAL)),
+                    cursor.getString(cursor.getColumnIndex(Contract.categories.COLUMN_NAME_TITLE)),
+                    cursor.getLong(cursor.getColumnIndex(Contract.logs.COLUMN_NAME_START_TIME)),
+                    cursor.getLong(cursor.getColumnIndex(Contract.logs.COLUMN_NAME_END_TIME))
+            );
         }
 
         cursor.close();
         return log;
+    }
+
+    public List<Log> getLogsLaterThan(long ID) {
+        loadWritableDatabaseIfNotLoadedAlready();
+
+        String[] projection = {
+                Contract.logs.TABLE_NAME + "." + Contract.logs._ID,
+                Contract.logs.COLUMN_NAME_START_TIME,
+                Contract.logs.COLUMN_NAME_END_TIME,
+                Contract.categories.COLUMN_NAME_TITLE,
+                Contract.categories.COLUMN_NAME_INITIAL
+        };
+
+        String fromClause = Contract.logs.TABLE_NAME + " JOIN " + Contract.categories.TABLE_NAME + " ON " + Contract.logs.COLUMN_NAME_CAT + " = " + Contract.categories.TABLE_NAME + "." + Contract.categories._ID;
+
+        String whereClause = Contract.logs.TABLE_NAME + "." + Contract.logs._ID + " >?";
+
+        String[] whereArgs = new String[]{String.valueOf(ID)};
+
+        Cursor cursor = sDataBase.query(
+                fromClause,
+                projection,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                Contract.logs.TABLE_NAME+".rowid DESC"
+        );
+
+        List<Log> logs = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            logs.add(new Log(
+                            cursor.getLong(cursor.getColumnIndex(Contract.logs._ID)),
+                            cursor.getString(cursor.getColumnIndex(Contract.categories.COLUMN_NAME_INITIAL)),
+                            cursor.getString(cursor.getColumnIndex(Contract.categories.COLUMN_NAME_TITLE)),
+                            cursor.getLong(cursor.getColumnIndex(Contract.logs.COLUMN_NAME_START_TIME)),
+                            cursor.getLong(cursor.getColumnIndex(Contract.logs.COLUMN_NAME_END_TIME))
+                    )
+            );
+        }
+
+        cursor.close();
+        return logs;
     }
 
     public void deleteLog(long logID){

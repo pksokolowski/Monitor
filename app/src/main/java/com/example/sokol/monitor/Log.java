@@ -1,6 +1,7 @@
 package com.example.sokol.monitor;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.example.sokol.monitor.DataBase.DbHelper;
 
@@ -72,34 +73,6 @@ public class Log {
         this.catTitle = title;
         this.startTime = startTime;
         this.endTime = endTime;
-    }
-
-    /**
-     * statically provides a list of Log objects, category initials are shared, as references to the same Strings, per category
-     * Thus a CatNameToIDHelper object is necessary, as it provides a (CatID to cat initial) mapping.
-     *
-     * @return a list of Log objects, convenient for adapters of recycler views etc, a compiled pack of data about individual logs.
-     */
-    public static List<Log> getLogsList(Context context, long lowerBound, long upperBound) {
-        DbHelper db = DbHelper.getInstance(context);
-
-        // obtain cats then use them to obtain logs 
-        List<CatData> cats = db.getCategories(CatData.CATEGORY_STATUS_INACTIVE);
-        Long[] catIDs = CatData.getCatIDsArray(cats);
-        LogsData logsData = db.getLogs(lowerBound, upperBound, catIDs, false);
-
-        // prepare a list and a helper to use in the loop below
-        List<Log> list = new ArrayList<>(logsData.getLength());
-        CatNameToIDHelper catHelper = new CatNameToIDHelper(cats);
-
-        for (int i = 0; i < logsData.getLength(); i++) {
-            long catID = logsData.getCatIDat(i);
-            String initial = catHelper.getCatByID(catID).getInitial();
-            String title = catHelper.getCatByID(catID).getTitle();
-            list.add(getLogAtI(i, logsData, initial, title));
-        }
-
-        return list;
     }
 
     private static Log getLogAtI(int i, LogsData data, String initial, String title) {

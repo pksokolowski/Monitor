@@ -27,7 +27,7 @@ import com.example.sokol.monitor.Help.HelpProvider;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnNeedUserInterfaceUpdate, LogsProvider {
+public class MainActivity extends AppCompatActivity implements OnNeedUserInterfaceUpdate {
 
     // time ranges for data retrieved from the database:
     public static final int RANGE_UNKNOWN = -1;
@@ -419,10 +419,5 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
-    }
-
-    @Override
-    public List<Log> getLogs() {
-        return Log.getLogsList(this, getLowerTimeBoundForData(), getUpperTimeBoundForData());
     }
 }

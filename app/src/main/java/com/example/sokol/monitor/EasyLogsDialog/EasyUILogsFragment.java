@@ -59,10 +59,11 @@ public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapte
 
         setupUIElements();
 
+        DbHelper db = DbHelper.getInstance(getActivity());
         // obtain a list of categories
-        mCats = DbHelper.getInstance(mView.getContext()).getCategories(CatData.CATEGORY_STATUS_INACTIVE);
+        mCats = db.getCategories(CatData.CATEGORY_STATUS_INACTIVE);
 
-        List<Log> data = Log.getLogsList(getActivity(), Long.MIN_VALUE, Long.MAX_VALUE);
+        List<Log> data = db.getLogsLaterThan(-1);
         Collections.reverse(data);
         mLogsAdapter = new EasyLogsAdapter(data);
 
