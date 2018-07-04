@@ -97,9 +97,6 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         Intent intent = getIntent();
         int command = handleIntent(intent);
 
-        getFragmentManager().beginTransaction().replace(R.id.settings_frame, new SettingsFragment())
-                .commit();
-
         // set insets on the bottom
         final ConstraintLayout mainConstraintLayout = findViewById(R.id.main_constraint_layout);
         mainConstraintLayout.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {

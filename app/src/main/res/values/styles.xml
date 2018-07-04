@@ -12,6 +12,7 @@
         <item name="chartsMainColor">#9e9e9e</item>
         <item name="listItemBackground">@drawable/list_item_bg</item>
         <item name="settingsIconsColor">#757575</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
 
     <style name="DarkMaterial" parent="@android:style/Theme.Material.NoActionBar">
@@ -26,6 +27,7 @@
         <item name="android:buttonStyle">@style/DarkButton</item>
         <item name="listItemBackground">@drawable/list_item_bg_dark</item>
         <item name="settingsIconsColor">#a1a1a1</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
 
     <style name="Dark" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar">
