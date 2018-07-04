@@ -390,7 +390,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 whereArgs,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                null
+                "rowid ASC"
         );
 
         final int column_start = cursor.getColumnIndex(Contract.logs.COLUMN_NAME_START_TIME);
