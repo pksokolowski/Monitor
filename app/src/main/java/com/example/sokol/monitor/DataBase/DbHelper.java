@@ -342,10 +342,14 @@ public class DbHelper extends SQLiteOpenHelper {
         return log;
     }
 
+    public List<Log> getLogsLaterThan(long ID){
+        return getLogsLaterThan(ID, CatData.CATEGORY_STATUS_INACTIVE);
+    }
+
     /**
      * retrieves a descending (with regard to ID) List of Log object with ID greater than specified.
      */
-    public List<Log> getLogsLaterThan(long ID) {
+    public List<Log> getLogsLaterThan(long ID, int minimumCategoryStatus) {
         loadWritableDatabaseIfNotLoadedAlready();
 
         String[] projection = {
@@ -358,9 +362,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
         String fromClause = Contract.logs.TABLE_NAME + " JOIN " + Contract.categories.TABLE_NAME + " ON " + Contract.logs.COLUMN_NAME_CAT + " = " + Contract.categories.TABLE_NAME + "." + Contract.categories._ID;
 
-        String whereClause = Contract.logs.TABLE_NAME + "." + Contract.logs._ID + " >?";
+        String whereClause = Contract.logs.TABLE_NAME + "." + Contract.logs._ID + " >? AND "+ Contract.categories.COLUMN_NAME_STATUS+" >=?";
 
-        String[] whereArgs = new String[]{String.valueOf(ID)};
+        String[] whereArgs = new String[]{String.valueOf(ID), String.valueOf(minimumCategoryStatus)};
 
         Cursor cursor = sDataBase.query(
                 fromClause,
