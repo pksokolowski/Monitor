@@ -49,6 +49,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     // otherwise read the setting, which is not yet changed, and refuse to show the
                     // notification.
                     NotificationProvider.showNotification(getActivity(), true);
+                    BootFinishedBroadcastReceiver.setEnabled(getActivity(),true);
                     return true;
                 }
                 else{
@@ -59,6 +60,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                                 public void onConfirmation() {
                                     NotificationProvider.removeNotification(getActivity());
                                     ((SwitchPreference) preference).setChecked(false);
+                                    BootFinishedBroadcastReceiver.setEnabled(getActivity(),false);
                                 }
                             });
                     return false;
