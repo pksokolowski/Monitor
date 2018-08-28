@@ -6,4 +6,5 @@
     <color name="dark_notification_background">#151515</color>
     <color name="bright_notification_background">#f1f1f1</color>
     <color name="dark_notification_text">#919191</color>
+    <color name="bright_notification_text">#000000</color>
 </resources>

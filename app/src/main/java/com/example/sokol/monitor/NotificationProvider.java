@@ -67,8 +67,11 @@ public class NotificationProvider extends BroadcastReceiver {
              */
         if (cats.size() == 0) {
             RemoteViews button = new RemoteViews(context.getPackageName(), R.layout.button_view);
-            if (darkTheme)
+            if (darkTheme) {
                 button.setInt(R.id.button, "setTextColor", ContextCompat.getColor(context, R.color.dark_notification_text));
+            } else {
+                button.setInt(R.id.button, "setTextColor", ContextCompat.getColor(context, R.color.bright_notification_text));
+            }
             button.setTextViewText(R.id.button, context.getString(R.string.notification_no_categories_message));
             rv.addView(R.id.buttonHolder, button);
 
@@ -90,8 +93,11 @@ public class NotificationProvider extends BroadcastReceiver {
             }
 
             RemoteViews button = new RemoteViews(context.getPackageName(), button_layout);
-            if (darkTheme)
+            if (darkTheme) {
                 button.setInt(R.id.button, "setTextColor", ContextCompat.getColor(context, R.color.dark_notification_text));
+            } else {
+                button.setInt(R.id.button, "setTextColor", ContextCompat.getColor(context, R.color.bright_notification_text));
+            }
             button.setTextViewText(R.id.button, cat.getInitial());
             rv.addView(R.id.buttonHolder, button);
 
@@ -110,7 +116,9 @@ public class NotificationProvider extends BroadcastReceiver {
 
         // use the appropriate channel depending on sound setting
         String channelID = CHANNEL_ID_NOTIFICATION_CONTROLS_SILENT;
-        if (withSound) { channelID = CHANNEL_ID_NOTIFICATION_CONTROLS; }
+        if (withSound) {
+            channelID = CHANNEL_ID_NOTIFICATION_CONTROLS;
+        }
 
         NotificationCompat.Builder B = new NotificationCompat.Builder(context, channelID)
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
@@ -137,6 +145,7 @@ public class NotificationProvider extends BroadcastReceiver {
      * checks whether the remote control notification is there or wasn't yet pushed/was cancelled
      * should not be used to determine whether or not to update the notification!
      * It would break theme changes.
+     *
      * @return true if notification controls are already among the active notifications.
      */
 //    public static boolean isControlNotificationAlreadyThere(Context context){
@@ -153,7 +162,6 @@ public class NotificationProvider extends BroadcastReceiver {
 //
 //        return false;
 //    }
-
     public static void showNotificationIfEnabled(Context context, boolean withSound) {
         if (!SettingsFragment.getShowNotification(context)) return;
 
@@ -228,7 +236,7 @@ public class NotificationProvider extends BroadcastReceiver {
         createSilentNotificationChannel(context);
     }
 
-    private static void createSilentNotificationChannel(Context context){
+    private static void createSilentNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = context.getString(R.string.notification_channel_silent_title);
             String description = context.getString(R.string.notification_channel_silent_description);
