@@ -4,10 +4,10 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.github.pksokolowski.monitor"
-        minSdkVersion 24
+        minSdkVersion 21
         targetSdkVersion 27
-        versionCode 21
-        versionName "1.0.1"
+        versionCode 22
+        versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

@@ -11,8 +11,8 @@ import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.widget.RemoteViews;
 
 import com.example.sokol.monitor.DataBase.DbHelper;
@@ -52,9 +52,9 @@ public class NotificationProvider extends BroadcastReceiver {
         // make notification consistent with the chosen theme in the app
         boolean darkTheme = ThemeChanger.getTheme(context) == ThemeChanger.THEME_MATERIAL;
         if (darkTheme) {
-            rv.setInt(R.id.button_holder_layout, "setBackgroundColor", context.getColor(R.color.dark_notification_background));
+            rv.setInt(R.id.button_holder_layout, "setBackgroundColor", ContextCompat.getColor(context, R.color.dark_notification_background));
         } else {
-            rv.setInt(R.id.button_holder_layout, "setBackgroundColor", context.getColor(R.color.bright_notification_background));
+            rv.setInt(R.id.button_holder_layout, "setBackgroundColor", ContextCompat.getColor(context, R.color.bright_notification_background));
         }
 
         // clear it first in case of some weird reuse
@@ -68,7 +68,7 @@ public class NotificationProvider extends BroadcastReceiver {
         if (cats.size() == 0) {
             RemoteViews button = new RemoteViews(context.getPackageName(), R.layout.button_view);
             if (darkTheme)
-                button.setInt(R.id.button, "setTextColor", context.getColor(R.color.dark_notification_text));
+                button.setInt(R.id.button, "setTextColor", ContextCompat.getColor(context, R.color.dark_notification_text));
             button.setTextViewText(R.id.button, context.getString(R.string.notification_no_categories_message));
             rv.addView(R.id.buttonHolder, button);
 
@@ -91,7 +91,7 @@ public class NotificationProvider extends BroadcastReceiver {
 
             RemoteViews button = new RemoteViews(context.getPackageName(), button_layout);
             if (darkTheme)
-                button.setInt(R.id.button, "setTextColor", context.getColor(R.color.dark_notification_text));
+                button.setInt(R.id.button, "setTextColor", ContextCompat.getColor(context, R.color.dark_notification_text));
             button.setTextViewText(R.id.button, cat.getInitial());
             rv.addView(R.id.buttonHolder, button);
 
@@ -139,20 +139,20 @@ public class NotificationProvider extends BroadcastReceiver {
      * It would break theme changes.
      * @return true if notification controls are already among the active notifications.
      */
-    public static boolean isControlNotificationAlreadyThere(Context context){
-        NotificationManager NotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if(NotificationManager == null) return false;
-
-        StatusBarNotification[] activeNotifs =  NotificationManager.getActiveNotifications();
-        if(activeNotifs == null || activeNotifs.length == 0) return false;
-
-        for(StatusBarNotification sn : activeNotifs){
-            if(sn.getId() == NOTIFICATION_ID_REMOTE_CONTROL) return true;
-        }
-
-        return false;
-    }
+//    public static boolean isControlNotificationAlreadyThere(Context context){
+//        NotificationManager NotificationManager =
+//                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//        if(NotificationManager == null) return false;
+//
+//        StatusBarNotification[] activeNotifs =  NotificationManager.getActiveNotifications();
+//        if(activeNotifs == null || activeNotifs.length == 0) return false;
+//
+//        for(StatusBarNotification sn : activeNotifs){
+//            if(sn.getId() == NOTIFICATION_ID_REMOTE_CONTROL) return true;
+//        }
+//
+//        return false;
+//    }
 
     public static void showNotificationIfEnabled(Context context, boolean withSound) {
         if (!SettingsFragment.getShowNotification(context)) return;
