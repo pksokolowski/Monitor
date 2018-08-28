@@ -6,6 +6,8 @@ import com.example.sokol.monitor.DataBase.DbHelper;
 import com.example.sokol.monitor.Graphs.PieChart;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -63,14 +65,7 @@ public class LogsSelector {
             pieData.add(new PieChart.Datum(mCatMapByID.get(keys[i]).getInitial(), idToSum.get(keys[i]), keys[i]));
         }
 
-        pieData.sort(new Comparator<PieChart.Datum>() {
-            @Override
-            public int compare(PieChart.Datum datum, PieChart.Datum t1) {
-                if(t1.totalTime > datum.totalTime ) return 1;
-                if(t1.totalTime < datum.totalTime ) return -1;
-                return 0;
-            }
-        });
+        Collections.sort(pieData, (datum, t1) -> Long.compare(t1.totalTime, datum.totalTime));
 
         return pieData;
     }

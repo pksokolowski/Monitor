@@ -19,6 +19,7 @@ import com.example.sokol.monitor.R;
 
 import java.text.BreakIterator;
 import java.util.List;
+import java.util.Locale;
 
 public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickListener, View.OnClickListener, TextWatcher {
     private View mView;
@@ -188,11 +189,11 @@ public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickList
 
     }
 
-    private int getGraphemeLength(String s){
-        android.icu.text.BreakIterator it = android.icu.text.BreakIterator.getCharacterInstance();
+    private int getGraphemeLength(String s) {
+        BreakIterator it = BreakIterator.getCharacterInstance();
         it.setText(s);
         int count = 0;
-        while(it.next() != android.icu.text.BreakIterator.DONE){
+        while (it.next() != BreakIterator.DONE) {
             count++;
         }
         return count;
