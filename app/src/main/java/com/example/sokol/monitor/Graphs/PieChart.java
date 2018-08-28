@@ -35,6 +35,7 @@ public class PieChart extends View {
     private String mNoDataMessage;
 
     private static final float STARTING_ANGLE = 0;
+    private static final int TEXT_COLOR = Color.WHITE;
 
     public PieChart(Context context) {
         super(context);
@@ -63,7 +64,7 @@ public class PieChart extends View {
         mFill.setAntiAlias(true);
 
         mText = new Paint();
-        mText.setColor(Color.WHITE);
+        mText.setColor(TEXT_COLOR);
         mText.setTextSize(text_size_in_pixels);
         mText.setTextAlign(Paint.Align.CENTER);
 
@@ -162,8 +163,12 @@ public class PieChart extends View {
         for (int i = 0; i < mAngles.length; i++) {
             Datum datum = mData.get(i);
             mFill.setColor(mColors[i]);
-            if (i== mLastIndexTouched) {
-                mFill.setColor(pressColor(mColors, i));
+            mText.setColor(TEXT_COLOR);
+            if (mLastIndexTouched != -1) {
+                if (i != mLastIndexTouched) {
+                    mFill.setColor(makeSemiTransparent(mColors[i]));
+                    mText.setColor(makeSemiTransparent(TEXT_COLOR));
+                }
             }
             //mText.setColor(mColors[mAngles.length-i-1]);
             canvas.drawArc(mRectF, segStartAngle, mAngles[i], true, mFill);
@@ -208,17 +213,11 @@ public class PieChart extends View {
         return colors;
     }
 
-    private int pressColor(int[] colors, int i) {
-        int color = colors[colors.length-1-i];
-        int result = Color.argb(255,
-                colorSwapper(Color.red(color)),
-                colorSwapper(Color.green(color)),
-                colorSwapper(Color.blue(color)));
-        return result;
-    }
-
-    private int colorSwapper(int colorComponent) {
-        return 255 - colorComponent;
+    private int makeSemiTransparent(int color){
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+        return Color.argb(45, r, g, b);
     }
 
     private static float XProjectedAtAngle(float angle, float radius, float Xorigin) {
