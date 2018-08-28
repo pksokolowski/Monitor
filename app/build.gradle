@@ -6,7 +6,7 @@ android {
         applicationId "com.github.pksokolowski.monitor"
         minSdkVersion 24
         targetSdkVersion 27
-        versionCode 21
+        versionCode 22
         versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
