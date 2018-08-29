@@ -233,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
         Intent intent = new Intent(context, MainActivity.class);
         if(command != COMMAND_DO_NOTHING)
             intent.putExtra(EXTRA_COMMAND_TO_EXECUTE_UPON_START, command);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
