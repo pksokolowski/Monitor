@@ -1,8 +1,11 @@
-package com.example.sokol.monitor;
+package com.example.sokol.monitor.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.example.sokol.monitor.R;
+import com.example.sokol.monitor.SettingsFragment;
 
 public class ThemeChanger {
     public static final int THEME_BRIGHT = 0;

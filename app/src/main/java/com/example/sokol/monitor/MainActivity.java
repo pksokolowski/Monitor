@@ -24,6 +24,13 @@ import com.example.sokol.monitor.Graphs.PieChart;
 import com.example.sokol.monitor.Graphs.BarSimpleGraphView;
 import com.example.sokol.monitor.Graphs.TextualData;
 import com.example.sokol.monitor.Help.HelpProvider;
+import com.example.sokol.monitor.model.LogsData;
+import com.example.sokol.monitor.notifications.NotificationProvider;
+import com.example.sokol.monitor.utils.FirstRunDateTimeManager;
+import com.example.sokol.monitor.utils.LogsSelector;
+import com.example.sokol.monitor.utils.PeriodicDistro;
+import com.example.sokol.monitor.utils.ThemeChanger;
+import com.example.sokol.monitor.utils.TimeHelper;
 
 import java.util.List;
 
@@ -257,8 +264,8 @@ public class MainActivity extends AppCompatActivity implements OnNeedUserInterfa
     @Override
     protected void onResume() {
         super.onResume();
-        // jeżeli ostatni refresh był nie-dzisiaj : refresh.
-        // jeżeli jest ustawione RANGE_TODAY_ONLY, i w międzyczasie zapisano jakiś work, to  też refresh.
+        // if the last refresh happened before today started, refresh again.
+        // if RANGE_TODAY_ONLY is set and in the meantime any work was done, refresh as well.
         if (shouldUpdateDisplayedData()) {
               refreshAllGraphs();
         }

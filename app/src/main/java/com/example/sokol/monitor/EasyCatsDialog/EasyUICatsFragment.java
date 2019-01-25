@@ -16,10 +16,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.sokol.monitor.CatData;
+import com.example.sokol.monitor.model.CatData;
 import com.example.sokol.monitor.DataBase.DbHelper;
 import com.example.sokol.monitor.Help.HelpProvider;
-import com.example.sokol.monitor.NotificationProvider;
+import com.example.sokol.monitor.notifications.NotificationProvider;
 import com.example.sokol.monitor.OnNeedUserInterfaceUpdate;
 import com.example.sokol.monitor.R;
 

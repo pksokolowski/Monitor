@@ -1,4 +1,4 @@
-package com.example.sokol.monitor;
+package com.example.sokol.monitor.model;
 
 import java.util.List;
 

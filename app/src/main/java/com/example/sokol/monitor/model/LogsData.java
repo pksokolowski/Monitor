@@ -1,9 +1,8 @@
-package com.example.sokol.monitor;
+package com.example.sokol.monitor.model;
+
+import com.example.sokol.monitor.utils.TimeHelper;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 /** Datum class for data of multiple logs

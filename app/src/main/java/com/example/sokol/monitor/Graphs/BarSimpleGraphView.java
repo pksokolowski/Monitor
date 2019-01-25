@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import com.example.sokol.monitor.TimeHelper;
+import com.example.sokol.monitor.utils.TimeHelper;
 
 public class BarSimpleGraphView extends SimpleGraphView {
     Paint ThickPaint = null;
@@ -44,7 +44,9 @@ public class BarSimpleGraphView extends SimpleGraphView {
 
     @Override
     protected void SpecialPlot(int y, int x, float x_per_entry, Canvas canvas, float minX) {
-        // ponieważ plot linesy zaczynają się za wcześnie, zaczynam plot później, o pół linesa;
+        // since a Line's thickness grows in both directions around the nominal line between
+        // declared points, I take half the thickness and shift the first Line by it, so the entire
+        // thickness of it is in the visible area.
         float HalfTheStrokeWidth = ThickPaint.getStrokeWidth() / 2f;
         float my_minX = HalfTheStrokeWidth;
         float maxX = x - HalfTheStrokeWidth;

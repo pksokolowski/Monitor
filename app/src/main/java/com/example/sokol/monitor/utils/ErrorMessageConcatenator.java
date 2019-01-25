@@ -1,4 +1,4 @@
-package com.example.sokol.monitor;
+package com.example.sokol.monitor.utils;
 
 import java.util.ArrayList;
 import java.util.List;

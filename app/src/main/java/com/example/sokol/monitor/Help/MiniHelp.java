@@ -9,9 +9,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
-import com.example.sokol.monitor.PopUpMessage;
+import com.example.sokol.monitor.utils.PopUpMessage;
 import com.example.sokol.monitor.R;
 
 public class MiniHelp extends FrameLayout implements View.OnTouchListener {

@@ -1,6 +1,8 @@
-package com.example.sokol.monitor;
+package com.example.sokol.monitor.utils;
 
-import java.util.Arrays;
+import com.example.sokol.monitor.model.LogsData;
+import com.example.sokol.monitor.utils.TimeHelper;
+
 import java.util.Calendar;
 import java.util.HashSet;
 

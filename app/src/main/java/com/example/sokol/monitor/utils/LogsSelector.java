@@ -1,14 +1,14 @@
-package com.example.sokol.monitor;
+package com.example.sokol.monitor.utils;
 
 import android.content.Context;
 
 import com.example.sokol.monitor.DataBase.DbHelper;
 import com.example.sokol.monitor.Graphs.PieChart;
+import com.example.sokol.monitor.model.CatData;
+import com.example.sokol.monitor.model.LogsData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,16 +23,6 @@ public class LogsSelector {
     }
 
     private HashMap<Long, CatData> mCatMapByID;
-//    private LogsData mData;
-//    private long mSince;
-
-    public String getCatInitialByID(long ID){
-        return mCatMapByID.get(ID).getInitial();
-    }
-
-    public String getCatTitleByID(long ID){
-        return mCatMapByID.get(ID).getTitle();
-    }
 
     public LogsData getLogsForAllNonDeletedCats(Context context, long since, long till) {
         // get all categories that are non-deleted
@@ -69,15 +59,5 @@ public class LogsSelector {
 
         return pieData;
     }
-
-
-//    public LogsData getDataForCategories(Long... categories){
-//        LogsData.LogsDataBuilder lbuilder = new LogsData.LogsDataBuilder();
-//        if(mData.getLength()==0) return lbuilder.spitItOut();
-//
-//        for(int i =0; i<mData.getLength(); i++){
-//
-//        }
-//    }
 
 }

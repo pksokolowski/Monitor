@@ -11,7 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.example.sokol.monitor.CatData;
+import com.example.sokol.monitor.model.CatData;
 import com.example.sokol.monitor.R;
 import java.util.Collections;
 import java.util.List;

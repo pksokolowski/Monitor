@@ -7,9 +7,7 @@ import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import com.example.sokol.monitor.R;
-import com.example.sokol.monitor.TimeHelper;
-
-import java.util.List;
+import com.example.sokol.monitor.utils.TimeHelper;
 
 public class TextualData extends ConstraintLayout {
     public TextualData(Context context) {

@@ -13,13 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import com.example.sokol.monitor.CatData;
-import com.example.sokol.monitor.ErrorMessageConcatenator;
+import com.example.sokol.monitor.model.CatData;
 import com.example.sokol.monitor.R;
 
 import java.text.BreakIterator;
 import java.util.List;
-import java.util.Locale;
 
 public class EasyCatsEditor extends DialogFragment implements Dialog.OnClickListener, View.OnClickListener, TextWatcher {
     private View mView;

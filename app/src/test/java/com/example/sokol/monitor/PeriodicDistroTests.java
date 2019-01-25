@@ -1,5 +1,9 @@
 package com.example.sokol.monitor;
 
+import com.example.sokol.monitor.model.LogsData;
+import com.example.sokol.monitor.utils.PeriodicDistro;
+import com.example.sokol.monitor.utils.TimeHelper;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;

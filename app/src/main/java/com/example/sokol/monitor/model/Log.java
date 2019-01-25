@@ -1,12 +1,10 @@
-package com.example.sokol.monitor;
+package com.example.sokol.monitor.model;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.example.sokol.monitor.DataBase.DbHelper;
+import com.example.sokol.monitor.utils.TimeHelper;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Log {

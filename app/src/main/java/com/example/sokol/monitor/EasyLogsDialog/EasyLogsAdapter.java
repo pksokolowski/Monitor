@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.sokol.monitor.Log;
+import com.example.sokol.monitor.model.Log;
 import com.example.sokol.monitor.R;
 
 import java.util.Collections;

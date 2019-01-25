@@ -1,4 +1,4 @@
-package com.example.sokol.monitor;
+package com.example.sokol.monitor.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
+import com.example.sokol.monitor.R;
 
 public class ConfirmationDialogFragment extends DialogFragment {
     @Override
@@ -49,7 +51,7 @@ public class ConfirmationDialogFragment extends DialogFragment {
 
     private OnConfirmationListener mListener;
 
-    interface OnConfirmationListener {
+    public interface OnConfirmationListener {
         void onConfirmation();
     }
 }

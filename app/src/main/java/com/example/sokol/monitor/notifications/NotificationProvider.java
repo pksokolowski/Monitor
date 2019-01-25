@@ -1,4 +1,4 @@
-package com.example.sokol.monitor;
+package com.example.sokol.monitor.notifications;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -15,7 +15,13 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.RemoteViews;
 
+import com.example.sokol.monitor.model.CatData;
 import com.example.sokol.monitor.DataBase.DbHelper;
+import com.example.sokol.monitor.MainActivity;
+import com.example.sokol.monitor.R;
+import com.example.sokol.monitor.SettingsFragment;
+import com.example.sokol.monitor.WorkInProgressManager;
+import com.example.sokol.monitor.utils.ThemeChanger;
 
 import java.util.Calendar;
 import java.util.List;

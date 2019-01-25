@@ -7,13 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
-import com.example.sokol.monitor.CatData;
-import com.example.sokol.monitor.Log;
-import com.example.sokol.monitor.LogsData;
+import com.example.sokol.monitor.model.CatData;
+import com.example.sokol.monitor.model.Log;
+import com.example.sokol.monitor.model.LogsData;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 /**

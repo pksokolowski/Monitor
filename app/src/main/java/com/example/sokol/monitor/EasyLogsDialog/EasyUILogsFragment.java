@@ -15,14 +15,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.sokol.monitor.CatData;
+import com.example.sokol.monitor.model.CatData;
 import com.example.sokol.monitor.DataBase.DbHelper;
 import com.example.sokol.monitor.Help.HelpProvider;
-import com.example.sokol.monitor.Log;
+import com.example.sokol.monitor.model.Log;
 import com.example.sokol.monitor.OnNeedUserInterfaceUpdate;
 import com.example.sokol.monitor.R;
 
-import java.util.Collections;
 import java.util.List;
 
 public class EasyUILogsFragment extends DialogFragment implements EasyLogsAdapter.OnItemSelectedListener, View.OnClickListener, EasyLogsEditor.OnInteractionEnded {

@@ -1,4 +1,4 @@
-package com.example.sokol.monitor;
+package com.example.sokol.monitor.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

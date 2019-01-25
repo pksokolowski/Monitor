@@ -84,7 +84,6 @@ public class SimpleGraphView extends View
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        // ewentualne inne measurementy w klasach dziedziczących
         SpecialMeasurements(widthSize, heightSize);
 
         //MUST CALL THIS
@@ -109,14 +108,14 @@ public class SimpleGraphView extends View
             if (v > max_value) max_value = v;
         }
 
-        // zabezpieczenie na wypadek, gdyby wszystkie wartości były ujemne
-        // zero też nie przejdzie.
+        // safety precaution for the case where all values are smaller than one.
         if(max_value < 1) max_value = 1;
 
         int max_y_for_plotting = SpecialCalculateY(height);
 
         float skala_Y = (max_y_for_plotting-(mTextPaint.getTextSize()*(float)1.2)) / (float) max_value;
-        // dane wyskalowane
+
+        // scale the data
         for (int i = 0; i < mData.length; i++)
         {
             mData[i] = (float) Math.max(0, mDataLong[i]) * skala_Y;
@@ -144,21 +143,20 @@ public class SimpleGraphView extends View
 
         path.reset();
 
-        // ozdoby
+        // embellishments
         path.moveTo(0, y);
         path.lineTo(x, y);
         SpecialOzdobyWykresu(x, y, y_bottom, canvas);
 
-        // jeżeli nie ma co wyświetlać(min 2 rekordy, aby było porównanie, to dalszy kod nie zadziała
+        // when there is not enough data to display a meaningful chart, skip drawing.
         if (mData.length <= 1)
         {
             canvas.drawPath(path, paint);
             return;
         }
 
-        // DALEJ JUŻ TYLKO DANE WYKRESU!
-        // -----------------------------
-
+        // From now on, only drawing the data's representation
+        // ---------------------------------------------------
 
         int lenToUseInXScaleCalc = mData.length-1;
         if(mMax_Entries != 0) lenToUseInXScaleCalc = mMax_Entries-1;
@@ -182,9 +180,9 @@ public class SimpleGraphView extends View
 
     protected void SpecialPlot(int y, int x, float x_per_entry, Canvas canvas, float minX)
     {
-        // lastVal służy do stwierdzenia, czy można pominąć malowanie kreski
-        // dotyczy sytuacji, gdy wchodzimy w zero i długo w nim siedzimy.
-        // wartość to pixele ponad zerem.
+        // lastVal helps determine if drawing can be skipped. Useful when zero value
+        // is reappearing for a lot of points, as zero value translates to a zero height
+        // bar, so it doesn't have to be drawn at all.
         float lastVal = 1;
 
         path.moveTo(minX, y - mData[0]);

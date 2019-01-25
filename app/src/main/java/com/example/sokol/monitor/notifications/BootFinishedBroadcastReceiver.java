@@ -1,4 +1,4 @@
-package com.example.sokol.monitor;
+package com.example.sokol.monitor.notifications;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;

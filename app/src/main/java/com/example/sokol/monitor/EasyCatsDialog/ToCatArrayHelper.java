@@ -1,6 +1,6 @@
 package com.example.sokol.monitor.EasyCatsDialog;
 
-import com.example.sokol.monitor.CatData;
+import com.example.sokol.monitor.model.CatData;
 
 import java.util.ArrayList;
 import java.util.List;

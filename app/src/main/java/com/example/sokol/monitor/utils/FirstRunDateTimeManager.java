@@ -1,8 +1,10 @@
-package com.example.sokol.monitor;
+package com.example.sokol.monitor.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.example.sokol.monitor.utils.TimeHelper;
 
 /**
  * All it does is tracking the time of the first run to conveniently and efficiently

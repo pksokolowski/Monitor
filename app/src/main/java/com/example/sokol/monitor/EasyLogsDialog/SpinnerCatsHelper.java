@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.example.sokol.monitor.CatData;
+import com.example.sokol.monitor.model.CatData;
 import com.example.sokol.monitor.R;
 
 import java.util.List;

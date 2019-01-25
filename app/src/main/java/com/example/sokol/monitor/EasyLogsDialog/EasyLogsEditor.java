@@ -10,14 +10,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.example.sokol.monitor.CatData;
+import com.example.sokol.monitor.model.CatData;
 import com.example.sokol.monitor.DataBase.DbHelper;
 import com.example.sokol.monitor.DateTimePicker.DateTimePicker;
-import com.example.sokol.monitor.ErrorMessageConcatenator;
-import com.example.sokol.monitor.Log;
-import com.example.sokol.monitor.PopUpMessage;
+import com.example.sokol.monitor.utils.ErrorMessageConcatenator;
+import com.example.sokol.monitor.model.Log;
+import com.example.sokol.monitor.utils.PopUpMessage;
 import com.example.sokol.monitor.R;
-import com.example.sokol.monitor.TimeHelper;
+import com.example.sokol.monitor.utils.TimeHelper;
 
 import java.util.List;
 

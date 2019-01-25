@@ -11,6 +11,9 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
 
 import com.example.sokol.monitor.Help.HelpProvider;
+import com.example.sokol.monitor.notifications.BootFinishedBroadcastReceiver;
+import com.example.sokol.monitor.notifications.NotificationProvider;
+import com.example.sokol.monitor.utils.ConfirmationDialogFragment;
 
 /**
  * Created by Sokol on 21.03.2018.
