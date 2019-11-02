@@ -1,6 +1,6 @@
 package com.example.sokol.monitor.EasyCatsDialog;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 public interface OnReorderDragListener {
     void onStartReorderDrag(RecyclerView.ViewHolder viewHolder);

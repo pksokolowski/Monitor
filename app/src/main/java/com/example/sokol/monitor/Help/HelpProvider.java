@@ -1,8 +1,6 @@
 package com.example.sokol.monitor.Help;
 
-import android.app.Activity;
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Displays help UI for the user. A form of a manual.

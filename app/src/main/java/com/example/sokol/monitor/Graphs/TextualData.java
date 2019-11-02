@@ -1,7 +1,7 @@
 package com.example.sokol.monitor.Graphs;
 
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.TextView;

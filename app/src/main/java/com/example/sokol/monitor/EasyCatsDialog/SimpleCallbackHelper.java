@@ -1,9 +1,9 @@
 package com.example.sokol.monitor.EasyCatsDialog;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import static android.support.v7.widget.helper.ItemTouchHelper.DOWN;
-import static android.support.v7.widget.helper.ItemTouchHelper.UP;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import static androidx.recyclerview.widget.ItemTouchHelper.DOWN;
+import static androidx.recyclerview.widget.ItemTouchHelper.UP;
 
 public class SimpleCallbackHelper {
 
